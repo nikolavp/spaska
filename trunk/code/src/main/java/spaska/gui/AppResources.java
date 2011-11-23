@@ -31,7 +31,7 @@ public class AppResources extends ResourceBundle {
 	private ResourceBundle		bundle;
 
 	public AppResources() {
-		bundle = ResourceBundle.getBundle("resources/strings", Locale.getDefault());
+		bundle = ResourceBundle.getBundle("strings", Locale.getDefault());
 		if (bundle == null) {
 			logger.severe("Could not load string resources.");
 		}
