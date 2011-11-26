@@ -1,0 +1,23 @@
+@RELATION example
+
+@ATTRIBUTE height Numeric
+@ATTRIBUTE width Numeric
+@ATTRIBUTE class {a,s}
+
+@DATA
+5,4,a
+4,1,s
+3,2,a
+7,1,s
+8,1,s
+9,2,s
+10,1,s
+20,2,a
+26,10,a
+7,4,s
+9,5,s
+10,20,a
+5,3,s
+23,1,s
+32,20,s
+20,11,s
