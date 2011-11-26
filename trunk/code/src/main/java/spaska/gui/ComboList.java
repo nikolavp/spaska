@@ -28,22 +28,23 @@ import javax.swing.SwingUtilities;
 /**
  * 
  * @author <a href="mailto:vesko.m.georgiev@gmail.com">Vesko Georgiev</a>
- *
+ * 
  * @param <T>
  */
-public class ComboList<T extends Parametrable> extends JPanel implements ItemListener, ActionListener {
+public class ComboList<T extends Parametrable> extends JPanel implements
+		ItemListener, ActionListener {
 
-	private static final long								serialVersionUID	= 1L;
+	private static final long serialVersionUID = 1L;
 
-	private JComboBox										combo;
-	private JList											list;
-	private Map<Class<? extends T>, Map<String, String>>	resultParams;
-	private Class<? extends T>								lastSelectedValue;
-	private JPopupMenu										popupMenu;
-	private ParametersDialog								dialog;
-	private int												maxSize;
-	private JMenuItem										configure;
-	private boolean											doNotChange;
+	private JComboBox<Class<? extends T>> combo;
+	private JList<Class<? extends T>> list;
+	private Map<Class<? extends T>, Map<String, String>> resultParams;
+	private Class<? extends T> lastSelectedValue;
+	private JPopupMenu popupMenu;
+	private ParametersDialog dialog;
+	private int maxSize;
+	private JMenuItem configure;
+	private boolean doNotChange;
 
 	public ComboList(String title, Vector<Class<? extends T>> items, int maxSize) {
 		this.maxSize = maxSize;
@@ -51,25 +52,27 @@ public class ComboList<T extends Parametrable> extends JPanel implements ItemLis
 
 		dialog = new ParametersDialog(this);
 
-		combo = new JComboBox(items);
+		combo = new JComboBox<Class<? extends T>>(items);
 		combo.setActionCommand(Utils.ITEM_SELECTED);
 		combo.addActionListener(this);
 		combo.addItemListener(this);
+
 		combo.setRenderer(getRenderer());
 		combo.setSelectedIndex(-1);
 
-		resultParams = new HashMap<Class<? extends T>, Map<String,String>>();
+		resultParams = new HashMap<Class<? extends T>, Map<String, String>>();
 
-		list = new JList(new DefaultListModel());
+		list = new JList<Class<? extends T>>(
+				new DefaultListModel<Class<? extends T>>());
 		list.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if (list.getSelectedValue() != null) {
 					if (SwingUtilities.isRightMouseButton(e)) {
-						Map<String, String> params = resultParams.get(list.getSelectedValue());
+						Map<String, String> params = resultParams.get(list
+								.getSelectedValue());
 						configure.setEnabled(params != null);
 						getPopupMenu().show(ComboList.this, e.getX(), e.getY());
-					}
-					else if (e.getClickCount() == 2) {
+					} else if (e.getClickCount() == 2) {
 						showParameters();
 					}
 				}
@@ -107,24 +110,26 @@ public class ComboList<T extends Parametrable> extends JPanel implements ItemLis
 		return popupMenu;
 	}
 
-	private ListCellRenderer getRenderer() {
+	private ListCellRenderer<? super Class<? extends T>> getRenderer() {
 		return new DefaultListCellRenderer() {
-			private static final long	serialVersionUID	= 1L;
+			private static final long serialVersionUID = 1L;
 
 			@Override
-			public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+			public Component getListCellRendererComponent(JList<?> list,
+					Object value, int index, boolean isSelected,
+					boolean cellHasFocus) {
 				if (value instanceof Class<?>) {
 					Class<?> cls = (Class<?>) value;
 					value = cls.getSimpleName();
 				}
-				return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+				return super.getListCellRendererComponent(list, value, index,
+						isSelected, cellHasFocus);
 			}
 		};
 	}
 
-	@SuppressWarnings("unchecked")
 	public void showParameters() {
-		Class<? extends T> cls = (Class<? extends T>) list.getSelectedValue();
+		Class<? extends T> cls = list.getSelectedValue();
 		Map<String, String> params = resultParams.get(cls);
 		if (params == null) {
 			params = Utils.getParamsOfClass(cls);
@@ -133,30 +138,32 @@ public class ComboList<T extends Parametrable> extends JPanel implements ItemLis
 	}
 
 	private void add(Class<? extends T> item) {
-		((DefaultListModel) list.getModel()).addElement(item);
+		((DefaultListModel<Class<? extends T>>) list.getModel())
+				.addElement(item);
 		resultParams.put(item, Utils.getParamsOfClass(item));
 	}
 
 	private void addToList(Class<? extends T> cls) {
 		if (cls != null && list != null) {
 			if (list.getModel().getSize() == maxSize && maxSize == 1) {
-				((DefaultListModel) list.getModel()).removeAllElements();
+				((DefaultListModel<Class<? extends T>>) list.getModel())
+						.removeAllElements();
 				resultParams.clear();
 			}
-			if (!resultParams.containsKey(cls) && list.getModel().getSize() < maxSize) {
+			if (!resultParams.containsKey(cls)
+					&& list.getModel().getSize() < maxSize) {
 				add(cls);
 			}
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals(Utils.SHOW_PARAMETERS)) {
 			showParameters();
-		}
-		else if (e.getActionCommand().equals(Utils.REMOVE_ITEM)) {
-			DefaultListModel model = ((DefaultListModel) list.getModel());
+		} else if (e.getActionCommand().equals(Utils.REMOVE_ITEM)) {
+			DefaultListModel<Class<? extends T>> model = ((DefaultListModel<Class<? extends T>>) list
+					.getModel());
 
 			resultParams.remove(list.getSelectedValue());
 			model.remove(list.getSelectedIndex());
@@ -164,12 +171,11 @@ public class ComboList<T extends Parametrable> extends JPanel implements ItemLis
 			lastSelectedValue = null;
 			doNotChange = true;
 			combo.setSelectedIndex(-1);
-		}
-		else if (e.getActionCommand().equals(Utils.ITEM_SELECTED)) {
+		} else if (e.getActionCommand().equals(Utils.ITEM_SELECTED)) {
 			addToList(lastSelectedValue);
-		}
-		else if (e.getActionCommand().equals(Utils.COMMIT_PARAMETERS)) {
-			resultParams.put((Class<? extends T>) list.getSelectedValue(), dialog.getResultParameters());
+		} else if (e.getActionCommand().equals(Utils.COMMIT_PARAMETERS)) {
+			resultParams.put((Class<? extends T>) list.getSelectedValue(),
+					dialog.getResultParameters());
 		}
 	}
 
@@ -183,8 +189,7 @@ public class ComboList<T extends Parametrable> extends JPanel implements ItemLis
 		if (list != null) {
 			if (!doNotChange) {
 				lastSelectedValue = (Class<? extends T>) e.getItem();
-			}
-			else {
+			} else {
 				doNotChange = false;
 			}
 		}

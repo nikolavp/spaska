@@ -2,12 +2,16 @@ package spaska.test;
 
 import java.util.Set;
 
-import spaska.classifiers.*;
-import spaska.classifiers.util.Node;
-import spaska.data.*;
+import spaska.classifiers.DecisionTree;
+import spaska.classifiers.IClassifier;
+import spaska.classifiers.OneR;
+import spaska.classifiers.ZeroR;
 import spaska.data.Attribute.ValueType;
-import spaska.data.readers.*;
-import spaska.statistics.*;
+import spaska.data.Dataset;
+import spaska.data.Instance;
+import spaska.data.Value;
+import spaska.data.readers.ARFFInputReader;
+import spaska.statistics.ClassifierStatistics;
 
 public class ClassifierTest {
 

@@ -94,7 +94,7 @@ public class AppResources extends ResourceBundle {
 	}
 
 	public URL getResource(String name) {
-		return AppResources.class.getResource("/resources/" + name);
+		return AppResources.class.getResource("/" + name);
 	}
 	
 }
