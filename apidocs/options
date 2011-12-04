@@ -1,0 +1,24 @@
+-classpath
+'/home/nikolavp/workspace/fmi_workspace/spaska/target/classes:/home/nikolavp/.m2/repository/jsc/jsc/1.0/jsc-1.0.jar:/home/nikolavp/.m2/repository/DistLib/DistLib/0.9.1/DistLib-0.9.1.jar'
+-encoding
+'UTF-8'
+-protected
+-sourcepath
+'/home/nikolavp/workspace/fmi_workspace/spaska/src/main/java'
+-author
+-bottom
+'Copyright &#169; 2011. All Rights Reserved.'
+-charset
+'UTF-8'
+-d
+'/home/nikolavp/workspace/fmi_workspace/spaska/target/site/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'spaska 1.0-SNAPSHOT API'
+-linkoffline
+'http://download.oracle.com/javase/6/docs/api' '/home/nikolavp/workspace/fmi_workspace/spaska/target/javadoc-bundle-options'
+-use
+-version
+-windowtitle
+'spaska 1.0-SNAPSHOT API'

@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>CompareStatistics xref</title>
+<link type="text/css" rel="stylesheet" href="../../stylesheet.css" />
+</head>
+<body>
+<div id="overview"><a href="../../../apidocs/spaska/statistics/CompareStatistics.html">View Javadoc</a></div><pre>
+
+<a class="jxr_linenumber" name="1" href="#1">1</a>   <strong class="jxr_keyword">package</strong> spaska.statistics;
+<a class="jxr_linenumber" name="2" href="#2">2</a>   
+<a class="jxr_linenumber" name="3" href="#3">3</a>   <strong class="jxr_keyword">import</strong> spaska.analysis.*;
+<a class="jxr_linenumber" name="4" href="#4">4</a>   
+<a class="jxr_linenumber" name="5" href="#5">5</a>   <em class="jxr_comment">/*<em class="jxr_comment"> statistics for comparison between two classifiers */</em></em>
+<a class="jxr_linenumber" name="6" href="#6">6</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../spaska/statistics/CompareStatistics.html">CompareStatistics</a> <strong class="jxr_keyword">extends</strong> <a href="../../spaska/statistics/Statistics.html">Statistics</a> {
+<a class="jxr_linenumber" name="7" href="#7">7</a>   
+<a class="jxr_linenumber" name="8" href="#8">8</a>       <strong class="jxr_keyword">private</strong> String firstClassifierName, secondClassifierName; <em class="jxr_comment">//classifier names</em>
+<a class="jxr_linenumber" name="9" href="#9">9</a>       <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">double</strong>[] firstSamplePopulation, secondSamplePopulation; <em class="jxr_comment">//precisions</em>
+<a class="jxr_linenumber" name="10" href="#10">10</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">long</strong>[] times1, times2; <em class="jxr_comment">//test times</em>
+<a class="jxr_linenumber" name="11" href="#11">11</a>  
+<a class="jxr_linenumber" name="12" href="#12">12</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setTimes1(<strong class="jxr_keyword">long</strong>[] times1) {
+<a class="jxr_linenumber" name="13" href="#13">13</a>          <strong class="jxr_keyword">this</strong>.times1 = times1;
+<a class="jxr_linenumber" name="14" href="#14">14</a>      }
+<a class="jxr_linenumber" name="15" href="#15">15</a>  
+<a class="jxr_linenumber" name="16" href="#16">16</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setTimes2(<strong class="jxr_keyword">long</strong>[] times2) {
+<a class="jxr_linenumber" name="17" href="#17">17</a>          <strong class="jxr_keyword">this</strong>.times2 = times2;
+<a class="jxr_linenumber" name="18" href="#18">18</a>      }
+<a class="jxr_linenumber" name="19" href="#19">19</a>      <strong class="jxr_keyword">private</strong> <a href="../../spaska/analysis/IStatisticalTest.html">IStatisticalTest</a> test; <em class="jxr_comment">//statistical test applied</em>
+<a class="jxr_linenumber" name="20" href="#20">20</a>  
+<a class="jxr_linenumber" name="21" href="#21">21</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setTest(<a href="../../spaska/analysis/IStatisticalTest.html">IStatisticalTest</a> test) {
+<a class="jxr_linenumber" name="22" href="#22">22</a>          <strong class="jxr_keyword">this</strong>.test = test;
+<a class="jxr_linenumber" name="23" href="#23">23</a>          modified = <strong class="jxr_keyword">true</strong>;
+<a class="jxr_linenumber" name="24" href="#24">24</a>      }
+<a class="jxr_linenumber" name="25" href="#25">25</a>  
+<a class="jxr_linenumber" name="26" href="#26">26</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setFirstClassifierName(String firstClassifierName) {
+<a class="jxr_linenumber" name="27" href="#27">27</a>          <strong class="jxr_keyword">this</strong>.firstClassifierName = firstClassifierName;
+<a class="jxr_linenumber" name="28" href="#28">28</a>          modified = <strong class="jxr_keyword">true</strong>;
+<a class="jxr_linenumber" name="29" href="#29">29</a>      }
+<a class="jxr_linenumber" name="30" href="#30">30</a>  
+<a class="jxr_linenumber" name="31" href="#31">31</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setFirstSamplePopulation(<strong class="jxr_keyword">double</strong>[] firstSamplePopulation) {
+<a class="jxr_linenumber" name="32" href="#32">32</a>          <strong class="jxr_keyword">this</strong>.firstSamplePopulation = firstSamplePopulation;
+<a class="jxr_linenumber" name="33" href="#33">33</a>          modified = <strong class="jxr_keyword">true</strong>;
+<a class="jxr_linenumber" name="34" href="#34">34</a>      }
+<a class="jxr_linenumber" name="35" href="#35">35</a>  
+<a class="jxr_linenumber" name="36" href="#36">36</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setSecondClassifierName(String secondClassifierName) {
+<a class="jxr_linenumber" name="37" href="#37">37</a>          <strong class="jxr_keyword">this</strong>.secondClassifierName = secondClassifierName;
+<a class="jxr_linenumber" name="38" href="#38">38</a>          modified = <strong class="jxr_keyword">true</strong>;
+<a class="jxr_linenumber" name="39" href="#39">39</a>      }
+<a class="jxr_linenumber" name="40" href="#40">40</a>  
+<a class="jxr_linenumber" name="41" href="#41">41</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setSecondSamplePopulation(<strong class="jxr_keyword">double</strong>[] secondSamplePopulation) {
+<a class="jxr_linenumber" name="42" href="#42">42</a>          <strong class="jxr_keyword">this</strong>.secondSamplePopulation = secondSamplePopulation;
+<a class="jxr_linenumber" name="43" href="#43">43</a>          modified = <strong class="jxr_keyword">true</strong>;
+<a class="jxr_linenumber" name="44" href="#44">44</a>      }
+<a class="jxr_linenumber" name="45" href="#45">45</a>  
+<a class="jxr_linenumber" name="46" href="#46">46</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> appendPrecisions(<strong class="jxr_keyword">double</strong>[] sample, <strong class="jxr_keyword">long</strong>[] times, StringBuilder result) {
+<a class="jxr_linenumber" name="47" href="#47">47</a>          result.append(<span class="jxr_string">"Tests data [Presision -&gt; Test Time]:\n"</span>);
+<a class="jxr_linenumber" name="48" href="#48">48</a>          <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> i = 0; i &lt; sample.length; i++) {
+<a class="jxr_linenumber" name="49" href="#49">49</a>              result.append(String.format(<span class="jxr_string">"Test %3d:  [%.6f -&gt; %s]\n"</span>, i+1, sample[i],  timeToString(times[i])));
+<a class="jxr_linenumber" name="50" href="#50">50</a>              
+<a class="jxr_linenumber" name="51" href="#51">51</a>          }
+<a class="jxr_linenumber" name="52" href="#52">52</a>      }
+<a class="jxr_linenumber" name="53" href="#53">53</a>  
+<a class="jxr_linenumber" name="54" href="#54">54</a>      @Override
+<a class="jxr_linenumber" name="55" href="#55">55</a>      <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> generateInfo() {
+<a class="jxr_linenumber" name="56" href="#56">56</a>  
+<a class="jxr_linenumber" name="57" href="#57">57</a>          <strong class="jxr_keyword">if</strong> (test == <strong class="jxr_keyword">null</strong> || firstClassifierName == <strong class="jxr_keyword">null</strong> || secondClassifierName == <strong class="jxr_keyword">null</strong> ||
+<a class="jxr_linenumber" name="58" href="#58">58</a>                  firstSamplePopulation == <strong class="jxr_keyword">null</strong> || secondSamplePopulation == <strong class="jxr_keyword">null</strong> ||
+<a class="jxr_linenumber" name="59" href="#59">59</a>                  times1 == <strong class="jxr_keyword">null</strong> || times2 == <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="60" href="#60">60</a>              <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalStateException(<span class="jxr_string">"Set all parameters of the compare statistics!"</span>);
+<a class="jxr_linenumber" name="61" href="#61">61</a>          }
+<a class="jxr_linenumber" name="62" href="#62">62</a>  
+<a class="jxr_linenumber" name="63" href="#63">63</a>          StringBuilder result = <strong class="jxr_keyword">new</strong> StringBuilder();
+<a class="jxr_linenumber" name="64" href="#64">64</a>          result.append(<span class="jxr_string">"================================================\n"</span>);
+<a class="jxr_linenumber" name="65" href="#65">65</a>          result.append(<span class="jxr_string">"Comparison between classifiers\n"</span>);
+<a class="jxr_linenumber" name="66" href="#66">66</a>          result.append(<span class="jxr_string">"------------------------------------------------\n"</span>);
+<a class="jxr_linenumber" name="67" href="#67">67</a>          result.append(<span class="jxr_string">"Classifier 1\n"</span>);
+<a class="jxr_linenumber" name="68" href="#68">68</a>          result.append(<span class="jxr_string">"Name: "</span> + firstClassifierName + <span class="jxr_string">"\n"</span>);
+<a class="jxr_linenumber" name="69" href="#69">69</a>          appendPrecisions(firstSamplePopulation, times1, result);
+<a class="jxr_linenumber" name="70" href="#70">70</a>          result.append(String.format(<span class="jxr_string">"Mean: %.6f\n"</span>, EmpiricalTest.getMean(firstSamplePopulation)));
+<a class="jxr_linenumber" name="71" href="#71">71</a>          result.append(String.format(<span class="jxr_string">"Standard deviation: %.6f\n"</span>, EmpiricalTest.getStandardDeviation(firstSamplePopulation)));
+<a class="jxr_linenumber" name="72" href="#72">72</a>          result.append(<span class="jxr_string">"------------------------------------------------\n"</span>);
+<a class="jxr_linenumber" name="73" href="#73">73</a>          result.append(<span class="jxr_string">"Classifier 2\n"</span>);
+<a class="jxr_linenumber" name="74" href="#74">74</a>          result.append(<span class="jxr_string">"Name: "</span> + secondClassifierName + <span class="jxr_string">"\n"</span>);
+<a class="jxr_linenumber" name="75" href="#75">75</a>          appendPrecisions(secondSamplePopulation, times2, result);
+<a class="jxr_linenumber" name="76" href="#76">76</a>          result.append(String.format(<span class="jxr_string">"Mean: %.6f\n"</span>, EmpiricalTest.getMean(secondSamplePopulation)));
+<a class="jxr_linenumber" name="77" href="#77">77</a>          result.append(String.format(<span class="jxr_string">"Standard deviation: %.6f\n"</span>, EmpiricalTest.getStandardDeviation(secondSamplePopulation)));
+<a class="jxr_linenumber" name="78" href="#78">78</a>          result.append(<span class="jxr_string">"------------------------------------------------\n"</span>);
+<a class="jxr_linenumber" name="79" href="#79">79</a>          result.append(<span class="jxr_string">"Statistical test: "</span> + test.getName() + <span class="jxr_string">"\n"</span>);
+<a class="jxr_linenumber" name="80" href="#80">80</a>          result.append(<span class="jxr_string">"Type: "</span> + test.getTestType() + <span class="jxr_string">"\n"</span>);
+<a class="jxr_linenumber" name="81" href="#81">81</a>          result.append(String.format(<span class="jxr_string">"Alpha = %.6f\n"</span>, test.getAlpha()));
+<a class="jxr_linenumber" name="82" href="#82">82</a>          String accept = test.shouldRejectNull(firstSamplePopulation, secondSamplePopulation) ? <span class="jxr_string">"rejected"</span> : <span class="jxr_string">"accepted"</span>;
+<a class="jxr_linenumber" name="83" href="#83">83</a>          result.append(<span class="jxr_string">"Null hypothesis:  "</span> + accept + <span class="jxr_string">"\n"</span>);
+<a class="jxr_linenumber" name="84" href="#84">84</a>          result.append(<span class="jxr_string">"================================================\n"</span>);
+<a class="jxr_linenumber" name="85" href="#85">85</a>          info = result.toString();
+<a class="jxr_linenumber" name="86" href="#86">86</a>          modified = false;
+<a class="jxr_linenumber" name="87" href="#87">87</a>      }
+<a class="jxr_linenumber" name="88" href="#88">88</a>  
+<a class="jxr_linenumber" name="89" href="#89">89</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">void</strong> main(String[] args) {
+<a class="jxr_linenumber" name="90" href="#90">90</a>          <a href="../../spaska/statistics/CompareStatistics.html">CompareStatistics</a> s = <strong class="jxr_keyword">new</strong> <a href="../../spaska/statistics/CompareStatistics.html">CompareStatistics</a>();
+<a class="jxr_linenumber" name="91" href="#91">91</a>          <strong class="jxr_keyword">double</strong>[] d1 = {1.2, 3.4, 0.54, 0.78, 1.2, 3.4, 0.54, 0.78, 1.2, 3.4, 0.54, 0.78};
+<a class="jxr_linenumber" name="92" href="#92">92</a>          <strong class="jxr_keyword">double</strong>[] d2 = {1.2, 3.4, 0.54, 0.78, 1.2, 3.4, 0.54, 0.78, 1.2, 3.4, 0.54, 0.78};
+<a class="jxr_linenumber" name="93" href="#93">93</a>          <strong class="jxr_keyword">long</strong>[] times = {123456l, 123456l, 123456l, 123456l, 123456l, 123456l, 123456l, 123456l,
+<a class="jxr_linenumber" name="94" href="#94">94</a>          123456l, 123456l, 123456l, 123456l};
+<a class="jxr_linenumber" name="95" href="#95">95</a>          s.setFirstSamplePopulation(d1);
+<a class="jxr_linenumber" name="96" href="#96">96</a>          s.setSecondSamplePopulation(d2);
+<a class="jxr_linenumber" name="97" href="#97">97</a>          s.setTimes1(times);
+<a class="jxr_linenumber" name="98" href="#98">98</a>          s.setTimes2(times);
+<a class="jxr_linenumber" name="99" href="#99">99</a>          s.setFirstClassifierName(<span class="jxr_string">"Foo"</span>);
+<a class="jxr_linenumber" name="100" href="#100">100</a>         s.setSecondClassifierName(<span class="jxr_string">"Bar"</span>);
+<a class="jxr_linenumber" name="101" href="#101">101</a>         s.setTest(<strong class="jxr_keyword">new</strong> <a href="../../spaska/analysis/TStatisticsTest.html">TStatisticsTest</a>(0.05, TestType.OneSidedLessThan));
+<a class="jxr_linenumber" name="102" href="#102">102</a> 
+<a class="jxr_linenumber" name="103" href="#103">103</a>         System.out.println(s);
+<a class="jxr_linenumber" name="104" href="#104">104</a>     }
+<a class="jxr_linenumber" name="105" href="#105">105</a> }
+</pre>
+<hr/><div id="footer">This page was automatically generated by <a href="http://maven.apache.org/">Maven</a></div></body>
+</html>
+

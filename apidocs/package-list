@@ -1,0 +1,10 @@
+spaska.analysis
+spaska.classifiers
+spaska.classifiers.util
+spaska.clusterers
+spaska.data
+spaska.data.readers
+spaska.gui
+spaska.gui.engines
+spaska.statistics
+spaska.test
