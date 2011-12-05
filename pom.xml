@@ -236,8 +236,8 @@
     </reporting>
 
     <scm>
-        <connection>scm:git:git://github.com/nikolavp/spaska.git</connection>
-        <developerConnection>scm:git:git@github.com:nikolavp/spaska.git</developerConnection>
+        <connection>scm:git://github.com/nikolavp/spaska.git</connection>
+        <developerConnection>scm:git@github.com:nikolavp/spaska.git</developerConnection>
         <url>https://github.com/nikolavp/spaska</url>
     </scm>
 </project>

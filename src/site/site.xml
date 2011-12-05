@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="Spaska">
+    <skin>
+        <groupId>org.apache.maven.skins</groupId>
+        <artifactId>maven-fluido-skin</artifactId>
+        <version>1.0</version>
+    </skin>
+
+    <custom>
+        <fluidoSkin>
+            <topBarEnabled>true</topBarEnabled>
+            <sideBarEnabled>false</sideBarEnabled>
+        </fluidoSkin>
+    </custom>
+
+    <bannerLeft>
+        <name>Spaska</name>
+        <href>http://nikolavp.github.com/spaska</href>
+    </bannerLeft>
+    <body>
+        <links>
+            <item name="@github" href="https://github.com/nikolavp/spaska" />
+        </links>
+
+        <menu ref="reports"/>
+
+        <menu name="Development">
+            <item name="Static analysis" href="static_analysis.html"/>
+        </menu>
+
+    </body>
+</project>
