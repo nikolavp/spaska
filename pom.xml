@@ -16,7 +16,7 @@
     <properties>
         <github.global.userName>nikolavp</github.global.userName>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <jdkTarget>1.6</jdkTarget>
+        <jdkTarget>1.7</jdkTarget>
         <coberturaCoverageRate>85</coberturaCoverageRate>
     </properties>
 
