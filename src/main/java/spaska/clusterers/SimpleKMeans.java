@@ -151,8 +151,7 @@ public class SimpleKMeans implements IClusterer {
             }
             if (isStabilized) {
                 isAllIterations = false;
-                System.out
-                        .println("Iterations " + (maxIterations - iterations));
+                LOG.info("Iterations " + (maxIterations - iterations));
                 break;
             }
 
@@ -291,6 +290,7 @@ public class SimpleKMeans implements IClusterer {
         private Instance center = new Instance(null);
         private List<Instance> instances = new ArrayList<Instance>();
         private List<Instance> previousInstances = new ArrayList<Instance>();
+        @SuppressWarnings("unused")
         private double centroidDistance;
     }
 

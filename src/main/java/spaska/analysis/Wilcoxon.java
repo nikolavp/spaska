@@ -258,17 +258,4 @@ public class Wilcoxon implements ICompareAnalyzer, IStatisticalTest {
 	public void setStatistic(CompareStatistics statistic) {
 		this.statistic = statistic;
 	}
-
-	public static void main(String[] args) {
-		Wilcoxon wil = new Wilcoxon();
-		double[] z1 = { 0.90, 0.91, 0.92,
-				0.93, 0.89, 0.911,
-				0.90, 0.92 };
-		double[] z2 = { 0.90, 0.91, 0.92,
-				0.93, 0.90, 0.911,
-				0.90, 0.92 };
-
-		System.out.println(wil.shouldRejectNull(z1, z2));
-	}
-
 }

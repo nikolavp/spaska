@@ -2,7 +2,7 @@ package spaska.data;
 
 import spaska.data.Attribute.ValueType;
 
-public class UnknownValue extends Value {
+public final class UnknownValue extends Value {
 
     private static UnknownValue instance = new UnknownValue();
 

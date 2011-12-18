@@ -215,7 +215,6 @@ public class OneR implements IClassifier {
 
 	@Override
 	public Value classifyInstance(Instance instance) {
-		// TODO Auto-generated method stub
 		for (Condition c : rules) {
 			int aIndex = datasetService.getAttributeIndex(c.getAttribute());
 			Value aValue = instance.getVector().get(aIndex);
@@ -229,8 +228,6 @@ public class OneR implements IClassifier {
 				return c.getEffect();
 			}
 		}
-
-		System.out.println("here");
 		return null;
 	}
 

@@ -42,12 +42,4 @@ public class ClustererStatistics extends Statistics {
         info = result.toString();
         modified = false;
     }
-
-    /* public static void main(String[] args) {
-        int[] a = {2, 56, 79, 5};
-        ClustererStatistics s = new ClustererStatistics(a);
-        s.setAlgorithmName("FooBaz");
-        s.setTestTime(987654);
-        System.out.println(s);
-    } */
 }

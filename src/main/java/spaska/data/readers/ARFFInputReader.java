@@ -7,16 +7,15 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
 import spaska.data.Attribute;
+import spaska.data.Attribute.ValueType;
 import spaska.data.Dataset;
 import spaska.data.Factory;
 import spaska.data.Instance;
 import spaska.data.Value;
-import spaska.data.Attribute.ValueType;
 
 public class ARFFInputReader extends AbstractInputReader {
 
