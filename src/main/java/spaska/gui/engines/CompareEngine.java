@@ -8,14 +8,9 @@ import java.util.Map;
 import java.util.Vector;
 
 import spaska.analysis.ICompareAnalyzer;
-import spaska.analysis.PairedTTest;
-import spaska.analysis.Wilcoxon;
-import spaska.classifiers.DecisionTree;
 import spaska.classifiers.IClassifier;
-import spaska.classifiers.KNN;
-import spaska.classifiers.OneR;
-import spaska.classifiers.TwoLayerPerceptron;
-import spaska.classifiers.ZeroR;
+import spaska.framework.DefaultDiscoveryService;
+import spaska.framework.DiscoveryService;
 import spaska.gui.InputException;
 import spaska.statistics.Statistics;
 
@@ -28,15 +23,13 @@ public class CompareEngine extends Engine {
     private Vector<Class<? extends ICompareAnalyzer>> analyzers;
 
     public CompareEngine() {
-        classifiers = new Vector<Class<? extends IClassifier>>();
-        analyzers = new Vector<Class<? extends ICompareAnalyzer>>();
-        classifiers.add(KNN.class);
-        classifiers.add(DecisionTree.class);
-        classifiers.add(OneR.class);
-        classifiers.add(ZeroR.class);
-        classifiers.add(TwoLayerPerceptron.class);
-        analyzers.add(PairedTTest.class);
-        analyzers.add(Wilcoxon.class);
+        DiscoveryService discoveryService = DefaultDiscoveryService
+                .getInstance();
+        classifiers = new Vector<Class<? extends IClassifier>>(
+                discoveryService.discoverClassifiers());
+        analyzers = new Vector<Class<? extends ICompareAnalyzer>>(
+                discoveryService.discoverCompareAnalyzers());
+
     }
 
     public Vector<Class<? extends IClassifier>> getClassifiers() {
@@ -47,33 +40,36 @@ public class CompareEngine extends Engine {
         return analyzers;
     }
 
-    public void setClassifier1(IClassifier c, Map<String, String> params) throws Exception {
+    public void setClassifier1(IClassifier c, Map<String, String> params)
+            throws Exception {
         if (c != null) {
             classifier1 = c;
-            if (params != null) {            	
-            	c.setParameters(params);
+            if (params != null) {
+                c.setParameters(params);
             }
         } else {
             throw new InputException("Please choose two classifiers ");
         }
     }
 
-    public void setClassifier2(IClassifier c, Map<String, String> params) throws Exception {
+    public void setClassifier2(IClassifier c, Map<String, String> params)
+            throws Exception {
         if (c != null) {
             classifier2 = c;
             if (params != null) {
-            	c.setParameters(params);
+                c.setParameters(params);
             }
         } else {
             throw new InputException("Please choose two classifiers");
         }
     }
 
-    public void setAnalyzer(ICompareAnalyzer a, Map<String, String> params) throws Exception {
+    public void setAnalyzer(ICompareAnalyzer a, Map<String, String> params)
+            throws Exception {
         if (a != null) {
             analyzer = a;
             if (params != null) {
-            	a.setParameters(params);
+                a.setParameters(params);
             }
         } else {
             throw new InputException("Please choose an analyzer");
@@ -82,9 +78,11 @@ public class CompareEngine extends Engine {
 
     @Override
     public void check() throws Exception {
-    	super.check();
-        if (analyzer == null) throw new InputException("Please choose an analyzer");
-        if ((classifier1 == null) || (classifier2 == null)) throw new InputException("Please choose two classifiers");
+        super.check();
+        if (analyzer == null)
+            throw new InputException("Please choose an analyzer");
+        if ((classifier1 == null) || (classifier2 == null))
+            throw new InputException("Please choose two classifiers");
     }
 
     public Statistics start() throws Exception {
@@ -102,11 +100,11 @@ public class CompareEngine extends Engine {
         }
     }
 
-	public void reset() {
-		super.reset();
-	    classifier1 = null;
-	    classifier2 = null;
-	    analyzer = null;
-	}
+    public void reset() {
+        super.reset();
+        classifier1 = null;
+        classifier2 = null;
+        analyzer = null;
+    }
 
 }
