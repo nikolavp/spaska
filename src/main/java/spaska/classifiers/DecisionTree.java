@@ -77,7 +77,7 @@ public class DecisionTree implements IClassifier {
 		// set portion of instances reaching a condition
 		int listCounter = 0;
 		for (Condition c : conditions) {
-			c.setReach(result.get(listCounter).size() / totalKnown);
+			c.setReach(((double)result.get(listCounter).size()) / totalKnown);
 			listCounter++;
 		}
 		// handle unknown

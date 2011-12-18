@@ -2,38 +2,34 @@ package spaska.data;
 
 import spaska.data.Attribute.ValueType;
 
-
 public class UnknownValue extends Value {
 
-	private static UnknownValue	instance;
+    private static UnknownValue instance = new UnknownValue();
 
-	public static UnknownValue getInstance() {
-		if (instance == null) {
-			instance = new UnknownValue();
-		}
-		return instance;
-	}
+    public static UnknownValue getInstance() {
+        return instance;
+    }
 
-	private UnknownValue() {
-	}
+    private UnknownValue() {
+    }
 
-	@Override
-	public ValueType getType() {
-		return ValueType.Unknown;
-	}
+    @Override
+    public ValueType getType() {
+        return ValueType.Unknown;
+    }
 
-	@Override
-	public Object getValue() {
-		return "?";
-	}
+    @Override
+    public Object getValue() {
+        return "?";
+    }
 
-	@Override
-	public Object clone() {
-		return getInstance();
-	}
+    @Override
+    public Object clone() {
+        return getInstance();
+    }
 
-	@Override
-	public int compareTo(Value v) {
-		return 0;
-	}
+    @Override
+    public int compareTo(Value v) {
+        return 0;
+    }
 }

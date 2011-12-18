@@ -10,124 +10,127 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import spaska.gui.engines.Engine;
 import spaska.statistics.Statistics;
 
 public abstract class SpaskaTab extends JPanel implements ActionListener {
 
-	private static final long	serialVersionUID	= 1L;
+    private static final long serialVersionUID = 1L;
 
-	protected static Cursor		waitCursor			= new Cursor(Cursor.WAIT_CURSOR);
+    protected static Cursor waitCursor = new Cursor(Cursor.WAIT_CURSOR);
+    private static final Logger LOG = LoggerFactory.getLogger(SpaskaTab.class);
+    
+    protected Engine engine;
+    protected File openedFile;
 
-	protected Engine			engine;
-	protected File				openedFile;
+    protected JButton browse;
+    protected JTextField textField;
+    protected JFileChooser fileChooser;
 
-	protected JButton			browse;
-	protected JTextField		textField;
-	protected JFileChooser		fileChooser;
+    protected Thread thread;
+    protected JButton run;
 
-	protected Thread			thread;
-	protected JButton			run;
+    protected Statistics statistics;
 
-	protected Statistics		statistics;
+    protected SpaskaTab() {
+        browse = new JButton("Browse");
+        browse.setActionCommand(Utils.FILE_DATASET);
+        browse.addActionListener(this);
 
-	protected SpaskaTab() {
-		browse = new JButton("Browse");
-		browse.setActionCommand(Utils.FILE_DATASET);
-		browse.addActionListener(this);
+        textField = new JTextField();
 
-		textField = new JTextField();
+        run = new JButton("Start");
+        run.setActionCommand(Utils.START);
+        run.addActionListener(this);
+    }
 
-		run = new JButton("Start");
-		run.setActionCommand(Utils.START);
-		run.addActionListener(this);
-	}
+    public void openFile() {
+        if (fileChooser == null) {
+            fileChooser = new JFileChooser();
+        }
+        if (openedFile != null) {
+            fileChooser.setCurrentDirectory(openedFile.getParentFile());
+        }
+        fileChooser.setCurrentDirectory(new File("."));
+        if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            openedFile = fileChooser.getSelectedFile();
+            propertyChange(Utils.FILE_DATASET, openedFile);
+        }
+    }
 
-	public void openFile() {
-		if (fileChooser == null) {
-			fileChooser = new JFileChooser();
-		}
-		if (openedFile != null) {
-			fileChooser.setCurrentDirectory(openedFile.getParentFile());
-		}
-		fileChooser.setCurrentDirectory(new File("."));
-		if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-			openedFile = fileChooser.getSelectedFile();
-			propertyChange(Utils.FILE_DATASET, openedFile);
-		}
-	}
+    protected void setButtonStart() {
+        run.setActionCommand(Utils.START);
+        run.setText("Start");
+        setCursor(Cursor.getDefaultCursor());
+    }
 
-	protected void setButtonStart() {
-		run.setActionCommand(Utils.START);
-		run.setText("Start");
-		setCursor(Cursor.getDefaultCursor());
-	}
+    protected void setButtonStop() {
+        run.setActionCommand(Utils.STOP);
+        run.setText("Stop");
+        setCursor(waitCursor);
+    }
 
-	protected void setButtonStop() {
-		run.setActionCommand(Utils.STOP);
-		run.setText("Stop");
-		setCursor(waitCursor);
-	}
+    protected void start() throws Exception {
+        stop();
+        if (thread == null) {
+            thread = new Thread() {
+                @Override
+                public void run() {
+                    runAlgorithm();
+                }
+            };
+            engine.check();
+            thread.setDaemon(true);
+            thread.start();
+        }
+    }
 
-	protected void start() throws Exception {
-		stop();
-		if (thread == null) {
-			thread = new Thread() {
-				@Override
-				public void run() {
-					runAlgorithm();
-				}
-			};
-			engine.check();
-			thread.setDaemon(true);
-			thread.start();
-		}
-	}
+    protected void stop() {
+        if (thread != null) {
+            thread.interrupt();
+            thread = null;
+        }
+    }
 
-	protected void stop() {
-		if (thread != null) {
-			thread.interrupt();
-			thread = null;
-		}
-	}
+    protected void showError(Exception e) {
+        stop();
+        setButtonStart();
+        if (e instanceof InputException) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Missing Data",
+                    JOptionPane.ERROR_MESSAGE);
+        } else {
+            LOG.error("Error occured in the table", e);
+            JOptionPane.showMessageDialog(this, e, "Algorithm error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
-	protected void showError(Exception e) {
-		stop();
-		setButtonStart();
-		if (e instanceof InputException) {
-			JOptionPane.showMessageDialog(this, e.getMessage(), "Missing Data", JOptionPane.ERROR_MESSAGE);
-		}
-		else {
-			System.err.println(e);
-			JOptionPane.showMessageDialog(this, e, "Algorithm error", JOptionPane.ERROR_MESSAGE);
-		}
-	}
+    protected void runAlgorithm() {
+        try {
+            statistics = engine.start();
+            MainApp.getInstance().showStatistics(getStatistics());
+        } catch (Exception e) {
+            showError(e);
+        } finally {
+            setButtonStart();
+        }
+    }
 
-	protected void runAlgorithm() {
-		try {
-			statistics = engine.start();
-			MainApp.getInstance().showStatistics(getStatistics());
-		}
-		catch (Exception e) {
-			showError(e);
-		}
-		finally {
-			setButtonStart();
-		}
-	}
+    protected abstract Engine getEngine();
 
-	protected abstract Engine getEngine();
+    public abstract String getTitle();
 
-	public abstract String getTitle();
+    public Statistics getStatistics() {
+        return statistics;
+    }
 
-	public Statistics getStatistics() {
-		return statistics;
-	}
-
-	public void propertyChange(String prop, Object value) {
-		if (prop.equals(Utils.FILE_DATASET)) {
-			textField.setText(value.toString());
-		}
-	}
+    public void propertyChange(String prop, Object value) {
+        if (prop.equals(Utils.FILE_DATASET)) {
+            textField.setText(value.toString());
+        }
+    }
 
 }
