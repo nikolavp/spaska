@@ -7,6 +7,9 @@ import java.awt.event.ActionEvent;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import spaska.clusterers.IClusterer;
 import spaska.data.readers.Validator;
 import spaska.gui.engines.ClusterEngine;
@@ -18,7 +21,8 @@ import spaska.gui.engines.ClusterEngine;
 public class ClustererTab extends SpaskaTab {
 
 	private static final long		serialVersionUID	= 1L;
-
+	private static final Logger LOG = LoggerFactory
+            .getLogger(ClustererTab.class);
 	private ComboList<IClusterer>	clusterCombo;
 	private ComboList<Validator>	validatorCombo;                  
 
@@ -97,7 +101,6 @@ public class ClustererTab extends SpaskaTab {
 				setEngineArgs(validatorCombo.getParameters());
 				setEngineArgs(clusterCombo.getParameters());
 
-				System.out.println("----------------------------");
 				setButtonStop();
 				start();
 			}
@@ -116,7 +119,7 @@ public class ClustererTab extends SpaskaTab {
 			Class<? extends T> cls = entry.getKey();
 			Map<String, String> params = (entry.getValue() != null) ? entry.getValue() : Utils.getParamsOfClass(cls);
 
-			System.out.println("Set " + cls + " with " + params);
+			LOG.info("Set " + cls + " with " + params);
 			if (Validator.class.isAssignableFrom(cls)) {
 				getEngine().addValidator((Validator) cls.newInstance(), params);
 			}

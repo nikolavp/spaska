@@ -85,7 +85,7 @@ public class OneR implements IClassifier {
 		// set portion of instances reaching a condition
 		int listCounter = 0;
 		for (Condition c : conditions) {
-			c.setReach(result.get(listCounter).size() / totalKnown);
+			c.setReach(((double)result.get(listCounter).size()) / totalKnown);
 			listCounter++;
 		}
 		// handle unknown
@@ -215,7 +215,6 @@ public class OneR implements IClassifier {
 
 	@Override
 	public Value classifyInstance(Instance instance) {
-		// TODO Auto-generated method stub
 		for (Condition c : rules) {
 			int aIndex = datasetService.getAttributeIndex(c.getAttribute());
 			Value aValue = instance.getVector().get(aIndex);
@@ -229,8 +228,6 @@ public class OneR implements IClassifier {
 				return c.getEffect();
 			}
 		}
-
-		System.out.println("here");
 		return null;
 	}
 

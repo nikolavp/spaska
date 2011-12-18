@@ -18,7 +18,7 @@ public class ClassifierTester {
 	}
 
 	public ClassifierTester onDataset(String datasetPath) {
-		this.dataset = ClassifierTestBase.getDataSet(datasetPath);
+		this.dataset = DataSetResources.getDataSet(datasetPath);
 		return this;
 	}
 

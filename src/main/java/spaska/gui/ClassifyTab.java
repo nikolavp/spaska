@@ -7,6 +7,9 @@ import java.awt.event.ActionEvent;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import spaska.analysis.IAnalyzer;
 import spaska.classifiers.IClassifier;
 import spaska.data.readers.Validator;
@@ -20,6 +23,8 @@ public class ClassifyTab extends SpaskaTab {
 
 	private static final long		serialVersionUID	= 1L;
 
+	private static final Logger LOG = LoggerFactory
+            .getLogger(ClassifyTab.class);
 	private ComboList<IClassifier>	classifierCombo;
 	private ComboList<IAnalyzer>	analyzerCombo;
 	private ComboList<Validator>	validatorCombo;
@@ -125,7 +130,7 @@ public class ClassifyTab extends SpaskaTab {
 			Class<? extends T> cls = entry.getKey();
 			Map<String, String> params = (entry.getValue() != null) ? entry.getValue() : Utils.getParamsOfClass(cls);
 
-			System.out.println("Set " + cls + " with " + params);
+			LOG.info("Set " + cls + " with " + params);
 			if (Validator.class.isAssignableFrom(cls)) {
 				getEngine().addValidator((Validator) cls.newInstance(), params);
 			}

@@ -1,5 +1,6 @@
 package spaska.classifiers.util;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -11,9 +12,13 @@ import spaska.data.Attribute.ValueType;
 public class ContinuousValueService {
 
 	// Compare 2 instances according to a numeric attribute
-	private static class InstanceComparator implements Comparator<Instance> {
+	private static class InstanceComparator implements Comparator<Instance>, Serializable {
 
-		private int attributeIndex;
+		/**
+         * 
+         */
+        private static final long serialVersionUID = -3637100867629112793L;
+        private int attributeIndex;
 
 		public InstanceComparator(int i) {
 			attributeIndex = i;

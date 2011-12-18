@@ -25,7 +25,11 @@ public class NumericValue extends Value {
 	}
 
 	public Object clone() {
-		return new NumericValue(value);
+	    try {
+            return super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new InternalError();
+        }
 	}
 
 	@Override
