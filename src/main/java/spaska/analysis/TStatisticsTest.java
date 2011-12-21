@@ -147,36 +147,6 @@ public class TStatisticsTest implements IStatisticalTest {
 		return pValue;
 	}
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		System.out.println(EmpiricalTest.getMean(new double[] { 1, 2, 3 }));
-		System.out.println(EmpiricalTest.getStandardDeviation(new double[] { 1,
-				2, 3 }));
-		double[] pizzaA = new double[] { 12.9, 5.7, 16, 14.3, 2.4, 1.6, 14.6,
-				10.2, 4.3, 6.6 };
-		double[] pizzaB = new double[] { 16, 7.5, 16, 15.7, 13.2, 5.4, 15.5,
-				11.3, 15.4, 10.6 };
-		double[] crossfertilized = new double[] { 23.5, 12.0, 21.0, 22, 19.1,
-				21.5, 22.1, 20.4, 18.3, 21.6, 23.3, 21, 22.1, 23, 12 };
-		double[] selffertilized = new double[] { 17.4, 20.4, 20, 20, 18.4,
-				18.6, 18.6, 15.3, 16.5, 18, 16.3, 18, 12.8, 15.5, 18 };
-		// System.out.println(t.quantile(0.05, 9));
-		TStatisticsTest ptt = new TStatisticsTest(0.05, TestType.OneSidedLessThan);
-		System.out.println(ptt.shouldRejectNull(pizzaA, pizzaB));
-		ptt = new TStatisticsTest(0.05, TestType.OneSidedGreaterThan);
-		System.out.println(ptt.shouldRejectNull(pizzaA, pizzaB));
-		ptt = new TStatisticsTest(0.05, TestType.TwoSided);
-		System.out.println(ptt
-				.shouldRejectNull(crossfertilized, selffertilized));
-		// ptt = new PairedTTest(0.05, TestType.OneWayGreaterThan);
-		System.out.println(ptt
-				.shouldRejectNull(crossfertilized, selffertilized));
-		System.out.println(ptt.getPValue(crossfertilized, selffertilized));
-	}
-
     public String getName() {
         return "Paired T-Test";
     }

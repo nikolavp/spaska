@@ -1,13 +1,14 @@
 package spaska.classifiers.util;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import spaska.data.*;
+import spaska.data.Attribute;
 import spaska.data.Attribute.ValueType;
-import spaska.data.readers.*;
+import spaska.data.Dataset;
+import spaska.data.Instance;
+import spaska.data.Value;
 
 public class DatasetService {
 	private Dataset dataset;
@@ -31,7 +32,7 @@ public class DatasetService {
 		int nominalEnd = 0;
 		int numericEnd = n - 1;
 		int[] indices = new int[n];
-		intValues = (Map<Value, Integer>[]) new HashMap[n];
+		intValues = getNewHashMapArray(n);
 		for (int i = 0; i < n; i++) {
 			intValues[i] = new HashMap<Value, Integer>();
 			if (getAttribute(i).getType() == ValueType.Nominal) {
@@ -56,6 +57,11 @@ public class DatasetService {
 			numericIndices[j] = indices[i];
 		}
 	}
+
+    @SuppressWarnings("unchecked")
+    private Map<Value, Integer>[] getNewHashMapArray(int n) {
+        return (Map<Value, Integer>[]) new HashMap[n];
+    }
 
 	public int numberOfAttributes() {
 		return dataset.getAttributes().size();
@@ -112,32 +118,4 @@ public class DatasetService {
 	public int getAttributeIndex(Attribute a) {
 		return dataset.getAttributes().indexOf(a);
 	}
-
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		String fileName = ".\\data\\iris.arff";
-		fileName = ".\\data\\labor.arff";
-		// fileName = ".\\data\\weather.arff";
-		// fileName = ".\\data\\segment-challenge.arff";
-		ARFFInputReader r = new ARFFInputReader(fileName);
-		DatasetService s = new DatasetService(r.buildDataset());
-		// System.out.println(s.intValue(0, new NominalValue("overcast")));
-		System.out.println("Nominal : "
-				+ Arrays.toString(s.getNominalIndices()));
-		System.out.println("Numeric : "
-				+ Arrays.toString(s.getNumericIndices()));
-		NominalValue nv = new NominalValue("no");
-		NominalValue nv1 = new NominalValue("no");
-		System.out.println(nv.equals(nv1));
-		System.out.println(s.classIndex());
-		for (Map.Entry<Value, Integer> entry : s.intValues[s.classIndex()]
-				.entrySet()) {
-			System.out.println(nv.equals(entry.getKey()));
-		}
-		// System.out.println(s.intValue(s.classIndex(), nv));
-	}
-
 }

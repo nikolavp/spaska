@@ -52,7 +52,7 @@ public class NominalInfoService {
 	private void initStatisticalInfo(List<Instance> instances) {
 		int n = datasetService.numberOfClasses();
 		int na = datasetService.numberOfAttributes();
-		statistics = (Map<Value, int[]>[]) new HashMap[na];
+		statistics = getNewHashMapArray(na);
 		for (int k = 0; k < na; k++) {
 			statistics[k] = new HashMap<Value, int[]>();
 			if (datasetService.getAttribute(k).getType() == ValueType.Nominal) {
@@ -75,6 +75,11 @@ public class NominalInfoService {
 			}
 		}
 	}
+
+    @SuppressWarnings("unchecked")
+    private Map<Value, int[]>[] getNewHashMapArray(int na) {
+        return (Map<Value, int[]>[]) new HashMap[na];
+    }
 
 	private void calculateEntropies() {
 		for (int i = 0; i < usedAttributes.length; i++) {

@@ -1,7 +1,7 @@
 package spaska.classifiers.util;
 
 public class Information {
-	public static double log10_2 = Math.log10(2);
+	private static final double LOG_10_2 = Math.log10(2);
 
 	// Information : I(p1,p2,...,pn) = -p1*log(p1)-p2*log(p2)-...-pn*log(pn)
 	// Sum(pi) = 1
@@ -12,7 +12,7 @@ public class Information {
 				result += -f * Math.log10(f);
 			}
 		}
-		result /= log10_2;
+		result /= LOG_10_2;
 		return result;
 	}
 
@@ -27,7 +27,7 @@ public class Information {
 			}
 		}
 		result += denominator * Math.log10(denominator);
-		result /= log10_2 * denominator;
+		result /= LOG_10_2 * denominator;
 		return result;
 	}
 
@@ -39,7 +39,7 @@ public class Information {
 			}
 		}
 		result += denominator * Math.log10(denominator);
-		result /= log10_2 * denominator;
+		result /= LOG_10_2 * denominator;
 		return result;
 	}
 
@@ -64,24 +64,7 @@ public class Information {
 	}
 
 	public static double log2(double value) {
-		return Math.log10(value) / log10_2;
-	}
-
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		System.out.println(entropy(new int[] { 2, 3 }, 5));
-		System.out.println(entropy(new int[] { 2, 3, 4 }, 9));
-		System.out.println(entropy(new int[] { 9, 5 }, 14));
-		System.out.println(entropy(new int[] { 2, 2 }, 4));
-		System.out.println(entropy(new double[] { 0.4, 0.6 }));
-		long sum = 0;
-		for (int i = 0; i < 24000000; i++) {
-			sum += (Math.random() > 0.5 ? 1 : -1) * i;
-		}
-		System.out.println(sum);
+		return Math.log10(value) / LOG_10_2;
 	}
 
 }

@@ -27,9 +27,10 @@ public abstract class Value implements Cloneable, Comparable<Value> {
 	public int hashCode() {
 		return getValue().hashCode();
 	}
-	
-	public abstract Object clone();
-	
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+	    return super.clone();
+	}
 	public abstract int compareTo(Value v);
 
 }
