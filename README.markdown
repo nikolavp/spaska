@@ -26,17 +26,9 @@ only faster but also with better performance(accuracy). The system also tries to
 ### Data Preprocessors
 * NormalizeValidator
 
-### Analysers 
+### Documentation
+Every one of these components has extensive documentation and we really try hard to keep it this way!
 
-## Results compared to weka
-TODO: Show the table here!
-<table border="1">
-    <tr>
-        <td>asdas</td>
-        <td>sadads</td>
-    </tr>
-    <tr>
-        <td>asdas</td>
-        <td>sadads</td>
-    </tr>
-</table>
+<!-- TODO: ## Results compared to weka -->
+
+
