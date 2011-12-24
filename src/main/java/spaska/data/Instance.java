@@ -33,7 +33,7 @@ public class Instance implements Cloneable {
         Instance cloned;
         try {
             cloned = (Instance) super.clone();
-            cloned.vector = new ArrayList<>();
+            cloned.vector = new ArrayList<Value>();
             for (Value v : vector) {
                 cloned.vector.add((Value) v.clone());
             }
