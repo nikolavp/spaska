@@ -18,33 +18,31 @@ import spaska.clusterers.IClusterer;
  * 
  * @author nikolavp
  * 
- * @param <T>
- *            the type of classes that this service can discovery
  */
 public interface DiscoveryService {
     /**
      * @return general analysers found in the classpath
      */
-    public List<Class<? extends IAnalyzer>> discoverGeneralAnalyzers();
+    List<Class<? extends IAnalyzer>> discoverGeneralAnalyzers();
 
     /**
      * 
      * @return compare analysers found in the classpath
      */
-    public List<Class<? extends ICompareAnalyzer>> discoverCompareAnalyzers();
+    List<Class<? extends ICompareAnalyzer>> discoverCompareAnalyzers();
 
     /**
      * @return statistical tests found in the classpath
      */
-    public List<Class<? extends IStatisticalTest>> discoverIStatisticalTests();
+    List<Class<? extends IStatisticalTest>> discoverIStatisticalTests();
 
     /**
      * @return classifiers found the classpath
      */
-    public List<Class<? extends IClassifier>> discoverClassifiers();
+    List<Class<? extends IClassifier>> discoverClassifiers();
 
     /**
      * @return clusterers found in the classpath
      */
-    public List<Class<? extends IClusterer>> discoverClusterers();
+    List<Class<? extends IClusterer>> discoverClusterers();
 }

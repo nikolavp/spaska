@@ -15,11 +15,11 @@ public abstract class AbstractInputReader implements InputReader {
 	}
 
 	@Override
-	public void addValidator(Validator validator) {
+	public final void addValidator(Validator validator) {
 		validators.add(validator);
 	}
 
-	public List<Validator> getValidators() {
+	public final List<Validator> getValidators() {
 		return validators;
 	}
 }

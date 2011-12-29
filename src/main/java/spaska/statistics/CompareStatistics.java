@@ -3,11 +3,12 @@ package spaska.statistics;
 import spaska.analysis.*;
 
 /* statistics for comparison between two classifiers */
-public class CompareStatistics extends Statistics {
+public final class CompareStatistics extends Statistics {
 
-    private String firstClassifierName, secondClassifierName; //classifier names
-    private double[] firstSamplePopulation, secondSamplePopulation; //precisions
-    private long[] times1, times2; //test times
+    private String firstClassifierName, secondClassifierName; // classifier
+                                                              // names
+    private double[] firstSamplePopulation, secondSamplePopulation; // precisions
+    private long[] times1, times2; // test times
 
     public void setTimes1(long[] times1) {
         this.times1 = times1;
@@ -16,7 +17,8 @@ public class CompareStatistics extends Statistics {
     public void setTimes2(long[] times2) {
         this.times2 = times2;
     }
-    private IStatisticalTest test; //statistical test applied
+
+    private IStatisticalTest test; // statistical test applied
 
     public void setTest(IStatisticalTest test) {
         this.test = test;
@@ -43,21 +45,26 @@ public class CompareStatistics extends Statistics {
         modified = true;
     }
 
-    private void appendPrecisions(double[] sample, long[] times, StringBuilder result) {
+    private void appendPrecisions(double[] sample, long[] times,
+            StringBuilder result) {
         result.append("Tests data [Presision -> Test Time]:\n");
         for (int i = 0; i < sample.length; i++) {
-            result.append(String.format("Test %3d:  [%.6f -> %s]\n", i+1, sample[i],  timeToString(times[i])));
-            
+            result.append(String.format("Test %3d:  [%.6f -> %s]\n", i + 1,
+                    sample[i], timeToString(times[i])));
+
         }
     }
 
     @Override
     protected void generateInfo() {
 
-        if (test == null || firstClassifierName == null || secondClassifierName == null ||
-                firstSamplePopulation == null || secondSamplePopulation == null ||
-                times1 == null || times2 == null) {
-            throw new IllegalStateException("Set all parameters of the compare statistics!");
+        if (test == null || firstClassifierName == null
+                || secondClassifierName == null
+                || firstSamplePopulation == null
+                || secondSamplePopulation == null || times1 == null
+                || times2 == null) {
+            throw new IllegalStateException(
+                    "Set all parameters of the compare statistics!");
         }
 
         StringBuilder result = new StringBuilder();
@@ -67,19 +74,24 @@ public class CompareStatistics extends Statistics {
         result.append("Classifier 1\n");
         result.append("Name: " + firstClassifierName + "\n");
         appendPrecisions(firstSamplePopulation, times1, result);
-        result.append(String.format("Mean: %.6f\n", EmpiricalTest.getMean(firstSamplePopulation)));
-        result.append(String.format("Standard deviation: %.6f\n", EmpiricalTest.getStandardDeviation(firstSamplePopulation)));
+        result.append(String.format("Mean: %.6f\n",
+                EmpiricalTest.getMean(firstSamplePopulation)));
+        result.append(String.format("Standard deviation: %.6f\n",
+                EmpiricalTest.getStandardDeviation(firstSamplePopulation)));
         result.append("------------------------------------------------\n");
         result.append("Classifier 2\n");
         result.append("Name: " + secondClassifierName + "\n");
         appendPrecisions(secondSamplePopulation, times2, result);
-        result.append(String.format("Mean: %.6f\n", EmpiricalTest.getMean(secondSamplePopulation)));
-        result.append(String.format("Standard deviation: %.6f\n", EmpiricalTest.getStandardDeviation(secondSamplePopulation)));
+        result.append(String.format("Mean: %.6f\n",
+                EmpiricalTest.getMean(secondSamplePopulation)));
+        result.append(String.format("Standard deviation: %.6f\n",
+                EmpiricalTest.getStandardDeviation(secondSamplePopulation)));
         result.append("------------------------------------------------\n");
         result.append("Statistical test: " + test.getName() + "\n");
         result.append("Type: " + test.getTestType() + "\n");
         result.append(String.format("Alpha = %.6f\n", test.getAlpha()));
-        String accept = test.shouldRejectNull(firstSamplePopulation, secondSamplePopulation) ? "rejected" : "accepted";
+        String accept = test.shouldRejectNull(firstSamplePopulation,
+                secondSamplePopulation) ? "rejected" : "accepted";
         result.append("Null hypothesis:  " + accept + "\n");
         result.append("================================================\n");
         info = result.toString();

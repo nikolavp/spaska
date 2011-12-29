@@ -14,34 +14,34 @@ import spaska.statistics.CompareStatistics;
  */
 public interface ICompareAnalyzer extends Parametrable {
     /**
-     * Get the first classifier that will be analysed
+     * Get the first classifier that will be analysed.
      * 
      * @return the first classifier that will be analysed
      */
-    public IClassifier getClassifier1();
+    IClassifier getClassifier1();
 
     /**
-     * Set the first classifier that will be analysed
+     * Set the first classifier that will be analysed.
      * 
      * @param classifier1
      *            the classifier that will be analysed.
      */
-    public void setClassifier1(IClassifier classifier1);
+    void setClassifier1(IClassifier classifier1);
 
     /**
-     * Get the second classifier that will be analysed
+     * Get the second classifier that will be analysed.
      * 
      * @return the second classifier that will be analysed
      */
-    public IClassifier getClassifier2();
+    IClassifier getClassifier2();
 
     /**
-     * Set the second classifier that will be analysed
+     * Set the second classifier that will be analysed.
      * 
      * @param classifier2
      *            the second classifier that will be analysed
      */
-    public void setClassifier2(IClassifier classifier2);
+    void setClassifier2(IClassifier classifier2);
 
     /**
      * Analyse/compare the two classifiers on the given dataset.
@@ -52,6 +52,6 @@ public interface ICompareAnalyzer extends Parametrable {
      * @throws Exception
      *             if there was an error while comparing the classifiers
      */
-    public CompareStatistics analyze(Dataset dataSet) throws Exception;
+    CompareStatistics analyze(Dataset dataSet) throws Exception;
 
 }

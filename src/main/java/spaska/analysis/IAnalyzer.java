@@ -6,24 +6,24 @@ import spaska.gui.Parametrable;
 import spaska.statistics.ClassifierStatistics;
 
 /**
- * An interface that represents all analyzers that can test the performance of
- * a given classifier or other characteristics.
+ * An interface that represents all analyzers that can test the performance of a
+ * given classifier or other characteristics.
  */
 public interface IAnalyzer extends Parametrable {
     /**
-     * Get the classifier that will be analysed
+     * Get the classifier that will be analysed.
      * 
      * @return the classifier that was bound to this analyzer.
      */
-    public IClassifier getClassifier();
+    IClassifier getClassifier();
 
     /**
-     * Set the classifier that will be analysed
+     * Set the classifier that will be analysed.
      * 
      * @param classifier
      *            the classifier that will be analysed
      */
-    public void setClassifier(IClassifier classifier);
+    void setClassifier(IClassifier classifier);
 
     /**
      * Analyze the classifier that was set on the given dataset.
@@ -32,6 +32,6 @@ public interface IAnalyzer extends Parametrable {
      *            the dataset on which to analyze the classifier
      * @return the result from the analysis
      */
-    public ClassifierStatistics analyze(Dataset testSet);
+    ClassifierStatistics analyze(Dataset testSet);
 
 }

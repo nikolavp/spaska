@@ -9,7 +9,7 @@ import spaska.classifiers.IClassifier;
 import spaska.clusterers.IClusterer;
 
 /**
- * The default implementation for the discovery service
+ * The default implementation for the discovery service.
  * 
  * @author nikolavp
  * 
@@ -21,6 +21,11 @@ public final class DefaultDiscoveryService implements DiscoveryService {
 
     }
 
+    /**
+     * Get the default discovery service.
+     * 
+     * @return the default discovery service
+     */
     public static DefaultDiscoveryService getInstance() {
         return INSTANCE;
     }
