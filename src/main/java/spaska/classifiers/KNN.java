@@ -17,16 +17,19 @@ import spaska.data.NumericValue;
 import spaska.data.Value;
 
 /**
+ * Implementation of the K-Nearest Neighbor classifier.
+ * 
+ * 
  * 
  * @author Lazar Chifudov
  */
 
-/* Implementation of the K-Nearest Neighbor classifier */
-public class KNN implements IClassifier {
+public final class KNN implements IClassifier {
 
     private static final Logger LOG = LoggerFactory.getLogger(KNN.class);
     private static final int DEFAULT_K = 9;
-    private int k, classIndex;
+    private int k;
+    private int classIndex;
     private boolean weighted;
     private DistanceQueue distanceQueue; // queue to store distances
     private List<Instance> trainSet; // list pruned of classless instances
@@ -35,6 +38,11 @@ public class KNN implements IClassifier {
     private ValueType[] attrTypes;
     private Value[] queryVectorArray;
 
+    /**
+     * Get parameters for the classifier.
+     * 
+     * @return the parameters for this classifier
+     */
     public static Map<String, String> getParameters() {
         Map<String, String> result = new HashMap<String, String>();
         result.put("k", "9");
@@ -42,15 +50,21 @@ public class KNN implements IClassifier {
         return result;
     }
 
+    /**
+     * Default constructor.
+     * 
+     */
     public KNN() {
         setK(DEFAULT_K);
     }
 
-    /* A class representing a measured distance and the corresponding instance */
+    /**
+     * A class representing a measured distance and the corresponding instance.
+     */
     private static class Pair {
 
-        double distance;
-        Instance instance;
+        private double distance;
+        private Instance instance;
 
         public Pair(double distance, Instance instance) {
             this.distance = distance;
@@ -62,10 +76,12 @@ public class KNN implements IClassifier {
         }
     }
 
-    /* A fixed size queue for storing distances and the corresponding instances */
+    /**
+     * A fixed size queue for storing distances and the corresponding instances.
+     */
     private class DistanceQueue {
 
-        Pair[] distances; // the queue
+        private Pair[] distances; // the queue
 
         // construct the queue given the classifier parameter K
         DistanceQueue(int k) {
@@ -127,8 +143,9 @@ public class KNN implements IClassifier {
                                     classIndex).getValue());
                 }
                 return new NumericValue(sum / sumWeights);
-            } // 2nd case: nominal class value
-            else {
+            } else {
+                // 2nd case: nominal class value
+
                 // a map for storing frequencies/weights
                 Map<Value, Double> frequencies = new HashMap<Value, Double>();
                 for (int i = 0; i < distances.length; ++i) {
@@ -166,12 +183,23 @@ public class KNN implements IClassifier {
         }
     }
 
-    /* return the KNN parameter K */
+    /**
+     * Get the number of nearest neighbours that will be checked by the
+     * algorithm.
+     * 
+     * @return the k for the KNN algorithm
+     */
     public int getK() {
         return k;
     }
 
-    /* set the KNN parameter K */
+    /**
+     * Set the number of nearest neighbours that will be checked by the.
+     * algorithm.
+     * 
+     * @param k
+     *            the new value of k
+     */
     public void setK(int k) {
         if (k < 1) { // if illegal value given, set to default
             LOG.error("Invalid value for k. Setting k = " + DEFAULT_K);
@@ -182,12 +210,21 @@ public class KNN implements IClassifier {
         distanceQueue = new DistanceQueue(this.k);
     }
 
-    /* weighted or not */
+    /**
+     * Get if this KNN algorithm is weighted or not.
+     * 
+     * @return true if this KNN algorithm is weighted and false otherwise
+     */
     public boolean isWeighted() {
         return weighted;
     }
 
-    /* set weighted or not */
+    /**
+     * Set if this KNN should be weighted.
+     * 
+     * @param weighted
+     *            the new value that indicates if KNN should be weighted
+     */
     public void setWeighted(boolean weighted) {
         this.weighted = weighted;
     }
@@ -243,15 +280,15 @@ public class KNN implements IClassifier {
             } else {
                 return 1;
             }
-        } // 2nd case: numeric values
-        else if (attrType == ValueType.Numeric) {
+        } else if (attrType == ValueType.Numeric) {
+            // 2nd case: numeric values
             if (queryValue.getType() != ValueType.Unknown
                     && currentValue.getType() != ValueType.Unknown) {
                 double dst = (Double) queryValue.getValue()
                         - (Double) currentValue.getValue();
                 return dst * dst;
-            } else if ((queryValue.getType() == ValueType.Unknown && currentValue
-                    .getType() == ValueType.Unknown)) {
+            } else if ((queryValue.getType() == ValueType.Unknown 
+                    && currentValue.getType() == ValueType.Unknown)) {
                 return 0;
             } else {
                 return 1;
@@ -260,7 +297,7 @@ public class KNN implements IClassifier {
         return 0;
     }
 
-    /* train the knn classifier */
+    @Override
     public void buildClassifier(Dataset instances) {
 
         originalTrainSet = instances;
@@ -270,7 +307,8 @@ public class KNN implements IClassifier {
         Iterator<Instance> it = givenInstances.iterator();
         while (it.hasNext()) { // prune instances with missing class value
             Instance current = it.next();
-            if (current.getVector().get(classIndex).getType() != ValueType.Unknown) {
+            if (current.getVector().get(classIndex).getType() 
+                    != ValueType.Unknown) {
                 trainSet.add(current);
             }
         }
@@ -282,18 +320,19 @@ public class KNN implements IClassifier {
 
         if (k > trainSet.size()) {
             setK(trainSet.size());
-            LOG.error("KNN: k >= all neighbors! Setting k to number of neighbors.");
+            LOG.error("KNN: k >= all neighbors! "
+                    + "Setting k to number of neighbors.");
         }
     }
 
-    /* classify an instance after training */
+    @Override
     public Value classifyInstance(Instance instance) {
         distanceQueue.clear();
         calculateDistances(instance);
         return distanceQueue.voteForClass();
     }
 
-    /* should be called after setting parameters */
+    @Override
     public String getName() {
         String weights = weighted ? "; weighted)" : ")";
         return "K-Nearest Neighbor (k=" + k + weights;
@@ -332,7 +371,8 @@ public class KNN implements IClassifier {
 
     @Override
     public String toString() {
-        String formatString = "K Nearest Neighbour\n  - weighted : %s\n  - k : %d";
+        String formatString = "K Nearest Neighbour\n"
+                + "  - weighted : %s\n  - k : %d";
         return String.format(formatString, weighted, k);
     }
 }

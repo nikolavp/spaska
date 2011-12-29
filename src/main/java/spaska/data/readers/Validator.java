@@ -9,7 +9,7 @@ import spaska.gui.Parametrable;
  */
 public interface Validator extends Parametrable {
 
-	public void setDataset(Dataset dataset);
+	void setDataset(Dataset dataset);
 
-	public boolean validate();
+	boolean validate();
 }

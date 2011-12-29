@@ -3,7 +3,7 @@ package spaska.classifiers.util;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Node {
+public final class Node {
 
     private Object value;
 

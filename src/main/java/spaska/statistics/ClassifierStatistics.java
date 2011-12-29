@@ -10,10 +10,10 @@ import java.util.Map;
  * 
  * @author Lazar Chifudov
  */
-public class ClassifierStatistics extends Statistics {
+public final class ClassifierStatistics extends Statistics {
 
-    private int confusionMatrix[][];
-    private String classNames[];
+    private int[][] confusionMatrix;
+    private String[] classNames;
     private Map<String, Integer> namesMap; // for easy access to class numbers
     private boolean isNumeric; // if class value is numeric, not nominal
     private List<Double> residuals; // for storing numeric residuals
@@ -134,8 +134,9 @@ public class ClassifierStatistics extends Statistics {
         for (int i = 0; i < confusionMatrix.length; ++i) {
             returned += confusionMatrix[i][classNum];
         }
-        if (returned == 0)
+        if (returned == 0) {
             return 0;
+        }
         return confusionMatrix[classNum][classNum] / (double) returned;
     }
 
@@ -155,8 +156,9 @@ public class ClassifierStatistics extends Statistics {
         for (int i = 0; i < confusionMatrix.length; ++i) {
             correct += confusionMatrix[classNum][i];
         }
-        if (correct == 0)
+        if (correct == 0) {
             return 0;
+        }
         return confusionMatrix[classNum][classNum] / (double) correct;
     }
 
@@ -205,8 +207,9 @@ public class ClassifierStatistics extends Statistics {
         int classNum = getClassNumber(className);
         double precision = getPrecision(classNum);
         double recall = getRecall(classNum);
-        if (precision + recall == 0)
+        if (precision + recall == 0) {
             return 0;
+        }
         return (2 * precision * recall) / (precision + recall);
     }
 
@@ -220,10 +223,11 @@ public class ClassifierStatistics extends Statistics {
         for (int i = 0; i < result.length; i++) {
             double p = getPrecision(i);
             double r = getRecall(i);
-            if (p + r == 0)
+            if (p + r == 0) {
                 result[i] = 0;
-            else
+            } else {
                 result[i] = (2 * p * r) / (p + r);
+            }
         }
         return result;
     }
@@ -293,10 +297,11 @@ public class ClassifierStatistics extends Statistics {
             result.append(String.format("Precision:  %.3f\n", precision));
             result.append(String.format("Recall:     %.3f\n", recall));
             double fMeasure;
-            if (precision + recall == 0)
+            if (precision + recall == 0) {
                 fMeasure = 0;
-            else
+            } else {
                 fMeasure = (2 * precision * recall) / (precision + recall);
+            }
             result.append(String.format("F-Measure:  %.3f\n", fMeasure));
             result.append("------------------------------------------------");
         }

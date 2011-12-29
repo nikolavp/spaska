@@ -20,7 +20,7 @@ import spaska.data.NumericValue;
 import spaska.data.Value;
 import spaska.statistics.ClustererStatistics;
 
-public class SimpleKMeans implements IClusterer {
+public final class SimpleKMeans implements IClusterer {
 
     private static final String K_ALGORITHM_PARAMETER = "Number of clusters";
     private static final String MAX_ITERATIONS_ALGORITHM_PARAMETER = "Max number of iterations";
@@ -66,9 +66,9 @@ public class SimpleKMeans implements IClusterer {
         return Math.abs(result);
     }
 
-    private void initCenters(Dataset data) {
+    private void initCenters(Dataset initialData) {
         Random r = new Random(seed);
-        List<Instance> instances = data.getElements();
+        List<Instance> instances = initialData.getElements();
         Set<Integer> chosenCenters = new HashSet<Integer>();
         for (int i = 0; i < k; i++) {
             int randInd = nextPositiveInt(r);
@@ -92,8 +92,9 @@ public class SimpleKMeans implements IClusterer {
 
         List<Instance> instances = data.getElements();
         while (iterations-- > 0) {
-            if (Thread.interrupted())
+            if (Thread.interrupted()) {
                 return;
+            }
             for (int i = 0; i < clusters.length; i++) {
                 clusters[i].previousInstances.clear();
                 clusters[i].previousInstances.addAll(clusters[i].instances);
@@ -178,13 +179,15 @@ public class SimpleKMeans implements IClusterer {
     }
 
     public static double euclideanDistance(double[] a, double[] b) {
-        if (a == null || b == null || a.length != b.length)
+        if (a == null || b == null || a.length != b.length) {
             throw new IllegalArgumentException("a: " + Arrays.toString(a)
                     + "; b: " + Arrays.toString(b));
+        }
 
         double sum = 0;
-        for (int i = 0; i < a.length; ++i)
+        for (int i = 0; i < a.length; ++i) {
             sum += Math.pow((a[i] - b[i]), 2);
+        }
         return Math.sqrt(sum);
     }
 
@@ -218,8 +221,9 @@ public class SimpleKMeans implements IClusterer {
         List<Value> instanceAttributes = instance.getVector();
         double distance = 0;
         for (int i = 0; i < centerAttributes.size(); i++) {
-            if (data.getClassIndex() == i)
+            if (data.getClassIndex() == i) {
                 continue;
+            }
 
             Value centerValue = centerAttributes.get(i);
             Value instanceValue = instanceAttributes.get(i);
@@ -252,12 +256,12 @@ public class SimpleKMeans implements IClusterer {
                 // normalizeDoubleValue(centerValDouble, min, max);
                 // double normalizedInstanceDoubleValue =
                 // normalizeDoubleValue(instanceValDouble, min, max);
-                double normalizedCenterDoubleValue = centerValDouble;// normalizeDoubleValue(centerValDouble,
-                                                                     // min,
-                                                                     // max);
-                double normalizedInstanceDoubleValue = instanceValDouble;// normalizeDoubleValue(instanceValDouble,
-                                                                         // min,
-                                                                         // max);
+                double normalizedCenterDoubleValue = centerValDouble; // normalizeDoubleValue(centerValDouble,
+                                                                      // min,
+                                                                      // max);
+                double normalizedInstanceDoubleValue = instanceValDouble; // normalizeDoubleValue(instanceValDouble,
+                                                                          // min,
+                                                                          // max);
                 distance += Math.pow(normalizedCenterDoubleValue
                         - normalizedInstanceDoubleValue, 2);
 

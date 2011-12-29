@@ -22,6 +22,8 @@ import org.slf4j.LoggerFactory;
  */
 public final class PackageClassesDiscovery {
 
+    private static final int CLASS_SUFFIX_LENGTH = 6;
+
     private static final Logger LOG = LoggerFactory
             .getLogger(PackageClassesDiscovery.class);
 
@@ -39,12 +41,14 @@ public final class PackageClassesDiscovery {
     }
 
     /**
-     * Finds subclasses of the given class in the package
+     * Finds subclasses of the given class in the package.
      * 
      * @param baseClass
      *            the class that will be used for filtering it's subclasses when
      *            searching
      * @return all subclasses of the given baseClass param in the given package
+     * @param <T>
+     *            the type of classes that should be found
      */
     public <T> List<Class<? extends T>> findSubclassesOf(Class<T> baseClass) {
         ClassLoader classLoader = Thread.currentThread()
@@ -78,7 +82,8 @@ public final class PackageClassesDiscovery {
     }
 
     private static String getClassNameFromFile(File file) {
-        return file.getName().substring(0, file.getName().length() - 6);
+        return file.getName().substring(0,
+                file.getName().length() - CLASS_SUFFIX_LENGTH);
     }
 
     /**
@@ -115,7 +120,7 @@ public final class PackageClassesDiscovery {
                             className, e);
                     continue;
                 }
-                if(clazz == filteredClasses){
+                if (clazz == filteredClasses) {
                     continue;
                 }
                 if (filteredClasses.isAssignableFrom(clazz)) {
