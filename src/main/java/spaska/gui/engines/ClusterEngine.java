@@ -42,8 +42,8 @@ public class ClusterEngine extends Engine {
             throw new InputException("Choose a clusterer first");
 
         if (clusterer instanceof SimpleKMeans
-                && (reader.getValidators() == null || reader.getValidators()
-                        .size() == 0)) {
+                && (getReader().getValidators() == null || getReader()
+                        .getValidators().size() == 0)) {
             throw new InputException(
                     "SimpleKMeans clusterer needs normalized input data.");
         }

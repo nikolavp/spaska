@@ -1,6 +1,7 @@
 package spaska.gui.engines;
 
 import java.io.File;
+
 import java.util.Map;
 import java.util.Vector;
 
@@ -12,72 +13,85 @@ import spaska.data.readers.Validator;
 import spaska.gui.InputException;
 import spaska.statistics.Statistics;
 
+/**
+ * A base class that represents all engines(workflows) in the spaska system.
+ */
 public abstract class Engine {
 
-	private static final String						ARFF	= "arff";
+    private static final String ARFF = "arff";
 
-	protected Dataset								dataset;
-	protected InputReader							reader;
-	protected Vector<Class<? extends Validator>>	validators;
+    private Dataset dataset;
+    private InputReader reader;
+    private Vector<Class<? extends Validator>> validators;
 
-	public Engine() {
-		validators = new Vector<Class<? extends Validator>>();
-		validators.add(NormalizeValidator.class);
-	}
+    /**
+     * Get the reader for this engine.
+     * 
+     * @return the reader for this engine
+     */
+    protected InputReader getReader() {
+        return reader;
+    }
 
-	protected Dataset getDataset() {
-		return dataset;
-	}
+    /**
+     * Default constructor
+     */
+    public Engine() {
+        validators = new Vector<Class<? extends Validator>>();
+        validators.add(NormalizeValidator.class);
+    }
 
-	protected void setDataset() throws Exception {
-		if (reader != null) {
-			dataset = reader.buildDataset();
-		}
-		else {
-			throw new InputException("Please set the file first");
-		}
-	}
+    protected Dataset getDataset() {
+        return dataset;
+    }
 
-	public void setFile(File file) throws Exception {
-		if (file == null) {
-			throw new InputException("Please choose a file");
-		}
-		else {
-			if (file.getName().endsWith(ARFF)) {
-				reader = new ARFFInputReader(file);
-			}
-		}
-	}
+    protected void setDataset() throws Exception {
+        if (reader != null) {
+            dataset = reader.buildDataset();
+        } else {
+            throw new InputException("Please set the file first");
+        }
+    }
 
-	public Vector<Class<? extends Validator>> getValidators() {
-		return validators;
-	}
+    public void setFile(File file) throws Exception {
+        if (file == null) {
+            throw new InputException("Please choose a file");
+        } else {
+            if (file.getName().endsWith(ARFF)) {
+                reader = new ARFFInputReader(file);
+            }
+        }
+    }
 
-	public void addValidator(Validator v, Map<String, String> params) throws Exception {
-		if (v != null) {
-			if (params != null) {
-				v.setParameters(params);
-			}
-			if (reader != null) {
-				reader.addValidator(v);
-			}
-			else {
-				throw new InputException("Please set the File first");
-			}
-		}
-		else {
-			throw new InputException("Please choose a validator");
-		}
-	}
+    public Vector<Class<? extends Validator>> getValidators() {
+        return validators;
+    }
 
-	public void check() throws Exception {
-		if (reader == null) throw new InputException("Please set the file first"); 
-	}
+    public void addValidator(Validator v, Map<String, String> params)
+            throws Exception {
+        if (v != null) {
+            if (params != null) {
+                v.setParameters(params);
+            }
+            if (reader != null) {
+                reader.addValidator(v);
+            } else {
+                throw new InputException("Please set the File first");
+            }
+        } else {
+            throw new InputException("Please choose a validator");
+        }
+    }
 
-	public void reset() {
-		dataset = null;
-		reader = null;
-	}
+    public void check() throws Exception {
+        if (reader == null)
+            throw new InputException("Please set the file first");
+    }
 
-	public abstract Statistics start() throws Exception;
+    public void reset() {
+        dataset = null;
+        reader = null;
+    }
+
+    public abstract Statistics start() throws Exception;
 }

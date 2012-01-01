@@ -18,7 +18,7 @@ import spaska.data.Attribute.ValueType;
  * 
  * @author aplamena
  */
-public class NormalizeValidator implements Validator {
+public final class NormalizeValidator implements Validator {
 
 
 	public static Map<String, String> getParameters() {

@@ -171,8 +171,10 @@ public class ComboList<T extends Parametrable> extends JPanel implements
         } else if (e.getActionCommand().equals(Utils.ITEM_SELECTED)) {
             addToList(lastSelectedValue);
         } else if (e.getActionCommand().equals(Utils.COMMIT_PARAMETERS)) {
-            resultParams.put((Class<? extends T>) list.getSelectedValue(),
-                    dialog.getResultParameters());
+            @SuppressWarnings("unchecked")
+            Class<? extends T> selectedValue = (Class<? extends T>) list
+                    .getSelectedValue();
+            resultParams.put(selectedValue, dialog.getResultParameters());
         }
     }
 

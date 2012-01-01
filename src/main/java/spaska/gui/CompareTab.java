@@ -21,147 +21,152 @@ import spaska.gui.engines.CompareEngine;
  */
 public class CompareTab extends SpaskaTab {
 
-	private static final long		serialVersionUID	= 1L;
+    private static final long serialVersionUID = 1L;
 
-	private static final Logger LOG = LoggerFactory.getLogger(CompareTab.class);
-	
-	private ComboList<IClassifier>	classifierCombo1;
-	private ComboList<IClassifier>	classifierCombo2;
-	private ComboList<ICompareAnalyzer>	analyzerCombo;
-	private ComboList<Validator>	validatorCombo;
+    private static final Logger LOG = LoggerFactory.getLogger(CompareTab.class);
 
-	public CompareTab() {
-		validatorCombo = new ComboList<Validator>("Choose Validators", getEngine().getValidators());
-		classifierCombo1 = new ComboList<IClassifier>("Choose Classifier1", getEngine().getClassifiers(), 1);
-		classifierCombo2 = new ComboList<IClassifier>("Choose Classifier2", getEngine().getClassifiers(), 1);
-		analyzerCombo = new ComboList<ICompareAnalyzer>("Choose Analyzer", getEngine().getAnalyzers(), 1);
+    private ComboList<IClassifier> classifierCombo1;
+    private ComboList<IClassifier> classifierCombo2;
+    private ComboList<ICompareAnalyzer> analyzerCombo;
+    private ComboList<Validator> validatorCombo;
 
-		buildGui();
-	}
+    public CompareTab() {
+        validatorCombo = new ComboList<Validator>("Choose Validators",
+                getEngine().getValidators());
+        classifierCombo1 = new ComboList<IClassifier>("Choose Classifier1",
+                getEngine().getClassifiers(), 1);
+        classifierCombo2 = new ComboList<IClassifier>("Choose Classifier2",
+                getEngine().getClassifiers(), 1);
+        analyzerCombo = new ComboList<ICompareAnalyzer>("Choose Analyzer",
+                getEngine().getAnalyzers(), 1);
 
-	private void buildGui() {
-		setLayout(new GridBagLayout());
+        buildGui();
+    }
 
-		GridBagConstraints c = new GridBagConstraints();
-		c.insets = new Insets(2, 2, 2, 2);
+    private void buildGui() {
+        setLayout(new GridBagLayout());
 
-		// 1 row
-		c.gridy = 0;
-		c.weighty = 0;
+        GridBagConstraints c = new GridBagConstraints();
+        c.insets = new Insets(2, 2, 2, 2);
 
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.anchor = GridBagConstraints.NORTH;
+        // 1 row
+        c.gridy = 0;
+        c.weighty = 0;
 
-		c.gridx = 0;
-		c.weightx = 0;
-		add(browse, c);
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.anchor = GridBagConstraints.NORTH;
 
-		c.gridwidth = 7;
-		c.gridx = 1;
-		c.weightx = 1;
-		add(textField, c);
+        c.gridx = 0;
+        c.weightx = 0;
+        add(browse, c);
 
-		// 2 row
-		c.gridy = 1;
-		c.weighty = 1;
+        c.gridwidth = 7;
+        c.gridx = 1;
+        c.weightx = 1;
+        add(textField, c);
 
-		c.fill = GridBagConstraints.BOTH;
-		c.anchor = GridBagConstraints.CENTER;
-		c.gridwidth = 2;
+        // 2 row
+        c.gridy = 1;
+        c.weighty = 1;
 
-		c.gridx = 0;
-		c.weightx = 1;
-		add(validatorCombo, c);
+        c.fill = GridBagConstraints.BOTH;
+        c.anchor = GridBagConstraints.CENTER;
+        c.gridwidth = 2;
 
-		c.gridx = 2;
-		c.weightx = 1;
-		add(analyzerCombo, c);
+        c.gridx = 0;
+        c.weightx = 1;
+        add(validatorCombo, c);
 
-		c.gridx = 4;
-		c.weightx = 1;
-		add(classifierCombo1, c);
+        c.gridx = 2;
+        c.weightx = 1;
+        add(analyzerCombo, c);
 
-		c.gridx = 6;
-		c.weightx = 1;
-		add(classifierCombo2, c);
+        c.gridx = 4;
+        c.weightx = 1;
+        add(classifierCombo1, c);
 
-		// 3 row
-		c.gridy = 2;
-		c.weighty = 0;
+        c.gridx = 6;
+        c.weightx = 1;
+        add(classifierCombo2, c);
 
-		c.gridwidth = 1;
-		c.anchor = GridBagConstraints.SOUTHEAST;
-		c.fill = GridBagConstraints.NONE;
-		c.gridx = 7;
-		c.weightx = 1;
+        // 3 row
+        c.gridy = 2;
+        c.weighty = 0;
 
-		add(run, c);
-	}
+        c.gridwidth = 1;
+        c.anchor = GridBagConstraints.SOUTHEAST;
+        c.fill = GridBagConstraints.NONE;
+        c.gridx = 7;
+        c.weightx = 1;
 
-	@Override
-	public String getTitle() {
-		return "Compare";
-	}
+        add(run, c);
+    }
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		if (e.getActionCommand().equals(Utils.FILE_DATASET)) {
-			openFile();
-		}
-		if (e.getActionCommand().equals(Utils.START)) {
-			try {
-				getEngine().reset();
+    @Override
+    public String getTitle() {
+        return "Compare";
+    }
 
-				getEngine().setFile(openedFile);
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getActionCommand().equals(Utils.FILE_DATASET)) {
+            openFile();
+        }
+        if (e.getActionCommand().equals(Utils.START)) {
+            try {
+                getEngine().reset();
 
-				setEngineArgs(validatorCombo.getParameters(), false);
-				setEngineArgs(classifierCombo1.getParameters(), true);
-				setEngineArgs(classifierCombo2.getParameters(), false);
-				setEngineArgs(analyzerCombo.getParameters(), false);
+                getEngine().setFile(openedFile);
 
-				start();
-				setButtonStop();
-			}
-			catch (Exception ex) {
-				showError(ex);
-			}
-		}
-		else if (e.getActionCommand().equals(Utils.STOP)) {
-			stop();
-			setButtonStart();
-		}
-	}
+                setEngineArgs(validatorCombo.getParameters(), false);
+                setEngineArgs(classifierCombo1.getParameters(), true);
+                setEngineArgs(classifierCombo2.getParameters(), false);
+                setEngineArgs(analyzerCombo.getParameters(), false);
 
-	private <T> void setEngineArgs(Map<Class<? extends T>, Map<String, String>> classToParameters, boolean first) throws Exception {
-		for (Entry<Class<? extends T>, Map<String, String>> entry : classToParameters.entrySet()) {
-			Class<? extends T> cls = entry.getKey();
-			Map<String, String> params = (entry.getValue() != null) ? entry.getValue() : Utils.getParamsOfClass(cls);
+                start();
+                setButtonStop();
+            } catch (Exception ex) {
+                showError(ex);
+            }
+        } else if (e.getActionCommand().equals(Utils.STOP)) {
+            stop();
+            setButtonStart();
+        }
+    }
 
-			LOG.info("Set " + cls + " with " + params);
-			if (Validator.class.isAssignableFrom(cls)) {
-				getEngine().addValidator((Validator) cls.newInstance(), params);
-			}
-			else if (IClassifier.class.isAssignableFrom(cls)) {
-				if (first) {
-					getEngine().setClassifier1((IClassifier) cls.newInstance(), params);
-				}
-				else {
-					getEngine().setClassifier2((IClassifier) cls.newInstance(), params);
-				}
-			}
-			else if (ICompareAnalyzer.class.isAssignableFrom(cls)) {
-				getEngine().setAnalyzer((ICompareAnalyzer) cls.newInstance(), params);
-			}
-		}		
-	}
+    private <T> void setEngineArgs(
+            Map<Class<? extends T>, Map<String, String>> classToParameters,
+            boolean first) throws Exception {
+        for (Entry<Class<? extends T>, Map<String, String>> entry : classToParameters
+                .entrySet()) {
+            Class<? extends T> cls = entry.getKey();
+            Map<String, String> params = (entry.getValue() != null) ? entry
+                    .getValue() : Utils.getParamsOfClass(cls);
 
-	@Override
-	protected CompareEngine getEngine() {
-		if (engine == null) {
-			engine = new CompareEngine();
-		}
-		return (CompareEngine) engine;
-	}
+            LOG.info("Set " + cls + " with " + params);
+            if (Validator.class.isAssignableFrom(cls)) {
+                getEngine().addValidator((Validator) cls.newInstance(), params);
+            } else if (IClassifier.class.isAssignableFrom(cls)) {
+                if (first) {
+                    getEngine().setClassifier1((IClassifier) cls.newInstance(),
+                            params);
+                } else {
+                    getEngine().setClassifier2((IClassifier) cls.newInstance(),
+                            params);
+                }
+            } else if (ICompareAnalyzer.class.isAssignableFrom(cls)) {
+                getEngine().setAnalyzer((ICompareAnalyzer) cls.newInstance(),
+                        params);
+            }
+        }
+    }
 
+    @Override
+    protected CompareEngine getEngine() {
+        if (engine == null) {
+            engine = new CompareEngine();
+        }
+        return (CompareEngine) engine;
+    }
 
 }

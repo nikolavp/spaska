@@ -6,10 +6,10 @@ import spaska.data.Dataset;
 
 public interface InputReader {
 
-	public void addValidator(Validator validator);
+	void addValidator(Validator validator);
 
-	public Dataset buildDataset();
+	Dataset buildDataset();
 
-	public List<Validator> getValidators();
+	List<Validator> getValidators();
 
 }

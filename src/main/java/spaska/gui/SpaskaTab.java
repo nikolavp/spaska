@@ -16,13 +16,20 @@ import org.slf4j.LoggerFactory;
 import spaska.gui.engines.Engine;
 import spaska.statistics.Statistics;
 
+/**
+ * An abstract class that keeps the common logic for different tab that
+ * represent possible workflows with the spaska framework.
+ */
 public abstract class SpaskaTab extends JPanel implements ActionListener {
 
     private static final long serialVersionUID = 1L;
-
-    protected static Cursor waitCursor = new Cursor(Cursor.WAIT_CURSOR);
+    /**
+     * The cursor that should be used while we are processing data in one of the
+     * subclasses.
+     */
+    protected static final Cursor WAIT_CURSOR = new Cursor(Cursor.WAIT_CURSOR);
     private static final Logger LOG = LoggerFactory.getLogger(SpaskaTab.class);
-    
+
     protected Engine engine;
     protected File openedFile;
 
@@ -70,7 +77,7 @@ public abstract class SpaskaTab extends JPanel implements ActionListener {
     protected void setButtonStop() {
         run.setActionCommand(Utils.STOP);
         run.setText("Stop");
-        setCursor(waitCursor);
+        setCursor(WAIT_CURSOR);
     }
 
     protected void start() throws Exception {

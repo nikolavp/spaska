@@ -2,7 +2,7 @@ package spaska.data;
 
 import spaska.data.Attribute.ValueType;
 
-public class NominalValue extends Value {
+public final class NominalValue extends Value {
 
     private String value;
 

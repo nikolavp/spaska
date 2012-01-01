@@ -17,10 +17,10 @@ import java.util.Map;
 public interface Parametrable {
 
 	/**
-	 * Configures this object with the passed parameters
+	 * Configures this object with the passed parameters.
 	 * 
 	 * @param parameters parameters to configure with.
 	 */
-	public void setParameters(Map<String, String> parameters);
+	void setParameters(Map<String, String> parameters);
 
 }

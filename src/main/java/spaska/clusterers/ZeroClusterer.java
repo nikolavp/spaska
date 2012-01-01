@@ -10,7 +10,7 @@ import spaska.data.NominalValue;
 import spaska.data.Value;
 import spaska.statistics.ClustererStatistics;
 
-public class ZeroClusterer implements IClusterer {
+public final class ZeroClusterer implements IClusterer {
 
     private Dataset clusteredData;
 
@@ -31,8 +31,9 @@ public class ZeroClusterer implements IClusterer {
         clusteredData.setClassIndex(clusteredData.getAttributes().size() - 1);
 
         for (Instance e : inputData.getElements()) {
-            if (Thread.interrupted())
+            if (Thread.interrupted()) {
                 return;
+            }
 
             List<Value> list = e.getVector();
             list.add(new NominalValue("0"));
@@ -45,7 +46,9 @@ public class ZeroClusterer implements IClusterer {
 
     @Override
     public ClustererStatistics getStatistic() {
-        int[] matrix = { clusteredData.getElements().size() };
+        int[] matrix = {
+                clusteredData.getElements().size()
+        };
         ClustererStatistics statistic = new ClustererStatistics(matrix);
 
         statistic.setAlgorithmName("ZeroClusterer");

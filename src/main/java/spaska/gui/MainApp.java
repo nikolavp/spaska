@@ -28,7 +28,7 @@ import edu.umd.cs.findbugs.annotations.SuppressWarnings;
 import spaska.statistics.Statistics;
 
 /**
- * SPASKA main application
+ * SPASKA main application.
  * 
  * @author <a href="mailto:vesko.m.georgiev@gmail.com">Vesko Georgiev</a>
  */

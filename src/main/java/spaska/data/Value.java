@@ -15,7 +15,7 @@ public abstract class Value implements Cloneable, Comparable<Value> {
 	}
 	
 	@Override
-	public boolean equals(Object o) {
+	public final boolean equals(Object o) {
 		if (o == null || !(o instanceof Value)) {
 			return false;
 		}
@@ -24,9 +24,10 @@ public abstract class Value implements Cloneable, Comparable<Value> {
 	}
 	
 	@Override
-	public int hashCode() {
+	public final int hashCode() {
 		return getValue().hashCode();
 	}
+	
 	@Override
 	public Object clone() throws CloneNotSupportedException {
 	    return super.clone();
