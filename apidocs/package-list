@@ -4,7 +4,7 @@ spaska.classifiers.util
 spaska.clusterers
 spaska.data
 spaska.data.readers
+spaska.framework
 spaska.gui
 spaska.gui.engines
 spaska.statistics
-spaska.test

@@ -1,5 +1,5 @@
 -classpath
-'/home/nikolavp/workspace/fmi_workspace/spaska/target/classes:/home/nikolavp/.m2/repository/jsc/jsc/1.0/jsc-1.0.jar:/home/nikolavp/.m2/repository/DistLib/DistLib/0.9.1/DistLib-0.9.1.jar'
+'/home/nikolavp/workspace/fmi_workspace/spaska/target/classes:/home/nikolavp/.m2/repository/jsc/jsc/1.0/jsc-1.0.jar:/home/nikolavp/.m2/repository/net/sourceforge/findbugs/annotations/1.3.2/annotations-1.3.2.jar:/home/nikolavp/.m2/repository/DistLib/DistLib/0.9.1/DistLib-0.9.1.jar:/home/nikolavp/.m2/repository/org/slf4j/slf4j-api/1.6.4/slf4j-api-1.6.4.jar'
 -encoding
 'UTF-8'
 -protected
@@ -7,7 +7,7 @@
 '/home/nikolavp/workspace/fmi_workspace/spaska/src/main/java'
 -author
 -bottom
-'Copyright &#169; 2011. All Rights Reserved.'
+'Copyright &#169; 2012. All Rights Reserved.'
 -charset
 'UTF-8'
 -d

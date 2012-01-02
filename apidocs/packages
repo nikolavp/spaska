@@ -1,5 +1,4 @@
 spaska.statistics
-spaska.test
 spaska.gui
 spaska.gui.engines
 spaska.analysis
@@ -8,3 +7,4 @@ spaska.classifiers.util
 spaska.data
 spaska.data.readers
 spaska.clusterers
+spaska.framework

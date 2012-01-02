@@ -1,2 +1,8 @@
+spaska.analysis
 spaska.classifiers
+spaska.classifiers.subpackage
+spaska.classifiers.util
+spaska.clusterers
+spaska.framework
+spaska.statistics
 spaska.test
