@@ -12,11 +12,11 @@ import spaska.test.ClassifierTester;
 public class KNNTest extends ClassifierTestBase {
 
 	@Test
-	public void shouldGiveGoodResultsOnIrisiDataset() {
+	public void shouldGiveGoodResultsOnIrisiDataset() throws Exception {
 		KNN knn = new KNN();
 		knn.setK(11);
 		knn.setWeighted(true);
-		
+
 		double generalPrecision = new ClassifierTester(knn).onDataset("iris")
 				.crossValidate(10).getGeneralPrecision();
 

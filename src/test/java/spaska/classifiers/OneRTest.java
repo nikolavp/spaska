@@ -11,7 +11,7 @@ import spaska.test.ClassifierTester;
 
 public class OneRTest extends ClassifierTestBase {
 	@Test
-	public void shouldGiveResultsOnIrisDataset() {
+	public void shouldGiveResultsOnIrisDataset() throws Exception {
 		ClassifierStatistics statistics = ClassifierTester
 				.forClassifier(new OneR()).onDataset("iris").crossValidate(10);
 		assertThat(statistics.getGeneralPrecision(), greaterThan(0.65));
