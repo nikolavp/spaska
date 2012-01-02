@@ -11,7 +11,7 @@ import spaska.test.ClassifierTester;
 
 public class DecisionTreeTest extends ClassifierTestBase {
 	@Test
-	public void shouldGiveGoodResultsOnIrisiDataset() {
+	public void shouldGiveGoodResultsOnIrisiDataset() throws Exception {
 		ClassifierStatistics statistics = new ClassifierTester(
 				new DecisionTree()).onDataset("iris").crossValidate(10);
 		assertThat(statistics.getGeneralPrecision(), greaterThanOrEqualTo(0.94));

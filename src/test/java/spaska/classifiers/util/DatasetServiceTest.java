@@ -11,7 +11,7 @@ import spaska.test.DataSetResources;
 public class DatasetServiceTest {
 
     @Test
-    public void shouldProperlyRecognizeTheClassIndex() {
+    public void shouldProperlyRecognizeTheClassIndex() throws Exception{
         DatasetService s = new DatasetService(
                 DataSetResources.getDataSet("iris"));
         NominalValue nv = new NominalValue("no");

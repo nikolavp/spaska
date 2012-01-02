@@ -1,5 +1,7 @@
 package spaska.test;
 
+import java.io.File;
+import java.net.URISyntaxException;
 import java.net.URL;
 
 import spaska.classifiers.KNN;
@@ -11,13 +13,13 @@ public final class DataSetResources {
     
     private ARFFInputReader inputReader;
 
-    public DataSetResources(String dataSetPath){
+    public DataSetResources(String dataSetPath) throws URISyntaxException{
         URL resource = KNN.class.getResource("/data/" + dataSetPath + ".arff");
         if (resource == null) {
             throw new IllegalArgumentException("Dataset from path "
                     + dataSetPath + " was not found in the tests resources! ");
         }
-        String dataSetFilePath = resource.getFile();
+        String dataSetFilePath = new File(resource.toURI()).getAbsolutePath();
         inputReader = new ARFFInputReader(dataSetFilePath);
     }
     
@@ -30,7 +32,7 @@ public final class DataSetResources {
         return inputReader.buildDataset();
     }
 
-    public static Dataset getDataSet(String dataSetPath) {
+    public static Dataset getDataSet(String dataSetPath) throws URISyntaxException {
         return new DataSetResources(dataSetPath).getDataSet();
     }
 
