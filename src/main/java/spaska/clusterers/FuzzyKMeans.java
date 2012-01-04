@@ -10,6 +10,13 @@ import spaska.data.NumericValue;
 import spaska.data.Value;
 import spaska.statistics.ClustererStatistics;
 
+/**
+ * 
+ * The algorithm is implemented according to the algorithm
+ * described in this tutorial:
+ * http://home.dei.polimi.it/matteucc/Clustering/tutorial_html/cmeans.html
+ *
+ */
 public class FuzzyKMeans implements IClusterer {
 
 	private static final String NUMBER_OF_CLUSTERS_PARAMETER = "Number of clusters";
