@@ -51,11 +51,6 @@ public class ZeroClusterer implements IClusterer{
 	}
 
 	@Override
-	public Dataset getClusteredDataset() {
-		return clusteredData;
-	}
-
-	@Override
 	public String getName() {
 		return "ZeroClusterer";
 	}

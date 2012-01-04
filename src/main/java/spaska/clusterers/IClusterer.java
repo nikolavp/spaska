@@ -8,8 +8,6 @@ public interface IClusterer extends Parametrable {
 
 	public void clusterize(Dataset data);
 
-	public Dataset getClusteredDataset();
-
 	public ClustererStatistics getStatistic();
 
 	public String getName();

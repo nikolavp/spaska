@@ -3,6 +3,7 @@ package spaska.gui.engines;
 import java.util.Map;
 import java.util.Vector;
 
+import spaska.clusterers.FuzzyKMeans;
 import spaska.clusterers.IClusterer;
 import spaska.clusterers.SimpleKMeans;
 import spaska.clusterers.ZeroClusterer;
@@ -18,6 +19,7 @@ public class ClusterEngine extends Engine {
 		clusterizators = new Vector<Class<? extends IClusterer>>();
 		clusterizators.add(SimpleKMeans.class);
 		clusterizators.add(ZeroClusterer.class);
+		clusterizators.add(FuzzyKMeans.class);
 	}
 
 	public Vector<Class<? extends IClusterer>> getClusterizators() {

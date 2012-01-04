@@ -34,7 +34,6 @@ public class SimpleKMeans implements IClusterer {
 	private int k = 3;
 	private Cluster[] clusters;
 	private int seed;
-	private Dataset data;
 	private ClustererStatistics algorithmResult;
 	private int iterations = maxIterations;
 
@@ -157,16 +156,6 @@ public class SimpleKMeans implements IClusterer {
 		return dist;
 	}
 
-	public static double euclideanDistance(double[] a, double[] b) {
-		if (a == null || b == null || a.length != b.length)
-			throw new IllegalArgumentException("a: " + a + "; b: " + b);
-
-		double sum = 0;
-		for (int i = 0; i < a.length; ++i)
-			sum += Math.pow((a[i] - b[i]), 2);
-		return Math.sqrt(sum);
-	}
-
 	private void assignToCluster(Instance instance, Dataset data) {
 		int assignedClusterIndex = -1;
 		double minLen = Double.MAX_VALUE;
@@ -192,7 +181,6 @@ public class SimpleKMeans implements IClusterer {
 	}
 
 	private double getDistance(Instance center, Instance instance, Dataset data) {
-		// List<Attribute> attributes = data.getAttributes();
 		List<Value> centerAttributes = center.getVector();
 		List<Value> instanceAttributes = instance.getVector();
 		double distance = 0;
@@ -202,8 +190,6 @@ public class SimpleKMeans implements IClusterer {
 
 			Value centerValue = centerAttributes.get(i);
 			Value instanceValue = instanceAttributes.get(i);
-			// distance += distanceBetweenValues(centerValue, instanceValue,
-			// centerValue.getType());
 
 			if (centerValue.getClass().equals(NumericValue.class)) {
 				double centerValDouble = ((NumericValue) centerValue)
@@ -211,48 +197,15 @@ public class SimpleKMeans implements IClusterer {
 				double instanceValDouble = ((NumericValue) instanceValue)
 						.getValue();
 
-				// // normalize them
-				// Set<Value> domain = data.getDomain(attributes.get(i));
-				// double min = Double.MAX_VALUE;
-				// double max = Double.MIN_VALUE;
-				// for (Value value : domain) {
-				// double d = ((NumericValue)value).getValue();
-				// if (d > max) {
-				// max = d;
-				// continue;
-				// }
-				// if (d < min) {
-				// min = d;
-				// continue;
-				// }
-				// }
-
-				// double normalizedCenterDoubleValue =
-				// normalizeDoubleValue(centerValDouble, min, max);
-				// double normalizedInstanceDoubleValue =
-				// normalizeDoubleValue(instanceValDouble, min, max);
-				double normalizedCenterDoubleValue = centerValDouble;// normalizeDoubleValue(centerValDouble,
-																		// min,
-																		// max);
-				double normalizedInstanceDoubleValue = instanceValDouble;// normalizeDoubleValue(instanceValDouble,
-																			// min,
-																			// max);
-				distance += Math.pow(normalizedCenterDoubleValue
-						- normalizedInstanceDoubleValue, 2);
+				distance += Math.pow(centerValDouble - instanceValDouble, 2);
 
 			} else if (centerValue.getClass().equals(NominalValue.class)) {
-				// add 1 if same, 0 if different
 				if (centerValue.getValue().equals(instanceValue.getValue())) {
 					distance += 1;
 				}
 			}
 		}
 		return distance;
-	}
-
-	@Override
-	public Dataset getClusteredDataset() {
-		return data;
 	}
 
 	@Override
