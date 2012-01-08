@@ -26,6 +26,7 @@ public class FuzzyKMeans implements IClusterer {
 	
 	private ClustererStatistics algorithmResults;
 	private List<Instance> instances;
+	private Dataset data;
 	private int numberOfClusters = 3;
 	private int fuzzifier = 2;
 	private int numberOfInstances;
@@ -217,6 +218,6 @@ public class FuzzyKMeans implements IClusterer {
 
 	@Override
 	public Dataset getClusteredDataset() {
-		throw new UnsupportedOperationException("Not implemented YET");
+		return data;
 	}
 }
