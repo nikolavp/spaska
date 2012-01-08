@@ -3,69 +3,55 @@ package spaska.classifiers.util;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Node {
+public final class Node {
 
-	private Object value;
+    private Object value;
 
-	private List<Node> children;
+    private List<Node> children;
 
-	// Constructors
-	public Node(Object value) {
-		this(value, Node.createChildren());
-	}
+    // Constructors
+    public Node(Object value) {
+        this(value, Node.createChildren());
+    }
 
-	public Node(Object value, List<Node> list) {
-		this.value = value;
-		this.children = list;
-	} // Constructors
+    public Node(Object value, List<Node> list) {
+        this.value = value;
+        this.children = list;
+    } // Constructors
 
-	public List<Node> getChildren() {
-		return children;
-	}
+    public List<Node> getChildren() {
+        return children;
+    }
 
-	public void addChild(Node node) {
-		children.add(node);
-	}
+    public void addChild(Node node) {
+        children.add(node);
+    }
 
-	public Object getValue() {
-		return value;
-	}
+    public Object getValue() {
+        return value;
+    }
 
-	public void setValue(Object newValue) {
-		value = newValue;
-	}
+    public void setValue(Object newValue) {
+        value = newValue;
+    }
 
-	public String toString() {
-		return buildString(this, "");
-	}
+    public String toString() {
+        return buildString(this, "");
+    }
 
-	public String buildString(Node node, String indentation) {
-		StringBuilder b = new StringBuilder();
-		b.append(indentation.toString());
-		b.append(node.getValue().toString());
-		b.append('\n');
-		for (Node child : node.getChildren()) {
-			b.append(buildString(child, indentation + "|  "));
-		}
-		return b.toString();
-	}
+    public String buildString(Node node, String indentation) {
+        StringBuilder b = new StringBuilder();
+        b.append(indentation.toString());
+        b.append(node.getValue().toString());
+        b.append('\n');
+        for (Node child : node.getChildren()) {
+            b.append(buildString(child, indentation + "|  "));
+        }
+        return b.toString();
+    }
 
-	public static List<Node> createChildren() {
-		return new ArrayList<Node>();
-	}
-
-	public static void main(String[] args) {
-		Node tree = new Node("a");
-		tree.addChild(new Node("b"));
-		tree.addChild(new Node("c"));
-		tree.addChild(new Node("d"));
-		tree.getChildren().get(0).addChild(new Node("e"));
-		tree.getChildren().get(0).addChild(new Node("f"));
-		try {
-			System.out.println(tree);
-		} catch (Exception e) {
-			System.err.println(e.getMessage());
-		}
-	}
+    public static List<Node> createChildren() {
+        return new ArrayList<Node>();
+    }
 
 }

@@ -11,7 +11,7 @@ import spaska.test.ClassifierTester;
 
 public class ZeroRTest extends ClassifierTestBase {
 	@Test
-	public void shouldGiveGoodResultsOnIrisDataset() {
+	public void shouldGiveGoodResultsOnIrisDataset() throws Exception {
 		ClassifierStatistics statistics = new ClassifierTester(new ZeroR())
 				.onDataset("iris").crossValidate(10);
 		assertThat(statistics.getGeneralPrecision(), greaterThan(0.33));

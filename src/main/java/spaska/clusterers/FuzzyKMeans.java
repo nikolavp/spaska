@@ -214,4 +214,9 @@ public class FuzzyKMeans implements IClusterer {
 			}
 		}
 	}
+
+	@Override
+	public Dataset getClusteredDataset() {
+		throw new UnsupportedOperationException("Not implemented YET");
+	}
 }

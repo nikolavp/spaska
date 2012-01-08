@@ -1,18 +1,20 @@
 package spaska.statistics;
 
 /**
- *
+ * 
  * @author Lazar Chifudov
  */
 
 /* A simple statistics for clusterization */
-public class ClustererStatistics extends Statistics {
+public final class ClustererStatistics extends Statistics {
 
-    private int clusters[];
+    private int[] clusters;
 
-    /* construct by an array which contains the numbers of
-     * instances per each cluster */
-    public ClustererStatistics(int clusters[]) {
+    /*
+     * construct by an array which contains the numbers of instances per each
+     * cluster
+     */
+    public ClustererStatistics(int[] clusters) {
         this.clusters = clusters;
     }
 
@@ -32,7 +34,6 @@ public class ClustererStatistics extends Statistics {
         result.append("Test time (HH:MM:SS.MS): " + timeToString(testTime));
         result.append("\n------------------------------------------------\n");
 
-
         for (int i = 0; i < clusters.length; i++) {
             result.append("Cluster " + i + ": " + clusters[i]);
             double percent = (100. * clusters[i]) / (double) instances;
@@ -42,12 +43,4 @@ public class ClustererStatistics extends Statistics {
         info = result.toString();
         modified = false;
     }
-
-    /* public static void main(String[] args) {
-        int[] a = {2, 56, 79, 5};
-        ClustererStatistics s = new ClustererStatistics(a);
-        s.setAlgorithmName("FooBaz");
-        s.setTestTime(987654);
-        System.out.println(s);
-    } */
 }

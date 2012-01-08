@@ -1,5 +1,7 @@
 package spaska.test;
 
+import java.net.URISyntaxException;
+
 import spaska.analysis.CrossValidation;
 import spaska.classifiers.IClassifier;
 import spaska.data.Dataset;
@@ -17,8 +19,9 @@ public class ClassifierTester {
 		return new ClassifierTester(classifier);
 	}
 
-	public ClassifierTester onDataset(String datasetPath) {
-		this.dataset = ClassifierTestBase.getDataSet(datasetPath);
+	public ClassifierTester onDataset(String datasetPath)
+			throws URISyntaxException {
+		this.dataset = DataSetResources.getDataSet(datasetPath);
 		return this;
 	}
 
