@@ -18,8 +18,13 @@ public final class ClassifierStatistics extends Statistics {
     private boolean isNumeric; // if class value is numeric, not nominal
     private List<Double> residuals; // for storing numeric residuals
 
-    /*
-     * this constructor creates an empty statistics of type numeric or nominal
+    /**
+     * This constructor creates an empty statistics of type numeric or nominal
+     * based on the supplied value type.
+     * 
+     * @param type
+     *            the parameter type from which to create the classifier
+     *            statistics
      */
     public ClassifierStatistics(ValueType type) {
         switch (type) {
