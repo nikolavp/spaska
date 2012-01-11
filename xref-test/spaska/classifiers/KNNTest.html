@@ -22,11 +22,11 @@
 <a class="jxr_linenumber" name="12" href="#12">12</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../spaska/classifiers/KNNTest.html">KNNTest</a> <strong class="jxr_keyword">extends</strong> <a href="../../spaska/test/ClassifierTestBase.html">ClassifierTestBase</a> {
 <a class="jxr_linenumber" name="13" href="#13">13</a>  
 <a class="jxr_linenumber" name="14" href="#14">14</a>  	@Test
-<a class="jxr_linenumber" name="15" href="#15">15</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> shouldGiveGoodResultsOnIrisiDataset() {
+<a class="jxr_linenumber" name="15" href="#15">15</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> shouldGiveGoodResultsOnIrisiDataset() <strong class="jxr_keyword">throws</strong> Exception {
 <a class="jxr_linenumber" name="16" href="#16">16</a>  		KNN knn = <strong class="jxr_keyword">new</strong> KNN();
 <a class="jxr_linenumber" name="17" href="#17">17</a>  		knn.setK(11);
 <a class="jxr_linenumber" name="18" href="#18">18</a>  		knn.setWeighted(<strong class="jxr_keyword">true</strong>);
-<a class="jxr_linenumber" name="19" href="#19">19</a>  		
+<a class="jxr_linenumber" name="19" href="#19">19</a>  
 <a class="jxr_linenumber" name="20" href="#20">20</a>  		<strong class="jxr_keyword">double</strong> generalPrecision = <strong class="jxr_keyword">new</strong> <a href="../../spaska/test/ClassifierTester.html">ClassifierTester</a>(knn).onDataset(<span class="jxr_string">"iris"</span>)
 <a class="jxr_linenumber" name="21" href="#21">21</a>  				.crossValidate(10).getGeneralPrecision();
 <a class="jxr_linenumber" name="22" href="#22">22</a>  

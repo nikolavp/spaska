@@ -21,7 +21,7 @@
 <a class="jxr_linenumber" name="11" href="#11">11</a>  
 <a class="jxr_linenumber" name="12" href="#12">12</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../spaska/classifiers/DecisionTreeTest.html">DecisionTreeTest</a> <strong class="jxr_keyword">extends</strong> <a href="../../spaska/test/ClassifierTestBase.html">ClassifierTestBase</a> {
 <a class="jxr_linenumber" name="13" href="#13">13</a>  	@Test
-<a class="jxr_linenumber" name="14" href="#14">14</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> shouldGiveGoodResultsOnIrisiDataset() {
+<a class="jxr_linenumber" name="14" href="#14">14</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> shouldGiveGoodResultsOnIrisiDataset() <strong class="jxr_keyword">throws</strong> Exception {
 <a class="jxr_linenumber" name="15" href="#15">15</a>  		ClassifierStatistics statistics = <strong class="jxr_keyword">new</strong> <a href="../../spaska/test/ClassifierTester.html">ClassifierTester</a>(
 <a class="jxr_linenumber" name="16" href="#16">16</a>  				<strong class="jxr_keyword">new</strong> DecisionTree()).onDataset(<span class="jxr_string">"iris"</span>).crossValidate(10);
 <a class="jxr_linenumber" name="17" href="#17">17</a>  		assertThat(statistics.getGeneralPrecision(), greaterThanOrEqualTo(0.94));

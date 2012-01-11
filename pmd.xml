@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pmd version="4.2.5" timestamp="2012-01-02T11:09:31.898">
+<pmd version="4.2.5" timestamp="2012-01-11T23:52:43.236">
 <file name="/home/nikolavp/workspace/fmi_workspace/spaska/src/main/java/spaska/classifiers/DecisionTree.java">
 <violation beginline="51" endline="51" begincolumn="21" endcolumn="29" rule="UnusedPrivateField" ruleset="Unused Code Rules" package="spaska.classifiers" class="DecisionTree" variable="postPrune" externalInfoUrl="http://pmd.sourceforge.net/rules/unusedcode.html#UnusedPrivateField" priority="3">
 Avoid unused private fields such as 'postPrune'.
@@ -16,19 +16,13 @@ These nested if statements could be combined
 </violation>
 </file>
 <file name="/home/nikolavp/workspace/fmi_workspace/spaska/src/main/java/spaska/clusterers/SimpleKMeans.java">
-<violation beginline="270" endline="272" begincolumn="17" endcolumn="17" rule="CollapsibleIfStatements" ruleset="Basic Rules" package="spaska.clusterers" class="SimpleKMeans" method="getDistance" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#CollapsibleIfStatements" priority="3">
+<violation beginline="271" endline="273" begincolumn="17" endcolumn="17" rule="CollapsibleIfStatements" ruleset="Basic Rules" package="spaska.clusterers" class="SimpleKMeans" method="getDistance" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#CollapsibleIfStatements" priority="3">
 These nested if statements could be combined
 </violation>
 </file>
 <file name="/home/nikolavp/workspace/fmi_workspace/spaska/src/main/java/spaska/data/readers/ARFFInputReader.java">
-<violation beginline="60" endline="70" begincolumn="13" endcolumn="13" rule="CollapsibleIfStatements" ruleset="Basic Rules" package="spaska.data.readers" class="ARFFInputReader" method="handleAttribute" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#CollapsibleIfStatements" priority="3">
+<violation beginline="79" endline="89" begincolumn="13" endcolumn="13" rule="CollapsibleIfStatements" ruleset="Basic Rules" package="spaska.data.readers" class="ARFFInputReader" method="handleAttribute" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#CollapsibleIfStatements" priority="3">
 These nested if statements could be combined
-</violation>
-<violation beginline="112" endline="114" begincolumn="11" endcolumn="9" rule="EmptyCatchBlock" ruleset="Basic Rules" package="spaska.data.readers" class="ARFFInputReader" method="buildDataset" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#EmptyCatchBlock" priority="3">
-Avoid empty catch blocks
-</violation>
-<violation beginline="120" endline="121" begincolumn="19" endcolumn="17" rule="EmptyCatchBlock" ruleset="Basic Rules" package="spaska.data.readers" class="ARFFInputReader" method="buildDataset" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#EmptyCatchBlock" priority="3">
-Avoid empty catch blocks
 </violation>
 </file>
 </pmd>

@@ -20,18 +20,18 @@
 <a class="jxr_linenumber" name="10" href="#10">10</a>  
 <a class="jxr_linenumber" name="11" href="#11">11</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../spaska/clusterers/KMeansTest.html">KMeansTest</a> {
 <a class="jxr_linenumber" name="12" href="#12">12</a>  
-<a class="jxr_linenumber" name="13" href="#13">13</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Logger LOG = LoggerFactory.getLogger(KMeansTest.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="14" href="#14">14</a>      
-<a class="jxr_linenumber" name="15" href="#15">15</a>      @Test
-<a class="jxr_linenumber" name="16" href="#16">16</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> shouldWorkForBasicUsageOfKMeans() {
-<a class="jxr_linenumber" name="17" href="#17">17</a>          Dataset data = <strong class="jxr_keyword">new</strong> <a href="../../spaska/test/DataSetResources.html">DataSetResources</a>(<span class="jxr_string">"iris"</span>).withValidator(
-<a class="jxr_linenumber" name="18" href="#18">18</a>                  <strong class="jxr_keyword">new</strong> NormalizeValidator()).getDataSet();
-<a class="jxr_linenumber" name="19" href="#19">19</a>          IClusterer clusterer = <strong class="jxr_keyword">new</strong> SimpleKMeans();
-<a class="jxr_linenumber" name="20" href="#20">20</a>          clusterer.clusterize(data);
+<a class="jxr_linenumber" name="13" href="#13">13</a>  	<strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Logger LOG = LoggerFactory.getLogger(KMeansTest.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="14" href="#14">14</a>  
+<a class="jxr_linenumber" name="15" href="#15">15</a>  	@Test
+<a class="jxr_linenumber" name="16" href="#16">16</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> shouldWorkForBasicUsageOfKMeans() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="17" href="#17">17</a>  		Dataset data = <strong class="jxr_keyword">new</strong> <a href="../../spaska/test/DataSetResources.html">DataSetResources</a>(<span class="jxr_string">"iris"</span>).withValidator(
+<a class="jxr_linenumber" name="18" href="#18">18</a>  				<strong class="jxr_keyword">new</strong> NormalizeValidator()).getDataSet();
+<a class="jxr_linenumber" name="19" href="#19">19</a>  		IClusterer clusterer = <strong class="jxr_keyword">new</strong> SimpleKMeans();
+<a class="jxr_linenumber" name="20" href="#20">20</a>  		clusterer.clusterize(data);
 <a class="jxr_linenumber" name="21" href="#21">21</a>  
-<a class="jxr_linenumber" name="22" href="#22">22</a>          LOG.info(clusterer.getStatistic().toString());
+<a class="jxr_linenumber" name="22" href="#22">22</a>  		LOG.info(clusterer.getStatistic().toString());
 <a class="jxr_linenumber" name="23" href="#23">23</a>  
-<a class="jxr_linenumber" name="24" href="#24">24</a>      }
+<a class="jxr_linenumber" name="24" href="#24">24</a>  	}
 <a class="jxr_linenumber" name="25" href="#25">25</a>  
 <a class="jxr_linenumber" name="26" href="#26">26</a>  }
 </pre>

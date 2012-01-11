@@ -21,7 +21,7 @@
 <a class="jxr_linenumber" name="11" href="#11">11</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../spaska/classifiers/util/DatasetServiceTest.html">DatasetServiceTest</a> {
 <a class="jxr_linenumber" name="12" href="#12">12</a>  
 <a class="jxr_linenumber" name="13" href="#13">13</a>      @Test
-<a class="jxr_linenumber" name="14" href="#14">14</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> shouldProperlyRecognizeTheClassIndex() {
+<a class="jxr_linenumber" name="14" href="#14">14</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> shouldProperlyRecognizeTheClassIndex() <strong class="jxr_keyword">throws</strong> Exception{
 <a class="jxr_linenumber" name="15" href="#15">15</a>          DatasetService s = <strong class="jxr_keyword">new</strong> DatasetService(
 <a class="jxr_linenumber" name="16" href="#16">16</a>                  DataSetResources.getDataSet(<span class="jxr_string">"iris"</span>));
 <a class="jxr_linenumber" name="17" href="#17">17</a>          NominalValue nv = <strong class="jxr_keyword">new</strong> NominalValue(<span class="jxr_string">"no"</span>);

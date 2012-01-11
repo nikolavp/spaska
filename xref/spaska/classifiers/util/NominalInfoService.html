@@ -161,55 +161,77 @@
 <a class="jxr_linenumber" name="151" href="#151">151</a>         }
 <a class="jxr_linenumber" name="152" href="#152">152</a>     }
 <a class="jxr_linenumber" name="153" href="#153">153</a> 
-<a class="jxr_linenumber" name="154" href="#154">154</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">double</strong> getGainRatio(<strong class="jxr_keyword">int</strong> attributeIndex) {
-<a class="jxr_linenumber" name="155" href="#155">155</a>         <strong class="jxr_keyword">if</strong> (!assertCalculation() || outOfBounds(attributeIndex)) {
-<a class="jxr_linenumber" name="156" href="#156">156</a>             <strong class="jxr_keyword">return</strong> 0;
-<a class="jxr_linenumber" name="157" href="#157">157</a>         }
-<a class="jxr_linenumber" name="158" href="#158">158</a>         <strong class="jxr_keyword">return</strong> gainRatio[attributeIndex];
-<a class="jxr_linenumber" name="159" href="#159">159</a>     }
-<a class="jxr_linenumber" name="160" href="#160">160</a> 
-<a class="jxr_linenumber" name="161" href="#161">161</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">double</strong> getClassesEntropy() {
-<a class="jxr_linenumber" name="162" href="#162">162</a>         <strong class="jxr_keyword">return</strong> classesEntropy;
-<a class="jxr_linenumber" name="163" href="#163">163</a>     }
-<a class="jxr_linenumber" name="164" href="#164">164</a> 
-<a class="jxr_linenumber" name="165" href="#165">165</a>     <strong class="jxr_keyword">public</strong> <a href="../../../spaska/data/Value.html">Value</a> getSiblingsMajorityClass() {
-<a class="jxr_linenumber" name="166" href="#166">166</a>         assertCalculation();
-<a class="jxr_linenumber" name="167" href="#167">167</a>         <strong class="jxr_keyword">return</strong> siblingsMajorityClass;
-<a class="jxr_linenumber" name="168" href="#168">168</a>     }
-<a class="jxr_linenumber" name="169" href="#169">169</a> 
-<a class="jxr_linenumber" name="170" href="#170">170</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> isEmpty() {
-<a class="jxr_linenumber" name="171" href="#171">171</a>         <strong class="jxr_keyword">return</strong> isEmpty;
-<a class="jxr_linenumber" name="172" href="#172">172</a>     }
-<a class="jxr_linenumber" name="173" href="#173">173</a> 
-<a class="jxr_linenumber" name="174" href="#174">174</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">boolean</strong> assertCalculation() {
-<a class="jxr_linenumber" name="175" href="#175">175</a>         <strong class="jxr_keyword">boolean</strong> result = <strong class="jxr_keyword">true</strong>;
-<a class="jxr_linenumber" name="176" href="#176">176</a>         <strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="177" href="#177">177</a>             <strong class="jxr_keyword">if</strong> (!isCalculatedInfo &amp;&amp; !isEmpty) {
-<a class="jxr_linenumber" name="178" href="#178">178</a>                 calculateInfoGainRatios();
-<a class="jxr_linenumber" name="179" href="#179">179</a>                 isCalculatedInfo = <strong class="jxr_keyword">true</strong>;
-<a class="jxr_linenumber" name="180" href="#180">180</a>             }
-<a class="jxr_linenumber" name="181" href="#181">181</a>         } <strong class="jxr_keyword">catch</strong> (Exception e) {
-<a class="jxr_linenumber" name="182" href="#182">182</a>             result = false;
-<a class="jxr_linenumber" name="183" href="#183">183</a>             isEmpty = <strong class="jxr_keyword">true</strong>;
-<a class="jxr_linenumber" name="184" href="#184">184</a>         }
-<a class="jxr_linenumber" name="185" href="#185">185</a>         <strong class="jxr_keyword">return</strong> !isEmpty &amp;&amp; result;
-<a class="jxr_linenumber" name="186" href="#186">186</a>     }
-<a class="jxr_linenumber" name="187" href="#187">187</a> 
-<a class="jxr_linenumber" name="188" href="#188">188</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">boolean</strong> outOfBounds(<strong class="jxr_keyword">int</strong> index) {
-<a class="jxr_linenumber" name="189" href="#189">189</a>         <strong class="jxr_keyword">return</strong> index &lt; 0 || index &gt; usedAttributes.length - 1;
-<a class="jxr_linenumber" name="190" href="#190">190</a>     }
-<a class="jxr_linenumber" name="191" href="#191">191</a> 
-<a class="jxr_linenumber" name="192" href="#192">192</a>     <em class="jxr_comment">// if all nominal atributes have already been used</em>
-<a class="jxr_linenumber" name="193" href="#193">193</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">boolean</strong> allUsed() {
-<a class="jxr_linenumber" name="194" href="#194">194</a>         <strong class="jxr_keyword">int</strong> usedCounter = 0;
-<a class="jxr_linenumber" name="195" href="#195">195</a>         <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> i = 0; i &lt; usedAttributes.length; i++) {
-<a class="jxr_linenumber" name="196" href="#196">196</a>             <strong class="jxr_keyword">if</strong> (usedAttributes[i]) {
-<a class="jxr_linenumber" name="197" href="#197">197</a>                 usedCounter++;
-<a class="jxr_linenumber" name="198" href="#198">198</a>             }
-<a class="jxr_linenumber" name="199" href="#199">199</a>         }
-<a class="jxr_linenumber" name="200" href="#200">200</a>         <strong class="jxr_keyword">return</strong> usedCounter &gt;= datasetService.getNominalIndices().length;
-<a class="jxr_linenumber" name="201" href="#201">201</a>     }
-<a class="jxr_linenumber" name="202" href="#202">202</a> }
+<a class="jxr_linenumber" name="154" href="#154">154</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="155" href="#155">155</a> <em class="jxr_javadoccomment">     * Gets the gain ratio from this attribute index.</em>
+<a class="jxr_linenumber" name="156" href="#156">156</a> <em class="jxr_javadoccomment">     * </em>
+<a class="jxr_linenumber" name="157" href="#157">157</a> <em class="jxr_javadoccomment">     * @param attributeIndex</em>
+<a class="jxr_linenumber" name="158" href="#158">158</a> <em class="jxr_javadoccomment">     *            the attribute index</em>
+<a class="jxr_linenumber" name="159" href="#159">159</a> <em class="jxr_javadoccomment">     * @return the double value for the gain ration from the attribute</em>
+<a class="jxr_linenumber" name="160" href="#160">160</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="161" href="#161">161</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">double</strong> getGainRatio(<strong class="jxr_keyword">int</strong> attributeIndex) {
+<a class="jxr_linenumber" name="162" href="#162">162</a>         <strong class="jxr_keyword">if</strong> (!assertCalculation() || outOfBounds(attributeIndex)) {
+<a class="jxr_linenumber" name="163" href="#163">163</a>             <strong class="jxr_keyword">return</strong> 0;
+<a class="jxr_linenumber" name="164" href="#164">164</a>         }
+<a class="jxr_linenumber" name="165" href="#165">165</a>         <strong class="jxr_keyword">return</strong> gainRatio[attributeIndex];
+<a class="jxr_linenumber" name="166" href="#166">166</a>     }
+<a class="jxr_linenumber" name="167" href="#167">167</a> 
+<a class="jxr_linenumber" name="168" href="#168">168</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="169" href="#169">169</a> <em class="jxr_javadoccomment">     * Get the class entropy.</em>
+<a class="jxr_linenumber" name="170" href="#170">170</a> <em class="jxr_javadoccomment">     * </em>
+<a class="jxr_linenumber" name="171" href="#171">171</a> <em class="jxr_javadoccomment">     * @return the class entropy</em>
+<a class="jxr_linenumber" name="172" href="#172">172</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="173" href="#173">173</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">double</strong> getClassesEntropy() {
+<a class="jxr_linenumber" name="174" href="#174">174</a>         <strong class="jxr_keyword">return</strong> classesEntropy;
+<a class="jxr_linenumber" name="175" href="#175">175</a>     }
+<a class="jxr_linenumber" name="176" href="#176">176</a> 
+<a class="jxr_linenumber" name="177" href="#177">177</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="178" href="#178">178</a> <em class="jxr_javadoccomment">     * Get the siblings majority class for the found class entropy.</em>
+<a class="jxr_linenumber" name="179" href="#179">179</a> <em class="jxr_javadoccomment">     * </em>
+<a class="jxr_linenumber" name="180" href="#180">180</a> <em class="jxr_javadoccomment">     * @return the siblings majority class</em>
+<a class="jxr_linenumber" name="181" href="#181">181</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="182" href="#182">182</a>     <strong class="jxr_keyword">public</strong> <a href="../../../spaska/data/Value.html">Value</a> getSiblingsMajorityClass() {
+<a class="jxr_linenumber" name="183" href="#183">183</a>         assertCalculation();
+<a class="jxr_linenumber" name="184" href="#184">184</a>         <strong class="jxr_keyword">return</strong> siblingsMajorityClass;
+<a class="jxr_linenumber" name="185" href="#185">185</a>     }
+<a class="jxr_linenumber" name="186" href="#186">186</a> 
+<a class="jxr_linenumber" name="187" href="#187">187</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="188" href="#188">188</a> <em class="jxr_javadoccomment">     * Checks if the attributes provided were all already used.</em>
+<a class="jxr_linenumber" name="189" href="#189">189</a> <em class="jxr_javadoccomment">     * </em>
+<a class="jxr_linenumber" name="190" href="#190">190</a> <em class="jxr_javadoccomment">     * @return true if the attributes were already used and false otherwise</em>
+<a class="jxr_linenumber" name="191" href="#191">191</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="192" href="#192">192</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> isEmpty() {
+<a class="jxr_linenumber" name="193" href="#193">193</a>         <strong class="jxr_keyword">return</strong> isEmpty;
+<a class="jxr_linenumber" name="194" href="#194">194</a>     }
+<a class="jxr_linenumber" name="195" href="#195">195</a> 
+<a class="jxr_linenumber" name="196" href="#196">196</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">boolean</strong> assertCalculation() {
+<a class="jxr_linenumber" name="197" href="#197">197</a>         <strong class="jxr_keyword">boolean</strong> result = <strong class="jxr_keyword">true</strong>;
+<a class="jxr_linenumber" name="198" href="#198">198</a>         <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="199" href="#199">199</a>             <strong class="jxr_keyword">if</strong> (!isCalculatedInfo &amp;&amp; !isEmpty) {
+<a class="jxr_linenumber" name="200" href="#200">200</a>                 calculateInfoGainRatios();
+<a class="jxr_linenumber" name="201" href="#201">201</a>                 isCalculatedInfo = <strong class="jxr_keyword">true</strong>;
+<a class="jxr_linenumber" name="202" href="#202">202</a>             }
+<a class="jxr_linenumber" name="203" href="#203">203</a>         } <strong class="jxr_keyword">catch</strong> (Exception e) {
+<a class="jxr_linenumber" name="204" href="#204">204</a>             result = false;
+<a class="jxr_linenumber" name="205" href="#205">205</a>             isEmpty = <strong class="jxr_keyword">true</strong>;
+<a class="jxr_linenumber" name="206" href="#206">206</a>         }
+<a class="jxr_linenumber" name="207" href="#207">207</a>         <strong class="jxr_keyword">return</strong> !isEmpty &amp;&amp; result;
+<a class="jxr_linenumber" name="208" href="#208">208</a>     }
+<a class="jxr_linenumber" name="209" href="#209">209</a> 
+<a class="jxr_linenumber" name="210" href="#210">210</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">boolean</strong> outOfBounds(<strong class="jxr_keyword">int</strong> index) {
+<a class="jxr_linenumber" name="211" href="#211">211</a>         <strong class="jxr_keyword">return</strong> index &lt; 0 || index &gt; usedAttributes.length - 1;
+<a class="jxr_linenumber" name="212" href="#212">212</a>     }
+<a class="jxr_linenumber" name="213" href="#213">213</a> 
+<a class="jxr_linenumber" name="214" href="#214">214</a>     <em class="jxr_comment">// if all nominal atributes have already been used</em>
+<a class="jxr_linenumber" name="215" href="#215">215</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">boolean</strong> allUsed() {
+<a class="jxr_linenumber" name="216" href="#216">216</a>         <strong class="jxr_keyword">int</strong> usedCounter = 0;
+<a class="jxr_linenumber" name="217" href="#217">217</a>         <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> i = 0; i &lt; usedAttributes.length; i++) {
+<a class="jxr_linenumber" name="218" href="#218">218</a>             <strong class="jxr_keyword">if</strong> (usedAttributes[i]) {
+<a class="jxr_linenumber" name="219" href="#219">219</a>                 usedCounter++;
+<a class="jxr_linenumber" name="220" href="#220">220</a>             }
+<a class="jxr_linenumber" name="221" href="#221">221</a>         }
+<a class="jxr_linenumber" name="222" href="#222">222</a>         <strong class="jxr_keyword">return</strong> usedCounter &gt;= datasetService.getNominalIndices().length;
+<a class="jxr_linenumber" name="223" href="#223">223</a>     }
+<a class="jxr_linenumber" name="224" href="#224">224</a> }
 </pre>
 <hr/><div id="footer">This page was automatically generated by <a href="http://maven.apache.org/">Maven</a></div></body>
 </html>

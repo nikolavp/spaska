@@ -8,8 +8,8 @@
     <language>en-us</language>
     <copyright>&#169;2012</copyright>
     <item>
-      <title>File: 71,
-             Errors: 294,
+      <title>File: 54,
+             Errors: 0,
              Warnings: 0,
              Infos: 0
       </title>
@@ -29,20 +29,6 @@
           <tbody>
                           <tr>
                 <td>
-                  <a href="http://maven.apache.org/checkstyle.html#spaska.gui.ComboList.java">spaska/gui/ComboList.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  7
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="http://maven.apache.org/checkstyle.html#spaska.data.Attribute.java">spaska/data/Attribute.java</a>
                 </td>
                 <td>
@@ -52,26 +38,12 @@
                   0
                 </td>
                 <td>
-                  7
+                  0
                 </td>
               </tr>
                           <tr>
                 <td>
-                  <a href="http://maven.apache.org/checkstyle.html#spaska.gui.engines.ClassifyEngine.java">spaska/gui/engines/ClassifyEngine.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  9
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://maven.apache.org/checkstyle.html#spaska.gui.engines.package-info.java">spaska/gui/engines/package-info.java</a>
+                  <a href="http://maven.apache.org/checkstyle.html#spaska.data.NumericValue.java">spaska/data/NumericValue.java</a>
                 </td>
                 <td>
                   0
@@ -94,21 +66,7 @@
                   0
                 </td>
                 <td>
-                  13
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://maven.apache.org/checkstyle.html#spaska.data.NumericValue.java">spaska/data/NumericValue.java</a>
-                </td>
-                <td>
                   0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  2
                 </td>
               </tr>
                           <tr>
@@ -122,7 +80,7 @@
                   0
                 </td>
                 <td>
-                  3
+                  0
                 </td>
               </tr>
                           <tr>
@@ -164,35 +122,7 @@
                   0
                 </td>
                 <td>
-                  23
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://maven.apache.org/checkstyle.html#spaska.gui.engines.ClusterEngine.java">spaska/gui/engines/ClusterEngine.java</a>
-                </td>
-                <td>
                   0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  6
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://maven.apache.org/checkstyle.html#spaska.gui.ParametersDialog.java">spaska/gui/ParametersDialog.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  6
                 </td>
               </tr>
                           <tr>
@@ -206,7 +136,7 @@
                   0
                 </td>
                 <td>
-                  7
+                  0
                 </td>
               </tr>
                           <tr>
@@ -220,7 +150,7 @@
                   0
                 </td>
                 <td>
-                  8
+                  0
                 </td>
               </tr>
                           <tr>
@@ -267,63 +197,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="http://maven.apache.org/checkstyle.html#spaska.gui.Utils.java">spaska/gui/Utils.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  14
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="http://maven.apache.org/checkstyle.html#spaska.classifiers.ZeroR.java">spaska/classifiers/ZeroR.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://maven.apache.org/checkstyle.html#spaska.gui.ClustererTab.java">spaska/gui/ClustererTab.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  3
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://maven.apache.org/checkstyle.html#spaska.gui.ClassifyTab.java">spaska/gui/ClassifyTab.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  4
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://maven.apache.org/checkstyle.html#spaska.analysis.TStatisticsTest.java">spaska/analysis/TStatisticsTest.java</a>
                 </td>
                 <td>
                   0
@@ -351,7 +225,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="http://maven.apache.org/checkstyle.html#spaska.data.readers.AbstractInputReader.java">spaska/data/readers/AbstractInputReader.java</a>
+                  <a href="http://maven.apache.org/checkstyle.html#spaska.analysis.TStatisticsTest.java">spaska/analysis/TStatisticsTest.java</a>
                 </td>
                 <td>
                   0
@@ -360,7 +234,21 @@
                   0
                 </td>
                 <td>
-                  6
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://maven.apache.org/checkstyle.html#spaska.classifiers.OneR.java">spaska/classifiers/OneR.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
                 </td>
               </tr>
                           <tr>
@@ -374,26 +262,12 @@
                   0
                 </td>
                 <td>
-                  23
+                  0
                 </td>
               </tr>
                           <tr>
                 <td>
-                  <a href="http://maven.apache.org/checkstyle.html#spaska.gui.engines.Engine.java">spaska/gui/engines/Engine.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  8
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://maven.apache.org/checkstyle.html#spaska.classifiers.OneR.java">spaska/classifiers/OneR.java</a>
+                  <a href="http://maven.apache.org/checkstyle.html#spaska.data.readers.AbstractInputReader.java">spaska/data/readers/AbstractInputReader.java</a>
                 </td>
                 <td>
                   0
@@ -430,7 +304,7 @@
                   0
                 </td>
                 <td>
-                  5
+                  0
                 </td>
               </tr>
                           <tr>
@@ -472,21 +346,7 @@
                   0
                 </td>
                 <td>
-                  16
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://maven.apache.org/checkstyle.html#spaska.gui.MainApp.java">spaska/gui/MainApp.java</a>
-                </td>
-                <td>
                   0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  10
                 </td>
               </tr>
                           <tr>
@@ -519,34 +379,6 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="http://maven.apache.org/checkstyle.html#spaska.gui.InputException.java">spaska/gui/InputException.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  4
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://maven.apache.org/checkstyle.html#spaska.data.Value.java">spaska/data/Value.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  5
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="http://maven.apache.org/checkstyle.html#spaska.data.package-info.java">spaska/data/package-info.java</a>
                 </td>
                 <td>
@@ -561,7 +393,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="http://maven.apache.org/checkstyle.html#spaska.gui.package-info.java">spaska/gui/package-info.java</a>
+                  <a href="http://maven.apache.org/checkstyle.html#spaska.data.Value.java">spaska/data/Value.java</a>
                 </td>
                 <td>
                   0
@@ -612,7 +444,7 @@
                   0
                 </td>
                 <td>
-                  2
+                  0
                 </td>
               </tr>
                           <tr>
@@ -626,7 +458,7 @@
                   0
                 </td>
                 <td>
-                  12
+                  0
                 </td>
               </tr>
                           <tr>
@@ -641,20 +473,6 @@
                 </td>
                 <td>
                   0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://maven.apache.org/checkstyle.html#spaska.gui.CompareTab.java">spaska/gui/CompareTab.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  5
                 </td>
               </tr>
                           <tr>
@@ -710,40 +528,12 @@
                   0
                 </td>
                 <td>
-                  9
+                  0
                 </td>
               </tr>
                           <tr>
                 <td>
                   <a href="http://maven.apache.org/checkstyle.html#spaska.data.readers.Validator.java">spaska/data/readers/Validator.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  2
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://maven.apache.org/checkstyle.html#spaska.gui.engines.CompareEngine.java">spaska/gui/engines/CompareEngine.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  11
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://maven.apache.org/checkstyle.html#spaska.analysis.AbsCompare.java">spaska/analysis/AbsCompare.java</a>
                 </td>
                 <td>
                   0
@@ -766,7 +556,21 @@
                   0
                 </td>
                 <td>
-                  4
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://maven.apache.org/checkstyle.html#spaska.analysis.AbsCompare.java">spaska/analysis/AbsCompare.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
                 </td>
               </tr>
                           <tr>
@@ -794,26 +598,26 @@
                   0
                 </td>
                 <td>
-                  4
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://maven.apache.org/checkstyle.html#spaska.data.readers.ARFFInputReader.java">spaska/data/readers/ARFFInputReader.java</a>
-                </td>
-                <td>
                   0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  6
                 </td>
               </tr>
                           <tr>
                 <td>
                   <a href="http://maven.apache.org/checkstyle.html#spaska.analysis.CrossValidation.java">spaska/analysis/CrossValidation.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://maven.apache.org/checkstyle.html#spaska.data.readers.ARFFInputReader.java">spaska/data/readers/ARFFInputReader.java</a>
                 </td>
                 <td>
                   0
@@ -864,7 +668,7 @@
                   0
                 </td>
                 <td>
-                  2
+                  0
                 </td>
               </tr>
                           <tr>
@@ -939,34 +743,6 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="http://maven.apache.org/checkstyle.html#spaska.gui.AppResources.java">spaska/gui/AppResources.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  15
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://maven.apache.org/checkstyle.html#spaska.gui.SpaskaTab.java">spaska/gui/SpaskaTab.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  20
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="http://maven.apache.org/checkstyle.html#spaska.classifiers.KNN.java">spaska/classifiers/KNN.java</a>
                 </td>
                 <td>
@@ -990,20 +766,6 @@
                   0
                 </td>
                 <td>
-                  3
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://maven.apache.org/checkstyle.html#spaska.gui.Parametrable.java">spaska/gui/Parametrable.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
                   0
                 </td>
               </tr>
@@ -1018,7 +780,7 @@
                   0
                 </td>
                 <td>
-                  10
+                  0
                 </td>
               </tr>
                       </tbody>

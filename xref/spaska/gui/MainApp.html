@@ -67,8 +67,8 @@
 <a class="jxr_linenumber" name="57" href="#57">57</a>          <strong class="jxr_keyword">if</strong> (System.getProperty(<span class="jxr_string">"os.name"</span>).startsWith(<span class="jxr_string">"Mac"</span>)) {
 <a class="jxr_linenumber" name="58" href="#58">58</a>              System.setProperty(<span class="jxr_string">"apple.laf.useScreenMenuBar"</span>, <span class="jxr_string">"true"</span>);
 <a class="jxr_linenumber" name="59" href="#59">59</a>          }
-<a class="jxr_linenumber" name="60" href="#60">60</a>          setTitle(bundle.get(bundle.APP_TITLE));
-<a class="jxr_linenumber" name="61" href="#61">61</a>          setPreferredSize((Dimension) bundle.getObject(bundle.APP_SIZE));
+<a class="jxr_linenumber" name="60" href="#60">60</a>          setTitle(bundle.get(AppResources.APP_TITLE));
+<a class="jxr_linenumber" name="61" href="#61">61</a>          setPreferredSize((Dimension) bundle.getObject(AppResources.APP_SIZE));
 <a class="jxr_linenumber" name="62" href="#62">62</a>  
 <a class="jxr_linenumber" name="63" href="#63">63</a>          createMenuBar();
 <a class="jxr_linenumber" name="64" href="#64">64</a>          buildGui();
@@ -79,7 +79,7 @@
 <a class="jxr_linenumber" name="69" href="#69">69</a>          setDefaultCloseOperation(EXIT_ON_CLOSE);
 <a class="jxr_linenumber" name="70" href="#70">70</a>  
 <a class="jxr_linenumber" name="71" href="#71">71</a>          setVisible(<strong class="jxr_keyword">true</strong>);
-<a class="jxr_linenumber" name="72" href="#72">72</a>          setIconImage(bundle.getIcon(bundle.get(bundle.APP_ICON)).getImage());
+<a class="jxr_linenumber" name="72" href="#72">72</a>          setIconImage(bundle.getIcon(bundle.get(AppResources.APP_ICON)).getImage());
 <a class="jxr_linenumber" name="73" href="#73">73</a>      }
 <a class="jxr_linenumber" name="74" href="#74">74</a>  
 <a class="jxr_linenumber" name="75" href="#75">75</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> showStatistics(<a href="../../spaska/statistics/Statistics.html">Statistics</a> st) {
@@ -121,7 +121,7 @@
 <a class="jxr_linenumber" name="111" href="#111">111</a>             statDialog.add(<strong class="jxr_keyword">new</strong> JScrollPane(area));
 <a class="jxr_linenumber" name="112" href="#112">112</a> 
 <a class="jxr_linenumber" name="113" href="#113">113</a>             statDialog.setPreferredSize((Dimension) bundle
-<a class="jxr_linenumber" name="114" href="#114">114</a>                     .getObject(bundle.STAT_DIALOG_SIZE));
+<a class="jxr_linenumber" name="114" href="#114">114</a>                     .getObject(AppResources.STAT_DIALOG_SIZE));
 <a class="jxr_linenumber" name="115" href="#115">115</a>             statDialog.pack();
 <a class="jxr_linenumber" name="116" href="#116">116</a> 
 <a class="jxr_linenumber" name="117" href="#117">117</a>             statDialog.setLocationRelativeTo(<strong class="jxr_keyword">null</strong>);
@@ -181,7 +181,7 @@
 <a class="jxr_linenumber" name="171" href="#171">171</a>             List&lt;JLabel&gt; labels = <strong class="jxr_keyword">new</strong> LinkedList&lt;JLabel&gt;();
 <a class="jxr_linenumber" name="172" href="#172">172</a>             labels.add(<strong class="jxr_keyword">new</strong> JLabel(<span class="jxr_string">""</span>));
 <a class="jxr_linenumber" name="173" href="#173">173</a>             labels.add(<strong class="jxr_keyword">new</strong> JLabel(<span class="jxr_string">""</span>));
-<a class="jxr_linenumber" name="174" href="#174">174</a>             <strong class="jxr_keyword">for</strong> (String s : bundle.get(bundle.APP_NAME).split(<span class="jxr_string">"\n"</span>)) {
+<a class="jxr_linenumber" name="174" href="#174">174</a>             <strong class="jxr_keyword">for</strong> (String s : bundle.get(AppResources.APP_NAME).split(<span class="jxr_string">"\n"</span>)) {
 <a class="jxr_linenumber" name="175" href="#175">175</a>                 JLabel l = <strong class="jxr_keyword">new</strong> JLabel(s);
 <a class="jxr_linenumber" name="176" href="#176">176</a>                 l.setFont(bodyFont);
 <a class="jxr_linenumber" name="177" href="#177">177</a>                 labels.add(l);
@@ -190,15 +190,15 @@
 <a class="jxr_linenumber" name="180" href="#180">180</a>             c.gridy = 0;
 <a class="jxr_linenumber" name="181" href="#181">181</a>             c.gridheight = labels.size() + 1;
 <a class="jxr_linenumber" name="182" href="#182">182</a>             c.anchor = GridBagConstraints.NORTHWEST;
-<a class="jxr_linenumber" name="183" href="#183">183</a>             panel.add(<strong class="jxr_keyword">new</strong> JLabel(bundle.getIcon(bundle.get(bundle.APP_ICON))),
+<a class="jxr_linenumber" name="183" href="#183">183</a>             panel.add(<strong class="jxr_keyword">new</strong> JLabel(bundle.getIcon(bundle.get(AppResources.APP_ICON))),
 <a class="jxr_linenumber" name="184" href="#184">184</a>                     c);
 <a class="jxr_linenumber" name="185" href="#185">185</a>             c.gridx = 1;
 <a class="jxr_linenumber" name="186" href="#186">186</a>             c.gridy = 0;
 <a class="jxr_linenumber" name="187" href="#187">187</a>             c.gridheight = 1;
 <a class="jxr_linenumber" name="188" href="#188">188</a>             c.anchor = GridBagConstraints.NORTHEAST;
 <a class="jxr_linenumber" name="189" href="#189">189</a>             panel.add(
-<a class="jxr_linenumber" name="190" href="#190">190</a>                     <strong class="jxr_keyword">new</strong> JLabel(bundle.get(bundle.APP_TITLE) + <span class="jxr_string">" "</span>
-<a class="jxr_linenumber" name="191" href="#191">191</a>                             + bundle.get(bundle.APP_VERSION)), c);
+<a class="jxr_linenumber" name="190" href="#190">190</a>                     <strong class="jxr_keyword">new</strong> JLabel(bundle.get(AppResources.APP_TITLE) + <span class="jxr_string">" "</span>
+<a class="jxr_linenumber" name="191" href="#191">191</a>                             + bundle.get(AppResources.APP_VERSION)), c);
 <a class="jxr_linenumber" name="192" href="#192">192</a> 
 <a class="jxr_linenumber" name="193" href="#193">193</a>             <strong class="jxr_keyword">for</strong> (JLabel l : labels) {
 <a class="jxr_linenumber" name="194" href="#194">194</a>                 c.gridy++;
@@ -214,52 +214,53 @@
 <a class="jxr_linenumber" name="204" href="#204">204</a>             labels.add(<strong class="jxr_keyword">new</strong> JLabel(<span class="jxr_string">""</span>));
 <a class="jxr_linenumber" name="205" href="#205">205</a>             labels.add(<strong class="jxr_keyword">new</strong> JLabel(<span class="jxr_string">"Credits:"</span>));
 <a class="jxr_linenumber" name="206" href="#206">206</a> 
-<a class="jxr_linenumber" name="207" href="#207">207</a>             <strong class="jxr_keyword">for</strong> (String s : bundle.get(bundle.APP_CERDITS).split(<span class="jxr_string">"\n"</span>)) {
+<a class="jxr_linenumber" name="207" href="#207">207</a>             <strong class="jxr_keyword">for</strong> (String s : bundle.get(AppResources.APP_CERDITS).split(<span class="jxr_string">"\n"</span>)) {
 <a class="jxr_linenumber" name="208" href="#208">208</a>                 JLabel l = <strong class="jxr_keyword">new</strong> JLabel(s);
 <a class="jxr_linenumber" name="209" href="#209">209</a>                 l.setFont(bodyFont);
 <a class="jxr_linenumber" name="210" href="#210">210</a>                 labels.add(l);
 <a class="jxr_linenumber" name="211" href="#211">211</a>             }
 <a class="jxr_linenumber" name="212" href="#212">212</a>             labels.add(<strong class="jxr_keyword">new</strong> JLabel(<span class="jxr_string">""</span>));
 <a class="jxr_linenumber" name="213" href="#213">213</a>             labels.add(<strong class="jxr_keyword">new</strong> JLabel(<span class="jxr_string">""</span>));
-<a class="jxr_linenumber" name="214" href="#214">214</a>             JLabel copyRight = <strong class="jxr_keyword">new</strong> JLabel(bundle.get(bundle.APP_COPYRIGHT));
-<a class="jxr_linenumber" name="215" href="#215">215</a>             labels.add(copyRight);
-<a class="jxr_linenumber" name="216" href="#216">216</a>             labels.add(<strong class="jxr_keyword">new</strong> JLabel(<span class="jxr_string">""</span>));
+<a class="jxr_linenumber" name="214" href="#214">214</a>             JLabel copyRight = <strong class="jxr_keyword">new</strong> JLabel(
+<a class="jxr_linenumber" name="215" href="#215">215</a>                     bundle.get(AppResources.APP_COPYRIGHT));
+<a class="jxr_linenumber" name="216" href="#216">216</a>             labels.add(copyRight);
 <a class="jxr_linenumber" name="217" href="#217">217</a>             labels.add(<strong class="jxr_keyword">new</strong> JLabel(<span class="jxr_string">""</span>));
-<a class="jxr_linenumber" name="218" href="#218">218</a> 
-<a class="jxr_linenumber" name="219" href="#219">219</a>             <strong class="jxr_keyword">for</strong> (JLabel l : labels) {
-<a class="jxr_linenumber" name="220" href="#220">220</a>                 panel.add(l, c);
-<a class="jxr_linenumber" name="221" href="#221">221</a>                 c.gridy++;
-<a class="jxr_linenumber" name="222" href="#222">222</a>             }
-<a class="jxr_linenumber" name="223" href="#223">223</a>             aboutDialog.add(<strong class="jxr_keyword">new</strong> JScrollPane(panel));
-<a class="jxr_linenumber" name="224" href="#224">224</a>             aboutDialog.setResizable(false);
-<a class="jxr_linenumber" name="225" href="#225">225</a>             aboutDialog.setPreferredSize(<strong class="jxr_keyword">new</strong> Dimension(320, 290));
-<a class="jxr_linenumber" name="226" href="#226">226</a>             aboutDialog.pack();
-<a class="jxr_linenumber" name="227" href="#227">227</a>             aboutDialog.setLocationRelativeTo(<strong class="jxr_keyword">null</strong>);
-<a class="jxr_linenumber" name="228" href="#228">228</a>         }
-<a class="jxr_linenumber" name="229" href="#229">229</a>         <strong class="jxr_keyword">return</strong> aboutDialog;
-<a class="jxr_linenumber" name="230" href="#230">230</a>     }
-<a class="jxr_linenumber" name="231" href="#231">231</a> 
-<a class="jxr_linenumber" name="232" href="#232">232</a>     <strong class="jxr_keyword">public</strong> <a href="../../spaska/gui/SpaskaTab.html">SpaskaTab</a> getSelectedTab() {
-<a class="jxr_linenumber" name="233" href="#233">233</a>         <strong class="jxr_keyword">return</strong> (SpaskaTab) tabs.getSelectedComponent();
-<a class="jxr_linenumber" name="234" href="#234">234</a>     }
-<a class="jxr_linenumber" name="235" href="#235">235</a> 
-<a class="jxr_linenumber" name="236" href="#236">236</a>     @SuppressWarnings(justification = <span class="jxr_string">"This is a proper action when exit is called"</span>, value = <span class="jxr_string">"DM_EXIT"</span>)
-<a class="jxr_linenumber" name="237" href="#237">237</a>     @Override
-<a class="jxr_linenumber" name="238" href="#238">238</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> actionPerformed(ActionEvent e) {
-<a class="jxr_linenumber" name="239" href="#239">239</a>         <strong class="jxr_keyword">if</strong> (e.getActionCommand().equals(Utils.EXIT)) {
-<a class="jxr_linenumber" name="240" href="#240">240</a>             System.exit(0);
-<a class="jxr_linenumber" name="241" href="#241">241</a>         } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> (e.getActionCommand().equals(Utils.OPEN_STATISTICS)) {
-<a class="jxr_linenumber" name="242" href="#242">242</a>             showStatistics(getSelectedTab().getStatistics());
-<a class="jxr_linenumber" name="243" href="#243">243</a>         } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> (e.getActionCommand().equals(Utils.FILE_DATASET)) {
-<a class="jxr_linenumber" name="244" href="#244">244</a>             getSelectedTab().openFile();
-<a class="jxr_linenumber" name="245" href="#245">245</a>         }
-<a class="jxr_linenumber" name="246" href="#246">246</a>     }
-<a class="jxr_linenumber" name="247" href="#247">247</a> 
-<a class="jxr_linenumber" name="248" href="#248">248</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">void</strong> main(String[] args) <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="249" href="#249">249</a>         getInstance();
-<a class="jxr_linenumber" name="250" href="#250">250</a>     }
-<a class="jxr_linenumber" name="251" href="#251">251</a> 
-<a class="jxr_linenumber" name="252" href="#252">252</a> }
+<a class="jxr_linenumber" name="218" href="#218">218</a>             labels.add(<strong class="jxr_keyword">new</strong> JLabel(<span class="jxr_string">""</span>));
+<a class="jxr_linenumber" name="219" href="#219">219</a> 
+<a class="jxr_linenumber" name="220" href="#220">220</a>             <strong class="jxr_keyword">for</strong> (JLabel l : labels) {
+<a class="jxr_linenumber" name="221" href="#221">221</a>                 panel.add(l, c);
+<a class="jxr_linenumber" name="222" href="#222">222</a>                 c.gridy++;
+<a class="jxr_linenumber" name="223" href="#223">223</a>             }
+<a class="jxr_linenumber" name="224" href="#224">224</a>             aboutDialog.add(<strong class="jxr_keyword">new</strong> JScrollPane(panel));
+<a class="jxr_linenumber" name="225" href="#225">225</a>             aboutDialog.setResizable(false);
+<a class="jxr_linenumber" name="226" href="#226">226</a>             aboutDialog.setPreferredSize(<strong class="jxr_keyword">new</strong> Dimension(320, 290));
+<a class="jxr_linenumber" name="227" href="#227">227</a>             aboutDialog.pack();
+<a class="jxr_linenumber" name="228" href="#228">228</a>             aboutDialog.setLocationRelativeTo(<strong class="jxr_keyword">null</strong>);
+<a class="jxr_linenumber" name="229" href="#229">229</a>         }
+<a class="jxr_linenumber" name="230" href="#230">230</a>         <strong class="jxr_keyword">return</strong> aboutDialog;
+<a class="jxr_linenumber" name="231" href="#231">231</a>     }
+<a class="jxr_linenumber" name="232" href="#232">232</a> 
+<a class="jxr_linenumber" name="233" href="#233">233</a>     <strong class="jxr_keyword">public</strong> <a href="../../spaska/gui/SpaskaTab.html">SpaskaTab</a> getSelectedTab() {
+<a class="jxr_linenumber" name="234" href="#234">234</a>         <strong class="jxr_keyword">return</strong> (SpaskaTab) tabs.getSelectedComponent();
+<a class="jxr_linenumber" name="235" href="#235">235</a>     }
+<a class="jxr_linenumber" name="236" href="#236">236</a> 
+<a class="jxr_linenumber" name="237" href="#237">237</a>     @SuppressWarnings(justification = <span class="jxr_string">"This is a proper action when exit is called"</span>, value = <span class="jxr_string">"DM_EXIT"</span>)
+<a class="jxr_linenumber" name="238" href="#238">238</a>     @Override
+<a class="jxr_linenumber" name="239" href="#239">239</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> actionPerformed(ActionEvent e) {
+<a class="jxr_linenumber" name="240" href="#240">240</a>         <strong class="jxr_keyword">if</strong> (e.getActionCommand().equals(Utils.EXIT)) {
+<a class="jxr_linenumber" name="241" href="#241">241</a>             System.exit(0);
+<a class="jxr_linenumber" name="242" href="#242">242</a>         } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> (e.getActionCommand().equals(Utils.OPEN_STATISTICS)) {
+<a class="jxr_linenumber" name="243" href="#243">243</a>             showStatistics(getSelectedTab().getStatistics());
+<a class="jxr_linenumber" name="244" href="#244">244</a>         } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> (e.getActionCommand().equals(Utils.FILE_DATASET)) {
+<a class="jxr_linenumber" name="245" href="#245">245</a>             getSelectedTab().openFile();
+<a class="jxr_linenumber" name="246" href="#246">246</a>         }
+<a class="jxr_linenumber" name="247" href="#247">247</a>     }
+<a class="jxr_linenumber" name="248" href="#248">248</a> 
+<a class="jxr_linenumber" name="249" href="#249">249</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">void</strong> main(String[] args) <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="250" href="#250">250</a>         getInstance();
+<a class="jxr_linenumber" name="251" href="#251">251</a>     }
+<a class="jxr_linenumber" name="252" href="#252">252</a> 
+<a class="jxr_linenumber" name="253" href="#253">253</a> }
 </pre>
 <hr/><div id="footer">This page was automatically generated by <a href="http://maven.apache.org/">Maven</a></div></body>
 </html>
