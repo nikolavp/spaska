@@ -10,17 +10,17 @@ import spaska.test.DataSetResources;
 
 public class KMeansTest {
 
-    private static final Logger LOG = LoggerFactory.getLogger(KMeansTest.class);
-    
-    @Test
-    public void shouldWorkForBasicUsageOfKMeans() {
-        Dataset data = new DataSetResources("iris").withValidator(
-                new NormalizeValidator()).getDataSet();
-        IClusterer clusterer = new SimpleKMeans();
-        clusterer.clusterize(data);
+	private static final Logger LOG = LoggerFactory.getLogger(KMeansTest.class);
 
-        LOG.info(clusterer.getStatistic().toString());
+	@Test
+	public void shouldWorkForBasicUsageOfKMeans() throws Exception {
+		Dataset data = new DataSetResources("iris").withValidator(
+				new NormalizeValidator()).getDataSet();
+		IClusterer clusterer = new SimpleKMeans();
+		clusterer.clusterize(data);
 
-    }
+		LOG.info(clusterer.getStatistic().toString());
+
+	}
 
 }
