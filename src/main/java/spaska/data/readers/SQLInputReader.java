@@ -65,7 +65,7 @@ public class SQLInputReader extends AbstractInputReader {
 		return ValueType.Unknown;
 	}
 
-	private Set<Value> getDomain(Attribute attr, String columnName)
+	private Set<Value> getDomain(String columnName)
 			throws SQLException {
 		Set<Value> domain = new HashSet<Value>();
 		String query = "SELECT DISTINCT " + columnName + " FROM "
@@ -91,8 +91,7 @@ public class SQLInputReader extends AbstractInputReader {
 
 			this.dataset.addAttribute(attr);
 			if (type.equals(ValueType.Nominal)) {
-				this.dataset.addAttributeDomain(attr,
-						this.getDomain(attr, name));
+				this.dataset.addAttributeDomain(attr, this.getDomain(name));
 			}
 		}
 	}
