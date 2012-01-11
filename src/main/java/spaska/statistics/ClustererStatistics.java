@@ -26,25 +26,25 @@ public final class ClustererStatistics extends Statistics {
     protected void generateInfo() {
         StringBuilder result = new StringBuilder();
         result.append("================================================\n");
-        if (algorithmName != null) {
-            result.append("Clusterer: " + algorithmName + "\n");
+        if (getAlgorithmName() != null) {
+            result.append("Clusterer: " + getAlgorithmName() + "\n");
         }
-        instances = 0;
+        setInstances(0);
         for (int i : clusters) {
-            instances += i;
+            setInstances(getInstances() + i);
         }
-        result.append("Total instances: " + instances + "\n");
+        result.append("Total instances: " + getInstances() + "\n");
         result.append("Number of clusters: " + clusters.length + "\n");
-        result.append("Test time (HH:MM:SS.MS): " + timeToString(testTime));
+        result.append("Test time (HH:MM:SS.MS): " + timeToString(getTestTime()));
         result.append("\n------------------------------------------------\n");
 
         for (int i = 0; i < clusters.length; i++) {
             result.append("Cluster " + i + ": " + clusters[i]);
-            double percent = (PERCENT_BASE * clusters[i]) / (double) instances;
+            double percent = (PERCENT_BASE * clusters[i]) / (double) getInstances();
             result.append(String.format(" instances (%.2f%%)\n", percent));
         }
         result.append("================================================\n");
-        info = result.toString();
-        modified = false;
+        setInfo(result.toString());
+        setModified(false);
     }
 }

@@ -12,11 +12,12 @@ public abstract class Statistics {
     private static final int SECONDS = 1000;
     private static final int MINUTES_IN_MILLISECONDS = 60000;
     private static final int HOURS_IN_MILLISECONDS = 3600000;
-    protected int instances; // total instances
-    protected long testTime; // running time - milliseconds
-    protected String info, additionalInfo; // output string
-    protected String algorithmName; // algorithm name
-    protected boolean modified; // used when generating output
+    private int instances; // total instances
+    private long testTime; // running time - milliseconds
+    private String info;
+    private String additionalInfo; // output string
+    private String algorithmName; // algorithm name
+    private boolean modified; // used when generating output
 
     /**
      * Set algorithm name if available.
@@ -26,7 +27,7 @@ public abstract class Statistics {
      */
     public final void setAlgorithmName(String algorithmName) {
         this.algorithmName = algorithmName;
-        modified = true;
+        setModified(true);
     }
 
     /**
@@ -41,7 +42,7 @@ public abstract class Statistics {
             throw new IllegalArgumentException();
         }
         this.testTime = millis;
-        modified = true;
+        setModified(true);
     }
 
     /**
@@ -54,8 +55,8 @@ public abstract class Statistics {
         if (millis < 0) {
             throw new IllegalArgumentException();
         }
-        this.testTime += millis;
-        modified = true;
+        this.setTestTime(this.getTestTime() + millis);
+        setModified(true);
     }
 
     /**
@@ -103,12 +104,44 @@ public abstract class Statistics {
 
     @Override
     public String toString() {
-        if (modified) { // generate again only if modified
+        if (isModified()) { // generate again only if modified
             generateInfo();
         }
-        if (additionalInfo == null) {
-            additionalInfo = "";
+        if (getAdditionalInfo() == null) {
+            setAdditionalInfo("");
         }
-        return info + "\n" + additionalInfo;
+        return getInfo() + "\n" + getAdditionalInfo();
+    }
+
+    protected int getInstances() {
+        return instances;
+    }
+
+    protected void setInstances(int instances) {
+        this.instances = instances;
+    }
+
+    protected String getInfo() {
+        return info;
+    }
+
+    protected void setInfo(String info) {
+        this.info = info;
+    }
+
+    protected String getAdditionalInfo() {
+        return additionalInfo;
+    }
+
+    protected String getAlgorithmName() {
+        return algorithmName;
+    }
+
+    protected boolean isModified() {
+        return modified;
+    }
+
+    protected void setModified(boolean modified) {
+        this.modified = modified;
     }
 }

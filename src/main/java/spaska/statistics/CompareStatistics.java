@@ -44,7 +44,7 @@ public final class CompareStatistics extends Statistics {
      */
     public void setTest(IStatisticalTest test) {
         this.test = test;
-        modified = true;
+        setModified(true);
     }
 
     /**
@@ -55,7 +55,7 @@ public final class CompareStatistics extends Statistics {
      */
     public void setFirstClassifierName(String firstClassifierName) {
         this.firstClassifierName = firstClassifierName;
-        modified = true;
+        setModified(true);
     }
 
     /**
@@ -66,7 +66,7 @@ public final class CompareStatistics extends Statistics {
      */
     public void setFirstSamplePopulation(double[] firstSamplePopulation) {
         this.firstSamplePopulation = firstSamplePopulation;
-        modified = true;
+        setModified(true);
     }
 
     /**
@@ -77,7 +77,7 @@ public final class CompareStatistics extends Statistics {
      */
     public void setSecondClassifierName(String secondClassifierName) {
         this.secondClassifierName = secondClassifierName;
-        modified = true;
+        setModified(true);
     }
 
     /**
@@ -88,7 +88,7 @@ public final class CompareStatistics extends Statistics {
      */
     public void setSecondSamplePopulation(double[] secondSamplePopulation) {
         this.secondSamplePopulation = secondSamplePopulation;
-        modified = true;
+        setModified(true);
     }
 
     private void appendPrecisions(double[] sample, long[] times,
@@ -140,8 +140,8 @@ public final class CompareStatistics extends Statistics {
                 secondSamplePopulation) ? "rejected" : "accepted";
         result.append("Null hypothesis:  " + accept + "\n");
         result.append("================================================\n");
-        info = result.toString();
-        modified = false;
+        setInfo(result.toString());
+        setModified(false);
     }
 
 }
