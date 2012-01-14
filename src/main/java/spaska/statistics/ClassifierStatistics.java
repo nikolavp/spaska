@@ -12,14 +12,20 @@ import java.util.Map;
  */
 public final class ClassifierStatistics extends Statistics {
 
+    private static final int PERCENT_BASE = 100;
     private int[][] confusionMatrix;
     private String[] classNames;
     private Map<String, Integer> namesMap; // for easy access to class numbers
     private boolean isNumeric; // if class value is numeric, not nominal
     private List<Double> residuals; // for storing numeric residuals
 
-    /*
-     * this constructor creates an empty statistics of type numeric or nominal
+    /**
+     * This constructor creates an empty statistics of type numeric or nominal
+     * based on the supplied value type.
+     * 
+     * @param type
+     *            the parameter type from which to create the classifier
+     *            statistics
      */
     public ClassifierStatistics(ValueType type) {
         switch (type) {
@@ -37,7 +43,12 @@ public final class ClassifierStatistics extends Statistics {
         }
     }
 
-    /* set the class names for a numeric type statistic */
+    /**
+     * Set the class names for a numeric type statistic.
+     * 
+     * @param classNames
+     *            the class names for a numeric type statistic
+     */
     public void setClassNames(String[] classNames) {
         if (classNames == null) {
             throw new IllegalArgumentException("classNames = null!");
@@ -56,7 +67,7 @@ public final class ClassifierStatistics extends Statistics {
             this.classNames[i] = classNames[i];
             namesMap.put(this.classNames[i], i);
         }
-        modified = true;
+        setModified(true);
     }
 
     /*
@@ -68,14 +79,21 @@ public final class ClassifierStatistics extends Statistics {
                 && classifiedClass < confusionMatrix.length
                 && classifiedClass >= 0) {
             confusionMatrix[realClass][classifiedClass]++;
-            instances++;
-            modified = true;
+            setInstances(getInstances() + 1);
+            setModified(true);
         } else {
             throw new IllegalArgumentException();
         }
     }
 
-    /* add a pair (real class, classified class) for nominal type statistics */
+    /**
+     * Add a pair (real class, classified class) for nominal type statistics.
+     * 
+     * @param realClass
+     *            the real class value/name
+     * @param classifiedClass
+     *            the classified class value/name
+     */
     public void addNominalInfo(String realClass, String classifiedClass) {
         if (isNumeric) {
             throw new IllegalStateException(
@@ -89,15 +107,22 @@ public final class ClassifierStatistics extends Statistics {
         addInfo(realClassNumber, classifiedClassNumber);
     }
 
-    /* add a pair (real class, classified class) for numeric type statistics */
+    /**
+     * Add a pair (real class, classified class) for numeric type statistics.
+     * 
+     * @param realClass
+     *            the real class value
+     * @param classifiedClass
+     *            the classified class value
+     */
     public void addNumericInfo(double realClass, double classifiedClass) {
         if (!isNumeric) {
             throw new IllegalStateException("Cannot add numeric info on "
                     + "nominal class statistics.");
         }
         residuals.add(realClass - classifiedClass); // store residual
-        instances++;
-        modified = true;
+        setInstances(getInstances() + 1);
+        setModified(true);
     }
 
     /* convert class name to class number */
@@ -140,7 +165,13 @@ public final class ClassifierStatistics extends Statistics {
         return confusionMatrix[classNum][classNum] / (double) returned;
     }
 
-    /* get precision value by class name */
+    /**
+     * Get the precision value for the given class name.
+     * 
+     * @param className
+     *            the class name for which to get the precision
+     * @return the precision metric for the given class name
+     */
     public double getPrecision(String className) {
         if (isNumeric) {
             throw new UnsupportedOperationException("Precision not available"
@@ -162,7 +193,13 @@ public final class ClassifierStatistics extends Statistics {
         return confusionMatrix[classNum][classNum] / (double) correct;
     }
 
-    /* get recall value by class name */
+    /**
+     * Get recall value by class name.
+     * 
+     * @param className
+     *            the class name for which to get the recall metric
+     * @return the recall metric for the given class name
+     */
     public double getRecall(String className) {
         if (isNumeric) {
             throw new UnsupportedOperationException("Recall not available"
@@ -172,7 +209,11 @@ public final class ClassifierStatistics extends Statistics {
         return getRecall(classNum);
     }
 
-    /* return an array of all precisions */
+    /**
+     * Get an array of all precisions from the classifier run.
+     * 
+     * @return an array of precisions from the classifier run
+     */
     public double[] getPrecisions() {
         if (isNumeric) {
             throw new UnsupportedOperationException("f-measure not available"
@@ -185,7 +226,11 @@ public final class ClassifierStatistics extends Statistics {
         return result;
     }
 
-    /* return an array of all recalls */
+    /**
+     * Get an array of all recalls from the classifier evaluation run.
+     * 
+     * @return an array of all recalls from the classifier evaluation run
+     */
     public double[] getRecalls() {
         if (isNumeric) {
             throw new UnsupportedOperationException("f-measure not available"
@@ -198,7 +243,13 @@ public final class ClassifierStatistics extends Statistics {
         return result;
     }
 
-    /* return an f-measure by a class name */
+    /**
+     * Return an f-measure by a class name.
+     * 
+     * @param className
+     *            the className for which to get the f-measure metric
+     * @return the f-measure metric for the given class
+     */
     public double getFMeasure(String className) {
         if (isNumeric) {
             throw new UnsupportedOperationException("f-measure not available"
@@ -213,7 +264,11 @@ public final class ClassifierStatistics extends Statistics {
         return (2 * precision * recall) / (precision + recall);
     }
 
-    /* return an array of all f-measures */
+    /**
+     * Get an array of all f-measures from the classifier evaluation run.
+     * 
+     * @return an array of all f-measures from the classifier evaluation run
+     */
     public double[] getFMeasures() {
         if (isNumeric) {
             throw new UnsupportedOperationException("f-measure not available"
@@ -232,12 +287,17 @@ public final class ClassifierStatistics extends Statistics {
         return result;
     }
 
+    /**
+     * Returns the general precision from the classifier run.
+     * 
+     * @return the general precision from the classifier run
+     */
     public double getGeneralPrecision() {
         int correct = 0;
         for (int i = 0; i < confusionMatrix.length; i++) {
             correct += confusionMatrix[i][i];
         }
-        return correct / (double) instances;
+        return correct / (double) getInstances();
     }
 
     /* generate the output string and assign it to the info field */
@@ -245,21 +305,21 @@ public final class ClassifierStatistics extends Statistics {
 
         StringBuilder result = new StringBuilder();
         result.append("================================================\n");
-        if (algorithmName != null) {
-            result.append("Classifier: " + algorithmName + "\n");
+        if (getAlgorithmName() != null) {
+            result.append("Classifier: " + getAlgorithmName() + "\n");
         }
         String classType = isNumeric ? "NUMERIC" : "NOMINAL";
         result.append("Class type is: " + classType + "\n");
-        result.append("Total instances: " + instances + "\n");
+        result.append("Total instances: " + getInstances() + "\n");
 
         if (isNumeric) {
             result.append("- - - - - - - - - - - - - - -\n");
             result.append(String.format("Mean squared error: %.6f\n",
                     +this.getNumericError()));
             result.append("- - - - - - - - - - - - - - -\n");
-            result.append("Test time (HH:MM:SS.MS): " + timeToString(testTime));
+            result.append("Test time (HH:MM:SS.MS): " + timeToString(getTestTime()));
             result.append("\n================================================\n");
-            info = result.toString();
+            setInfo(result.toString());
             return;
         }
 
@@ -268,13 +328,13 @@ public final class ClassifierStatistics extends Statistics {
             correctlyClassified += confusionMatrix[i][i];
         }
         result.append("Correctly classified: " + correctlyClassified);
-        double percent = (instances == 0) ? 100 : (correctlyClassified * 100)
-                / (double) instances;
+        double percent = (getInstances() == 0) ? PERCENT_BASE
+                : (correctlyClassified * PERCENT_BASE) / (double) getInstances();
         result.append(String.format(" (%.2f%%)\n", percent));
         result.append("Incorrectly classified: "
-                + (instances - correctlyClassified));
-        result.append(String.format(" (%.2f%%)\n", 100.0 - percent));
-        result.append("Test time (HH:MM:SS.MS): " + timeToString(testTime));
+                + (getInstances() - correctlyClassified));
+        result.append(String.format(" (%.2f%%)\n", PERCENT_BASE - percent));
+        result.append("Test time (HH:MM:SS.MS): " + timeToString(getTestTime()));
         result.append("\n================================================");
         result.append("\nDETAILS BY CLASSES:\n");
         result.append("------------------------------------------------");
@@ -288,8 +348,8 @@ public final class ClassifierStatistics extends Statistics {
             result.append("\nTotal instances: " + total);
             result.append("\nCorrectly classified: " + confusionMatrix[i][i]
                     + "\n");
-            percent = (total == 0) ? 100 : (confusionMatrix[i][i] * 100)
-                    / (double) total;
+            percent = (total == 0) ? PERCENT_BASE
+                    : (confusionMatrix[i][i] * PERCENT_BASE) / (double) total;
             result.append("Incorrectly classified: "
                     + (total - confusionMatrix[i][i]) + "\n");
             double precision = getPrecision(i);
@@ -306,7 +366,7 @@ public final class ClassifierStatistics extends Statistics {
             result.append("------------------------------------------------");
         }
         result.append("\n================================================");
-        info = result.toString();
-        modified = false;
+        setInfo(result.toString());
+        setModified(false);
     }
 }

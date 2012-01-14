@@ -17,6 +17,13 @@ import spaska.data.Factory;
 import spaska.data.Instance;
 import spaska.data.Value;
 
+/**
+ * An input reader that reads from ARFF files. ARFF files are a format that is
+ * used mostly in weka. They are simple files with metadata for the instace
+ * attributes and samples/data after that.
+ * 
+ * @see http://www.cs.waikato.ac.nz/ml/weka/arff.html
+ */
 public class ARFFInputReader extends AbstractInputReader {
 
     private static final String TAG_RELATION = "@relation";
@@ -25,15 +32,27 @@ public class ARFFInputReader extends AbstractInputReader {
 
     private File file;
 
+    /**
+     * Constructs a reader that will read from the provided file path.
+     * 
+     * @param file
+     *            the file path from which to read the data
+     */
     public ARFFInputReader(String file) {
         this(new File(file));
     }
 
+    /**
+     * Constructs a reader that will read from the provided file .
+     * 
+     * @param file
+     *            the file from which to read the data
+     */
     public ARFFInputReader(File file) {
         this.file = file;
     }
 
-    public ValueType getValueType(String type) {
+    private ValueType getValueType(String type) {
         if (type.startsWith("real") || type.startsWith("numeric")) {
             return ValueType.Numeric;
         } else if (type.startsWith("{") || type.startsWith("text")) {
@@ -54,7 +73,7 @@ public class ARFFInputReader extends AbstractInputReader {
             type = getValueType(token[2].toLowerCase());
         }
         Attribute attr = new Attribute(name, type);
-        dataset.addAttribute(attr);
+        getDataset().addAttribute(attr);
 
         if (token.length > 2) {
             if (type == ValueType.Nominal) {
@@ -66,7 +85,7 @@ public class ARFFInputReader extends AbstractInputReader {
                 for (String str : domains) {
                     domain.add(Factory.createValue(str.trim()));
                 }
-                dataset.addAttributeDomain(attr, domain);
+                getDataset().addAttributeDomain(attr, domain);
             }
         }
     }
@@ -78,20 +97,20 @@ public class ARFFInputReader extends AbstractInputReader {
             if (!trim.equals("") && !trim.startsWith("%")) {
                 String[] strValues = line.split(",");
                 List<Value> element = Factory.createElementData(strValues,
-                        dataset);
-                dataset.addElement(new Instance(element));
+                        getDataset());
+                getDataset().addElement(new Instance(element));
             }
         }
-        for (Validator v : validators) {
+        for (Validator v : getValidators()) {
             v.validate();
         }
     }
 
     @Override
     public Dataset buildDataset() {
-        dataset = new Dataset();
-        for (Validator v : validators) {
-            v.setDataset(dataset);
+        setDataset(new Dataset());
+        for (Validator v : getValidators()) {
+            v.setDataset(getDataset());
         }
         BufferedReader input = null;
 
@@ -102,7 +121,7 @@ public class ARFFInputReader extends AbstractInputReader {
             String line = null;
             while ((line = input.readLine()) != null) {
                 if (line.toLowerCase().startsWith(TAG_RELATION)) {
-                    dataset.setName(line.split("\\s")[1]);
+                    getDataset().setName(line.split("\\s")[1]);
                 } else if (line.toLowerCase().startsWith(TAG_ATTRIBUT)) {
                     handleAttribute(line);
                 } else if (line.toLowerCase().startsWith(TAG_DATA)) {
@@ -110,7 +129,7 @@ public class ARFFInputReader extends AbstractInputReader {
                 }
             }
         } catch (EOFException e) {
-            // do nothing
+            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -118,11 +137,12 @@ public class ARFFInputReader extends AbstractInputReader {
                 try {
                     input.close();
                 } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
         }
-        dataset.setClassIndex(dataset.getAttributesCount() - 1);
-        return dataset;
+        getDataset().setClassIndex(getDataset().getAttributesCount() - 1);
+        return getDataset();
     }
 
 }
