@@ -11,6 +11,7 @@ import spaska.analysis.TestType;
 public class CompareStatisticsTest {
     private static final Logger LOG = LoggerFactory
             .getLogger(CompareStatisticsTest.class);
+
     @Test
     public void testBasicUsage() {
         CompareStatistics s = new CompareStatistics();
