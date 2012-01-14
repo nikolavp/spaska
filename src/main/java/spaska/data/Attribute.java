@@ -1,27 +1,61 @@
 package spaska.data;
 
 /**
+ * Represents an attribute for an instance.
  * 
  * @author Vesko Georgiev
  */
 public final class Attribute {
-
+    /**
+     * Represents the value type for this attribute.
+     */
     public enum ValueType {
-        Numeric, Nominal, Unknown
+        /**
+         * Numeric attributes - this includes integers and floating point
+         * numbers.
+         */
+        Numeric,
+        /**
+         * Nominal attributes are a finite list of values. This is mostly used
+         * for classes and labels on instances.
+         */
+        Nominal,
+        /**
+         * Unknown type.
+         */
+        Unknown
     }
 
     private String name;
     private ValueType type;
 
+    /**
+     * Constructs an attribute from the given name and type.
+     * 
+     * @param name
+     *            the name of the attribute
+     * @param type
+     *            the type of the attribute
+     */
     public Attribute(String name, ValueType type) {
         this.name = name;
         this.type = type;
     }
 
+    /**
+     * Get the name of the attribute.
+     * 
+     * @return the name of the attribute
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Get the type of the attribute.
+     * 
+     * @return the type of the attribute
+     */
     public ValueType getType() {
         return type;
     }

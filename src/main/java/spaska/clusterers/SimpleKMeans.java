@@ -1,7 +1,6 @@
 package spaska.clusterers;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -21,8 +20,16 @@ import spaska.data.NumericValue;
 import spaska.data.Value;
 import spaska.statistics.ClustererStatistics;
 
+/**
+ * A KMeans implementation for spaska.
+ * <p>
+ * Implementation for the most simple and also most common algorithm for
+ * clustering.
+ * </p>
+ */
 public final class SimpleKMeans implements IClusterer {
 
+    private static final int DEFAULT_CLUSTERS_SIZE = 3;
     private static final String K_ALGORITHM_PARAMETER = "Number of clusters";
     private static final String MAX_ITERATIONS_ALGORITHM_PARAMETER = "Max number of iterations";
     private static final int DEFAULT_MAX_ITERATIONS = 100;
@@ -30,22 +37,31 @@ public final class SimpleKMeans implements IClusterer {
     private static final Logger LOG = LoggerFactory
             .getLogger(SimpleKMeans.class);
 
+    /**
+     * Get parameters for this clusterer.
+     * 
+     * @return parameters for this clusterer.
+     */
     public static Map<String, String> getParameters() {
         Map<String, String> parameters = new HashMap<String, String>();
-        parameters.put(K_ALGORITHM_PARAMETER, String.valueOf(3));
+        parameters.put(K_ALGORITHM_PARAMETER,
+                String.valueOf(DEFAULT_CLUSTERS_SIZE));
         parameters.put(MAX_ITERATIONS_ALGORITHM_PARAMETER,
                 String.valueOf(DEFAULT_MAX_ITERATIONS));
         return parameters;
     }
 
     private int maxIterations = DEFAULT_MAX_ITERATIONS;
-    private int k = 3;
+    private int k = DEFAULT_CLUSTERS_SIZE;
     private Cluster[] clusters;
     private int seed;
     private Dataset data;
     private ClustererStatistics algorithmResult;
     private int iterations = maxIterations;
 
+    /**
+     * Default constructor.
+     */
     public SimpleKMeans() {
         clusters = new Cluster[k];
         for (int i = 0; i < clusters.length; i++) {
@@ -54,10 +70,7 @@ public final class SimpleKMeans implements IClusterer {
     }
 
     /**
-     * Safely get a random positive integer
-     * 
-     * @param r
-     * @return
+     * Safely get a random positive integer.
      */
     private static int nextPositiveInt(Random r) {
         int result = r.nextInt();
@@ -85,13 +98,13 @@ public final class SimpleKMeans implements IClusterer {
     }
 
     @Override
-    public void clusterize(Dataset data) {
+    public void clusterize(Dataset sourceData) {
         iterations = maxIterations;
         long startTime = System.currentTimeMillis();
-        initCenters(data);
+        initCenters(sourceData);
         boolean isAllIterations = true;
 
-        List<Instance> instances = data.getElements();
+        List<Instance> instances = sourceData.getElements();
         while (iterations-- > 0) {
             if (Thread.interrupted()) {
                 return;
@@ -103,7 +116,7 @@ public final class SimpleKMeans implements IClusterer {
             }
 
             for (int i = 0; i < instances.size(); i++) {
-                assignToCluster(instances.get(i), data);
+                assignToCluster(instances.get(i), sourceData);
             }
 
             // recalculate cluster centers
@@ -121,7 +134,7 @@ public final class SimpleKMeans implements IClusterer {
                     }
 
                     double dist = getDistanceAll(currentInstance,
-                            currentClusterInstances, data);
+                            currentClusterInstances, sourceData);
                     // System.out.println(dist);
                     if (dist < bestDistance) {
                         // System.out.println("if " + dist);
@@ -183,34 +196,21 @@ public final class SimpleKMeans implements IClusterer {
     }
 
     private double getDistanceAll(Instance instance,
-            List<Instance> allInstances, Dataset data) {
+            List<Instance> allInstances, Dataset distanceData) {
         double dist = 0;
         for (Instance currentInstance : allInstances) {
-            dist += getDistance(instance, currentInstance, data);
+            dist += getDistance(instance, currentInstance, distanceData);
         }
         return dist;
     }
 
-    public static double euclideanDistance(double[] a, double[] b) {
-        if (a == null || b == null || a.length != b.length) {
-            throw new IllegalArgumentException("a: " + Arrays.toString(a)
-                    + "; b: " + Arrays.toString(b));
-        }
-
-        double sum = 0;
-        for (int i = 0; i < a.length; ++i) {
-            sum += Math.pow((a[i] - b[i]), 2);
-        }
-        return Math.sqrt(sum);
-    }
-
-    private void assignToCluster(Instance instance, Dataset data) {
+    private void assignToCluster(Instance instance, Dataset assignData) {
         int assignedClusterIndex = -1;
         double minLen = Double.MAX_VALUE;
 
         // find nearest cluster center
         for (int i = 0; i < clusters.length; i++) {
-            double currentDistance = getDistance(i, instance, data);
+            double currentDistance = getDistance(i, instance, assignData);
             if (currentDistance < minLen) {
                 minLen = currentDistance;
                 assignedClusterIndex = i;
@@ -223,18 +223,19 @@ public final class SimpleKMeans implements IClusterer {
     }
 
     private double getDistance(int centerInstanceIndex, Instance instance,
-            Dataset data) {
+            Dataset distanceData) {
         Instance center = clusters[centerInstanceIndex].center;
-        return getDistance(center, instance, data);
+        return getDistance(center, instance, distanceData);
     }
 
-    private double getDistance(Instance center, Instance instance, Dataset data) {
+    private double getDistance(Instance center, Instance instance,
+            Dataset distanceData) {
         // List<Attribute> attributes = data.getAttributes();
         List<Value> centerAttributes = center.getVector();
         List<Value> instanceAttributes = instance.getVector();
         double distance = 0;
         for (int i = 0; i < centerAttributes.size(); i++) {
-            if (data.getClassIndex() == i) {
+            if (distanceData.getClassIndex() == i) {
                 continue;
             }
 
@@ -303,6 +304,9 @@ public final class SimpleKMeans implements IClusterer {
         return algorithmResult;
     }
 
+    /**
+     * This class represents a cluster in KMeans.
+     */
     private static class Cluster {
         private Instance center = new Instance(null);
         private List<Instance> instances = new ArrayList<Instance>();

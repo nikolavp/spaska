@@ -10,24 +10,24 @@ import spaska.data.Instance;
 import spaska.data.NominalValue;
 
 /**
- * 
- * @author Lazar Chifudov
+ * A simple statistics for clusterization algorithms.
  */
-
-/* A simple statistics for clusterization */
 public final class ClustererStatistics extends Statistics {
 
-	private static final int ONE_HUNDRED_PERCENT = 100;
-	
+	private static final double PERCENT_BASE = 100.;	
+
     private int[] clusters;
     private int[] instancesInClass;
     private Map<Instance, Integer> clusteredInstances;
     private List<String> classNames;
     private DatasetService service;
     
-    /*
-     * construct by an array which contains the numbers of instances per each
-     * cluster
+    /**
+     * Construct a statistic object by an array which contains the numbers of
+     * instances per each cluster.
+     * 
+     * @param clusters
+     *            an array containing the size of every cluster
      */
     public ClustererStatistics(int[] clusters) {
         this.clusters = clusters;
@@ -43,31 +43,32 @@ public final class ClustererStatistics extends Statistics {
     protected void generateInfo() {
         StringBuilder result = new StringBuilder();
         result.append("================================================\n");
-        if (algorithmName != null) {
-            result.append("Clusterer: " + algorithmName + "\n");
+        if (getAlgorithmName() != null) {
+            result.append("Clusterer: " + getAlgorithmName() + "\n");
         }
-        instances = 0;
+        setInstances(0);
         for (int i : clusters) {
-            instances += i;
+            setInstances(getInstances() + i);
         }
-        result.append("Total instances: " + instances + "\n");
+        result.append("Total instances: " + getInstances() + "\n");
         result.append("Number of clusters: " + clusters.length + "\n");
-        result.append("Test time (HH:MM:SS.MS): " + timeToString(testTime));
+        result.append("Test time (HH:MM:SS.MS): " + timeToString(getTestTime()));
         result.append("\n------------------------------------------------\n");
 
         for (int i = 0; i < clusters.length; i++) {
             result.append("Cluster " + i + ": " + clusters[i]);
-            double percent = (ONE_HUNDRED_PERCENT * clusters[i]) / (double) instances;
+            double percent = (PERCENT_BASE * clusters[i]) / (double) getInstances();
             result.append(String.format(" instances (%.2f%%)\n", percent));
         }
         result.append("================================================\n");
         
-        if (algorithmName != "ZeroClusterer") {
+        if (getAlgorithmName() != "ZeroClusterer") {
         	result.append(getEvaluationInfo(result));
         }
         
-        info = result.toString();
-        modified = false;
+        result.append("================================================\n");
+        setInfo(result.toString());
+        setModified(false);
     }
 
     /* Get the evaluation statistic string */

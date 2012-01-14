@@ -151,6 +151,13 @@ public final class NominalInfoService {
         }
     }
 
+    /**
+     * Gets the gain ratio from this attribute index.
+     * 
+     * @param attributeIndex
+     *            the attribute index
+     * @return the double value for the gain ration from the attribute
+     */
     public double getGainRatio(int attributeIndex) {
         if (!assertCalculation() || outOfBounds(attributeIndex)) {
             return 0;
@@ -158,15 +165,30 @@ public final class NominalInfoService {
         return gainRatio[attributeIndex];
     }
 
+    /**
+     * Get the class entropy.
+     * 
+     * @return the class entropy
+     */
     public double getClassesEntropy() {
         return classesEntropy;
     }
 
+    /**
+     * Get the siblings majority class for the found class entropy.
+     * 
+     * @return the siblings majority class
+     */
     public Value getSiblingsMajorityClass() {
         assertCalculation();
         return siblingsMajorityClass;
     }
 
+    /**
+     * Checks if the attributes provided were all already used.
+     * 
+     * @return true if the attributes were already used and false otherwise
+     */
     public boolean isEmpty() {
         return isEmpty;
     }

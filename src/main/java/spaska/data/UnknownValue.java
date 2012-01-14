@@ -2,10 +2,19 @@ package spaska.data;
 
 import spaska.data.Attribute.ValueType;
 
+/**
+ * An unknown value in the dataset.
+ */
 public final class UnknownValue extends Value {
 
     private static UnknownValue instance = new UnknownValue();
 
+    /**
+     * The unknown value is a singleton throughout the whole framework. This
+     * method will retrieve it.
+     * 
+     * @return the single unknown value
+     */
     public static UnknownValue getInstance() {
         return instance;
     }
