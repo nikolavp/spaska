@@ -10,6 +10,7 @@ import spaska.data.NominalValue;
 import spaska.data.Value;
 import spaska.statistics.ClustererStatistics;
 
+
 public final class ZeroClusterer implements IClusterer {
 
     private Dataset clusteredData;
