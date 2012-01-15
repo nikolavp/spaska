@@ -57,8 +57,8 @@ public class MainApp extends JFrame implements ActionListener {
         if (System.getProperty("os.name").startsWith("Mac")) {
             System.setProperty("apple.laf.useScreenMenuBar", "true");
         }
-        setTitle(bundle.get(bundle.APP_TITLE));
-        setPreferredSize((Dimension) bundle.getObject(bundle.APP_SIZE));
+        setTitle(bundle.get(AppResources.APP_TITLE));
+        setPreferredSize((Dimension) bundle.getObject(AppResources.APP_SIZE));
 
         createMenuBar();
         buildGui();
@@ -69,7 +69,7 @@ public class MainApp extends JFrame implements ActionListener {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         setVisible(true);
-        setIconImage(bundle.getIcon(bundle.get(bundle.APP_ICON)).getImage());
+        setIconImage(bundle.getIcon(bundle.get(AppResources.APP_ICON)).getImage());
     }
 
     public void showStatistics(Statistics st) {
@@ -111,7 +111,7 @@ public class MainApp extends JFrame implements ActionListener {
             statDialog.add(new JScrollPane(area));
 
             statDialog.setPreferredSize((Dimension) bundle
-                    .getObject(bundle.STAT_DIALOG_SIZE));
+                    .getObject(AppResources.STAT_DIALOG_SIZE));
             statDialog.pack();
 
             statDialog.setLocationRelativeTo(null);
@@ -171,7 +171,7 @@ public class MainApp extends JFrame implements ActionListener {
             List<JLabel> labels = new LinkedList<JLabel>();
             labels.add(new JLabel(""));
             labels.add(new JLabel(""));
-            for (String s : bundle.get(bundle.APP_NAME).split("\n")) {
+            for (String s : bundle.get(AppResources.APP_NAME).split("\n")) {
                 JLabel l = new JLabel(s);
                 l.setFont(bodyFont);
                 labels.add(l);
@@ -180,15 +180,15 @@ public class MainApp extends JFrame implements ActionListener {
             c.gridy = 0;
             c.gridheight = labels.size() + 1;
             c.anchor = GridBagConstraints.NORTHWEST;
-            panel.add(new JLabel(bundle.getIcon(bundle.get(bundle.APP_ICON))),
+            panel.add(new JLabel(bundle.getIcon(bundle.get(AppResources.APP_ICON))),
                     c);
             c.gridx = 1;
             c.gridy = 0;
             c.gridheight = 1;
             c.anchor = GridBagConstraints.NORTHEAST;
             panel.add(
-                    new JLabel(bundle.get(bundle.APP_TITLE) + " "
-                            + bundle.get(bundle.APP_VERSION)), c);
+                    new JLabel(bundle.get(AppResources.APP_TITLE) + " "
+                            + bundle.get(AppResources.APP_VERSION)), c);
 
             for (JLabel l : labels) {
                 c.gridy++;
@@ -204,14 +204,15 @@ public class MainApp extends JFrame implements ActionListener {
             labels.add(new JLabel(""));
             labels.add(new JLabel("Credits:"));
 
-            for (String s : bundle.get(bundle.APP_CERDITS).split("\n")) {
+            for (String s : bundle.get(AppResources.APP_CERDITS).split("\n")) {
                 JLabel l = new JLabel(s);
                 l.setFont(bodyFont);
                 labels.add(l);
             }
             labels.add(new JLabel(""));
             labels.add(new JLabel(""));
-            JLabel copyRight = new JLabel(bundle.get(bundle.APP_COPYRIGHT));
+            JLabel copyRight = new JLabel(
+                    bundle.get(AppResources.APP_COPYRIGHT));
             labels.add(copyRight);
             labels.add(new JLabel(""));
             labels.add(new JLabel(""));

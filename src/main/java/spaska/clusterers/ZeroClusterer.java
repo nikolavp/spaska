@@ -10,12 +10,22 @@ import spaska.data.NominalValue;
 import spaska.data.Value;
 import spaska.statistics.ClustererStatistics;
 
+/**
+ * A zero implementation for the clustering interface. This class just clusters
+ * all instances into one cluster and is mostly used to test other clustering
+ * algorithms.
+ */
 public final class ZeroClusterer implements IClusterer {
 
     private Dataset clusteredData;
 
     private long executionTime;
 
+    /**
+     * Get the parameters for this clusterer.
+     * 
+     * @return the parameters for this clusterer
+     */
     public static Map<String, String> getParameters() {
         return null;
     }
@@ -46,8 +56,8 @@ public final class ZeroClusterer implements IClusterer {
 
     @Override
     public ClustererStatistics getStatistic() {
-        int[] matrix = {
-                clusteredData.getElements().size()
+        int[] matrix = { 
+                clusteredData.getElements().size() 
         };
         ClustererStatistics statistic = new ClustererStatistics(matrix);
 
@@ -64,11 +74,6 @@ public final class ZeroClusterer implements IClusterer {
     @Override
     public String getName() {
         return "ZeroClusterer";
-    }
-
-    public void setParameters(String paramName, String paramValue) {
-        throw new IllegalArgumentException(
-                "ZeroRClusterer: unknown parameter: " + paramName);
     }
 
     @Override
