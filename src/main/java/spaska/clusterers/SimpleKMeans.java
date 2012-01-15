@@ -99,6 +99,7 @@ public final class SimpleKMeans implements IClusterer {
 
     @Override
     public void clusterize(Dataset sourceData) {
+        this.data = sourceData;
         iterations = maxIterations;
         long startTime = System.currentTimeMillis();
         initCenters(sourceData);
