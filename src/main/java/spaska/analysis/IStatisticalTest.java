@@ -4,8 +4,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import edu.umd.cs.findbugs.annotations.SuppressWarnings;
-
 /**
  * An interface representing statistical test analyzers that compare two
  * classifiers. The model that is used is based on the statistical hypothesis.

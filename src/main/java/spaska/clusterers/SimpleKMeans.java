@@ -266,11 +266,10 @@ public final class SimpleKMeans implements IClusterer {
                 distance += Math.pow(normalizedCenterDoubleValue
                         - normalizedInstanceDoubleValue, 2);
 
-            } else if (centerValue.getClass().equals(NominalValue.class)) {
-                // add 1 if same, 0 if different
-                if (centerValue.getValue().equals(instanceValue.getValue())) {
-                    distance += 1;
-                }
+            } else if (centerValue.getClass().equals(NominalValue.class)
+            // add 1 if same, 0 if different
+                    && centerValue.getValue().equals(instanceValue.getValue())) {
+                distance += 1;
             }
         }
         return distance;

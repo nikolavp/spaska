@@ -63,8 +63,8 @@ public final class KNN implements IClassifier {
      */
     private static class Pair {
 
-        private double distance;
-        private Instance instance;
+        public double distance;
+        public Instance instance;
 
         public Pair(double distance, Instance instance) {
             this.distance = distance;

@@ -75,18 +75,16 @@ public class ARFFInputReader extends AbstractInputReader {
         Attribute attr = new Attribute(name, type);
         getDataset().addAttribute(attr);
 
-        if (token.length > 2) {
-            if (type == ValueType.Nominal) {
-                Set<Value> domain = new HashSet<Value>();
-                int start = line.indexOf("{");
-                int end = line.indexOf("}", start + 1);
-                String[] domains = line.substring(start + 1, end).split(",");
+        if (token.length > 2 && type == ValueType.Nominal) {
+            Set<Value> domain = new HashSet<Value>();
+            int start = line.indexOf("{");
+            int end = line.indexOf("}", start + 1);
+            String[] domains = line.substring(start + 1, end).split(",");
 
-                for (String str : domains) {
-                    domain.add(Factory.createValue(str.trim()));
-                }
-                getDataset().addAttributeDomain(attr, domain);
+            for (String str : domains) {
+                domain.add(Factory.createValue(str.trim()));
             }
+            getDataset().addAttributeDomain(attr, domain);
         }
     }
 
