@@ -1,5 +1,11 @@
 package spaska.analysis;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import edu.umd.cs.findbugs.annotations.SuppressWarnings;
+
 /**
  * An interface representing statistical test analyzers that compare two
  * classifiers. The model that is used is based on the statistical hypothesis.
@@ -21,7 +27,8 @@ public interface IStatisticalTest {
      * Convenient seeds that can be used when building the crossvalidation
      * analyzer in implementations.
      */
-    int[] SEEDS = {23, 50, 48, 17, 29, 10, 76, 49, 15, 99};
+    List<Integer> SEEDS = Collections.unmodifiableList(Arrays.asList(23, 50,
+            48, 17, 29, 10, 76, 49, 15, 99));
 
     /**
      * Returns the value behind error type 'I'.

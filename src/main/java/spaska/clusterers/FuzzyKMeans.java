@@ -176,7 +176,7 @@ public class FuzzyKMeans implements IClusterer {
 						instances.get(instanceIndex), center[clusterIndex])
 						* numberOfClusters;
 				double delimiter = Math.pow(currentClusterDistance
-						/ allClusterDistance, 2 / (fuzzifier - 1));
+						/ allClusterDistance, 2.0D / (fuzzifier - 1));
 
 				if (delimiter != 0) {
 					newMembershipFunction[clusterIndex][instanceIndex] = 1 / delimiter;

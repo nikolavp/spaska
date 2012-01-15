@@ -19,7 +19,7 @@ public final class ClustererStatistics extends Statistics {
      *            an array containing the size of every cluster
      */
     public ClustererStatistics(int[] clusters) {
-        this.clusters = clusters;
+        this.clusters = clusters.clone();
     }
 
     @Override

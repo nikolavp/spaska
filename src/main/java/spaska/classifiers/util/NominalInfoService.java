@@ -51,7 +51,7 @@ public final class NominalInfoService {
      */
     public NominalInfoService(DatasetService datasetService,
             List<Instance> instances, boolean[] usedAttributes) {
-        this.usedAttributes = usedAttributes;
+        this.usedAttributes = usedAttributes.clone();
         this.entropy = new double[usedAttributes.length];
         this.gainRatio = new double[usedAttributes.length];
         this.isCalculatedInfo = false;
