@@ -1,19 +1,26 @@
 package spaska.classifiers;
 
-import static org.hamcrest.Matchers.greaterThan;
-import static org.junit.Assert.assertThat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import org.junit.Test;
-
-import spaska.statistics.ClassifierStatistics;
 import spaska.test.ClassifierTestBase;
-import spaska.test.ClassifierTester;
 
 public class TwoLayerPerceptronTest extends ClassifierTestBase {
-	@Test
-	public void shouldGiveGoodResultsOnIrisiDataset() throws Exception {
-		ClassifierStatistics statistics = new ClassifierTester(
-				new TwoLayerPerceptron()).onDataset("iris").crossValidate(10);
-		assertThat(statistics.getGeneralPrecision(), greaterThan(0.946));
-	}
+    private static final Logger LOG = LoggerFactory
+            .getLogger(TwoLayerPerceptronTest.class);
+
+    @Override
+    protected Logger getLogger() {
+        return LOG;
+    }
+
+    @Override
+    protected TestDescriptor getDescriptor() {
+        return new TestDescriptor().iris(0.946, 0.946);
+    }
+
+    @Override
+    protected IClassifier getClassifier() {
+        return new TwoLayerPerceptron();
+    }
 }

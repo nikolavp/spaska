@@ -120,8 +120,7 @@ public class ClustererTab extends SpaskaTab {
         for (Entry<Class<? extends T>, Map<String, String>> entry : classToParameters
                 .entrySet()) {
             Class<? extends T> cls = entry.getKey();
-            Map<String, String> params = (entry.getValue() != null) ? entry
-                    .getValue() : Utils.getParamsOfClass(cls);
+            Map<String, String> params = entry.getValue();
 
             LOG.info("Set " + cls + " with " + params);
             if (Validator.class.isAssignableFrom(cls)) {
