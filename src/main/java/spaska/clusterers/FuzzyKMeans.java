@@ -15,35 +15,43 @@ import spaska.statistics.ClustererStatistics;
 
 /**
  * 
- * The algorithm is implemented according to the algorithm described in this
- * tutorial:
+ * The algorithm is implemented according to the algorithm described in this tutorial.
  * http://home.dei.polimi.it/matteucc/Clustering/tutorial_html/cmeans.html
  * 
- */
+ */	
 public class FuzzyKMeans implements IClusterer {
 
 	private static final String NUMBER_OF_CLUSTERS_PARAMETER = "Number of clusters";
 	private static final String MAX_ITERATIONS_ALGORITHM_PARAMETER = "Max number of iterations";
 	private static final String FUZZIFIER_PARAMETER = "Fuzzifier";
 	private static final int DEFAULT_MAX_ITERATIONS = 100;
-
+	private static final int DEFAULT_NUMBER_OF_CLUSTERS = 3;
+	private static final int NUMBER_OF_CLUSTERS_INDEX_PARAMETER = 3;
+	private static final double EPSILON = 0.01;
+	
 	private ClustererStatistics algorithmResults;
 	private List<Instance> instances;
 	private Dataset data;
-	private int numberOfClusters = 3;
+	private int numberOfClusters = DEFAULT_NUMBER_OF_CLUSTERS;
 	private int fuzzifier = 2;
 	private int numberOfInstances;
 	private int numberOfAttributes;
 	private int maxIterations = DEFAULT_MAX_ITERATIONS;
 	private double[][] membershipFunction;
 	private double[][] newMembershipFunction;
-	private double[][] center;
+	private double[][] centers;
 	private DatasetService service;
-
+		
+	/*
+	 * Constructor for FuzzyKMeans algorithm
+	 */
 	public FuzzyKMeans() {
 	}
 
 	@Override
+	/*
+	 * Sets parameters given from user to the algorithm 
+	 */
 	public void setParameters(Map<String, String> parameters) {
 		for (Entry<String, String> entry : parameters.entrySet()) {
 			String key = entry.getKey();
@@ -77,9 +85,12 @@ public class FuzzyKMeans implements IClusterer {
 		}
 	}
 
+	/*
+	 * Gets parameters that user has provided
+	 */
 	public static Map<String, String> getParameters() {
 		Map<String, String> parameters = new HashMap<String, String>();
-		parameters.put(NUMBER_OF_CLUSTERS_PARAMETER, String.valueOf(3));
+		parameters.put(NUMBER_OF_CLUSTERS_PARAMETER, String.valueOf(NUMBER_OF_CLUSTERS_INDEX_PARAMETER));
 		parameters.put(MAX_ITERATIONS_ALGORITHM_PARAMETER,
 				String.valueOf(DEFAULT_MAX_ITERATIONS));
 		parameters.put(FUZZIFIER_PARAMETER, String.valueOf(2));
@@ -87,10 +98,10 @@ public class FuzzyKMeans implements IClusterer {
 	}
 
 	@Override
-	public void clusterize(Dataset data) {
+	public void clusterize(Dataset dataInstances) {
 		long startTime = System.currentTimeMillis();
 
-		initialize(data);
+		initialize(dataInstances);
 
 		for (int i = 0; i < maxIterations; i++) {
 			computeNewCenters();
@@ -99,10 +110,11 @@ public class FuzzyKMeans implements IClusterer {
 			if (closeEnoughly()) {
 				break;
 			}
-			CopyMembershipFunction();
+			copyMembershipFunction();
 		}
 
 		int[] result = new int[numberOfClusters];
+		Map<Instance, Integer> clusteredInstances = new HashMap<Instance, Integer>();
 		for (int instanceIndex = 0; instanceIndex < numberOfInstances; instanceIndex++) {
 			double max = 0.0;
 			int cluster = 0;
@@ -114,14 +126,18 @@ public class FuzzyKMeans implements IClusterer {
 				}
 			}
 			result[cluster]++;
+			clusteredInstances.put(instances.get(instanceIndex), cluster);
 		}
 
 		algorithmResults = new ClustererStatistics(result);
 		algorithmResults.setTestTime(System.currentTimeMillis() - startTime);
+		algorithmResults.setClusteredInstances(clusteredInstances);
+		algorithmResults.setClassNames(dataInstances.getAllClassNamesArray());
+		algorithmResults.setService(service);
 		algorithmResults.setAlgorithmName("Fuzzy K-Means");
 	}
 
-	private void CopyMembershipFunction() {
+	private void copyMembershipFunction() {
 		for (int clusterIndex = 0; clusterIndex < numberOfClusters; clusterIndex++) {
 			membershipFunction[clusterIndex] = newMembershipFunction[clusterIndex]
 					.clone();
@@ -153,7 +169,7 @@ public class FuzzyKMeans implements IClusterer {
 				}
 			}
 		}
-		if (0 < max && max < 0.1) {
+		if (0 < max && max < EPSILON) {
 			return true;
 		}
 		return false;
@@ -168,12 +184,12 @@ public class FuzzyKMeans implements IClusterer {
 			double allClusterDistance = 0.0;
 			for (int clusterIndex = 0; clusterIndex < numberOfClusters; clusterIndex++) {
 				allClusterDistance += distance(instances.get(instanceIndex),
-						center[clusterIndex]);
+						centers[clusterIndex]);
 			}
 
 			for (int clusterIndex = 0; clusterIndex < numberOfClusters; clusterIndex++) {
 				double currentClusterDistance = distance(
-						instances.get(instanceIndex), center[clusterIndex])
+						instances.get(instanceIndex), centers[clusterIndex])
 						* numberOfClusters;
 				double delimiter = Math.pow(currentClusterDistance
 						/ allClusterDistance, 2.0D / (fuzzifier - 1));
@@ -246,7 +262,7 @@ public class FuzzyKMeans implements IClusterer {
 							fuzzifier);
 				}
 
-				center[clusterIndex][attributeIndex] = sum / membershipSum;
+				centers[clusterIndex][attributeIndex] = sum / membershipSum;
 			}
 		}
 	}
@@ -254,14 +270,14 @@ public class FuzzyKMeans implements IClusterer {
 	/*
 	 * Initializes data and sets initial values to membership funcion
 	 */
-	private void initialize(Dataset data) {
-		instances = data.getElements();
+	private void initialize(Dataset dataInstances) {
+		instances = dataInstances.getElements();
 		numberOfInstances = instances.size();
 		membershipFunction = new double[numberOfClusters][numberOfInstances];
 		newMembershipFunction = new double[numberOfClusters][numberOfInstances];
-		service = new DatasetService(data);
+		service = new DatasetService(dataInstances);
 		numberOfAttributes = service.numberOfAttributes();
-		center = new double[numberOfClusters][numberOfAttributes];
+		centers = new double[numberOfClusters][numberOfAttributes];
 		
 
 		int instanceIndex = 0;

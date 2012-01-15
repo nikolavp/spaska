@@ -12,6 +12,7 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import spaska.classifiers.util.DatasetService;
 import spaska.data.Dataset;
 import spaska.data.Instance;
 import spaska.data.NominalValue;
@@ -177,8 +178,20 @@ public final class SimpleKMeans implements IClusterer {
         for (int i = 0; i < clusters.length; i++) {
             res[i] = clusters[i].instances.size();
         }
+        
+        Map<Instance, Integer> clusteredInstances = new HashMap<Instance, Integer>();
+        for (int i = 0; i < clusters.length; i++) {
+        	List<Instance> clusterInstances = clusters[i].instances;
+        	for (int j = 0; j < clusterInstances.size(); j++) {
+        		clusteredInstances.put(clusterInstances.get(j), i);
+        	}
+        }
+        
         algorithmResult = new ClustererStatistics(res);
         algorithmResult.setTestTime(System.currentTimeMillis() - startTime);
+        algorithmResult.setClusteredInstances(clusteredInstances);
+        algorithmResult.setClassNames(data.getAllClassNamesArray());
+        algorithmResult.setService(new DatasetService(data));
         algorithmResult.setAlgorithmName("Simple K-Means");
     }
 
