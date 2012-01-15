@@ -222,13 +222,13 @@ public final class DecisionTree implements IClassifier {
      */
     @SuppressWarnings(value = "URF_UNREAD_FIELD", justification = "This will be used when someone implement pruning")
     public void setParameters(String paramName, String paramValue) {
-        if (paramName.equalsIgnoreCase("postPrune")) {
+//        if (paramName.equalsIgnoreCase("postPrune")) {
             // if (paramValue.equalsIgnoreCase("true")) {
             // postPrune = true;
             // } else {
             // postPrune = false;
             // }
-        }
+//        }
     }
 
     @Override

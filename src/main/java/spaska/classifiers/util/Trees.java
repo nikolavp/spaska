@@ -16,6 +16,10 @@ import spaska.data.Value;
  * 
  */
 public final class Trees {
+    private Trees() {
+
+    }
+
     /**
      * Distribute instances according to the condition they satisfy.
      * 
@@ -79,7 +83,17 @@ public final class Trees {
         return result;
     }
 
-    // get a service for the best numeric attribute to split on
+    /**
+     * Get a service for the best numeric attribute to split on.
+     * 
+     * @param list
+     *            the list to split
+     * @param classesEntropy
+     *            the classes entropy
+     * @param datasetService
+     *            the data service for the instances
+     * @return the service for the best numeric attribute to split on
+     */
     public static ContinuousValueService getBestNumeric(List<Instance> list,
             double classesEntropy, DatasetService datasetService) {
         int[] numericIndices = datasetService.getNumericIndices();
@@ -99,7 +113,18 @@ public final class Trees {
         return best;
     }
 
-    // get conditions (nodes in the tree) for a nominal attribute
+    /**
+     * Get conditions (nodes in the tree) for a nominal attribute.
+     * 
+     * @param attributeIndex
+     *            the attribute index
+     * @param majorityClass
+     *            the majority class
+     * @param datasetService
+     *            the data service to use as an utility
+     * @return conditions (nodes in the tree) for a nominal attribute
+     * 
+     */
     public static List<Condition> getNominalConditions(int attributeIndex,
             Value majorityClass, DatasetService datasetService) {
         List<Condition> children = new ArrayList<Condition>();
@@ -110,7 +135,19 @@ public final class Trees {
         return children;
     }
 
-    // get conditions for a numeric attribute (binary split point)
+    /**
+     * Get conditions for a numeric attribute (binary split point).
+     * 
+     * @param attributeIndex
+     *            the attribute index
+     * @param splitValue
+     *            the split value
+     * @param majorityClass
+     *            the majority class
+     * @param datasetService
+     *            the data service to use as an utility
+     * @return conditions for a numeric attribute (binary split point)
+     */
     public static List<Condition> getNumericConditions(int attributeIndex,
             double splitValue, Value majorityClass,
             DatasetService datasetService) {

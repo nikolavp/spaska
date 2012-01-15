@@ -3,6 +3,8 @@ package spaska.gui;
 import java.awt.Cursor;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -13,6 +15,7 @@ import javax.swing.JTextField;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import spaska.data.readers.Validator;
 import spaska.gui.engines.Engine;
 import spaska.statistics.Statistics;
 
@@ -53,6 +56,38 @@ public abstract class SpaskaTab extends JPanel implements ActionListener {
         run.setActionCommand(Utils.START);
         run.addActionListener(this);
     }
+
+    protected <T> void setEngineArgs(
+            Map<Class<? extends T>, Map<String, String>> classToParameters,
+            String context) throws Exception {
+        for (Entry<Class<? extends T>, Map<String, String>> entry : classToParameters
+                .entrySet()) {
+            Class<? extends T> cls = entry.getKey();
+            Map<String, String> params = (entry.getValue() != null) ? entry
+                    .getValue() : Utils.getParamsOfClass(cls);
+
+            LOG.info("Set " + cls + " with " + params);
+            if (Validator.class.isAssignableFrom(cls)) {
+                getEngine().addValidator((Validator) cls.newInstance(), params);
+            } else {
+                setComponent(cls, params, context);
+            }
+        }
+    }
+
+    /**
+     * Set a component class when calling {@link #setEngineArgs(Map)}.
+     * 
+     * @param cls
+     *            the class to be set as component
+     * @param context
+     *            this is used to track some context from where setEngineArgs
+     *            was called
+     * @throws Exception
+     *             if something goes wrong while setting the component
+     */
+    protected abstract <T> void setComponent(Class<? extends T> cls,
+            Map<String, String> params, String context) throws Exception;
 
     public void openFile() {
         if (fileChooser == null) {

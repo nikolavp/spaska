@@ -5,10 +5,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.util.Map;
-import java.util.Map.Entry;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import spaska.analysis.ICompareAnalyzer;
 import spaska.classifiers.IClassifier;
@@ -21,9 +17,9 @@ import spaska.gui.engines.CompareEngine;
  */
 public class CompareTab extends SpaskaTab {
 
-    private static final long serialVersionUID = 1L;
+    private static final String FIRST_CLASSIFIER_CONTEXT = "f";
 
-    private static final Logger LOG = LoggerFactory.getLogger(CompareTab.class);
+    private static final long serialVersionUID = 1L;
 
     private ComboList<IClassifier> classifierCombo1;
     private ComboList<IClassifier> classifierCombo2;
@@ -118,10 +114,11 @@ public class CompareTab extends SpaskaTab {
 
                 getEngine().setFile(openedFile);
 
-                setEngineArgs(validatorCombo.getParameters(), false);
-                setEngineArgs(classifierCombo1.getParameters(), true);
-                setEngineArgs(classifierCombo2.getParameters(), false);
-                setEngineArgs(analyzerCombo.getParameters(), false);
+                setEngineArgs(validatorCombo.getParameters(), null);
+                setEngineArgs(classifierCombo1.getParameters(),
+                        FIRST_CLASSIFIER_CONTEXT);
+                setEngineArgs(classifierCombo2.getParameters(), null);
+                setEngineArgs(analyzerCombo.getParameters(), null);
 
                 start();
                 setButtonStop();
@@ -134,33 +131,6 @@ public class CompareTab extends SpaskaTab {
         }
     }
 
-    private <T> void setEngineArgs(
-            Map<Class<? extends T>, Map<String, String>> classToParameters,
-            boolean first) throws Exception {
-        for (Entry<Class<? extends T>, Map<String, String>> entry : classToParameters
-                .entrySet()) {
-            Class<? extends T> cls = entry.getKey();
-            Map<String, String> params = (entry.getValue() != null) ? entry
-                    .getValue() : Utils.getParamsOfClass(cls);
-
-            LOG.info("Set " + cls + " with " + params);
-            if (Validator.class.isAssignableFrom(cls)) {
-                getEngine().addValidator((Validator) cls.newInstance(), params);
-            } else if (IClassifier.class.isAssignableFrom(cls)) {
-                if (first) {
-                    getEngine().setClassifier1((IClassifier) cls.newInstance(),
-                            params);
-                } else {
-                    getEngine().setClassifier2((IClassifier) cls.newInstance(),
-                            params);
-                }
-            } else if (ICompareAnalyzer.class.isAssignableFrom(cls)) {
-                getEngine().setAnalyzer((ICompareAnalyzer) cls.newInstance(),
-                        params);
-            }
-        }
-    }
-
     @Override
     protected CompareEngine getEngine() {
         if (engine == null) {
@@ -169,4 +139,20 @@ public class CompareTab extends SpaskaTab {
         return (CompareEngine) engine;
     }
 
+    @Override
+    protected <T> void setComponent(Class<? extends T> cls,
+            Map<String, String> params, String context) throws Exception {
+        if (IClassifier.class.isAssignableFrom(cls)) {
+            if (FIRST_CLASSIFIER_CONTEXT.equals(context)) {
+                getEngine().setClassifier1((IClassifier) cls.newInstance(),
+                        params);
+            } else {
+                getEngine().setClassifier2((IClassifier) cls.newInstance(),
+                        params);
+            }
+        } else if (ICompareAnalyzer.class.isAssignableFrom(cls)) {
+            getEngine().setAnalyzer((ICompareAnalyzer) cls.newInstance(),
+                    params);
+        }
+    }
 }
