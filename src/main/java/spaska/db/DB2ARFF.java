@@ -11,12 +11,28 @@ import spaska.data.Pair;
 import spaska.data.Value;
 import spaska.db.sql.SQLRoutines;
 
+/**
+ * 
+ * @author plamen
+ * 
+ */
 public class DB2ARFF {
-	SQLRoutines sqlroutines = null;
-	String name = null;
-	File file = null;
+	private SQLRoutines sqlroutines = null;
+	private String name = null;
+	private File file = null;
 
-	public DB2ARFF(String tableName, String fileName, String jdbcConnectionString) {
+	/**
+	 * 
+	 * @param tableName
+	 *            The name of the table, holding the data.
+	 * @param fileName
+	 *            The name of the file, in which the data is written. If
+	 *            fileName is null, then the default name is <table_name>.arff.
+	 * @param jdbcConnectionString
+	 *            JDBC Connection string
+	 */
+	public DB2ARFF(String tableName, String fileName,
+			String jdbcConnectionString) {
 		this.name = tableName;
 		this.sqlroutines = new SQLRoutines(jdbcConnectionString);
 		if (fileName == null) {
@@ -26,23 +42,28 @@ public class DB2ARFF {
 		}
 	}
 
-	private String getAttributeTypeName(int code, String name) {
+	private String getAttributeTypeName(int code, String attributeName) {
 		switch (code) {
 		case Types.DOUBLE:
 			return "NUMERIC";
 		case Types.VARCHAR:
 			StringBuffer result = new StringBuffer("{");
-			for (Value value : this.sqlroutines.getDomain(this.name, name)) {
+			for (Value value : this.sqlroutines.getDomain(this.name, attributeName)) {
 				result.append(value.toString() + " ");
 			}
 			// Remove the trailing space:
 			result.deleteCharAt(result.length() - 1);
 			result.append("}");
 			return result.toString();
+		default:
+			break;
 		}
 		return "Unknown";
 	}
 
+	/**
+	 * Writes the file.
+	 */
 	public void write() {
 		try {
 			BufferedWriter output = new BufferedWriter(
@@ -53,10 +74,10 @@ public class DB2ARFF {
 
 			for (Pair<String, Integer> attribute : this.sqlroutines
 					.getAttributes(this.name)) {
-				String name = attribute.getFirst();
+				String attributeName = attribute.getFirst();
 				String type = this.getAttributeTypeName(attribute.getSecond(),
 						name);
-				output.write("@ATTRIBUTE " + name + " " + type + "\n");
+				output.write("@ATTRIBUTE " + attributeName + " " + type + "\n");
 			}
 			output.write("\n");
 
@@ -71,7 +92,7 @@ public class DB2ARFF {
 
 				output.write(row.toString() + "\n");
 			}
-			
+
 			output.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -79,8 +100,10 @@ public class DB2ARFF {
 			e.printStackTrace();
 		}
 	}
-	
-	public static void main(String[] args) {
-		(new DB2ARFF("iris", null, "jdbc:mysql://localhost/spaska?user=spaska&password=spaska")).write();
-	}
+
+//	public static void main(String[] args) {
+//		(new DB2ARFF("iris", null,
+//				"jdbc:mysql://localhost/spaska?user=spaska&password=spaska"))
+//				.write();
+//	}
 }

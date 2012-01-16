@@ -27,7 +27,9 @@ public class SQLInputReader extends AbstractInputReader {
 	/**
 	 * 
 	 * @param tableName
+	 *            the name of the table, in which the information is stored
 	 * @param jdbcConnString
+	 *            JDBC connection string
 	 */
 	public SQLInputReader(String tableName, String jdbcConnString) {
 		this.tableName = tableName;
@@ -100,11 +102,5 @@ public class SQLInputReader extends AbstractInputReader {
 		this.handleData();
 		getDataset().setClassIndex(getDataset().getAttributesCount() - 1);
 		return getDataset();
-	}
-
-	public static void main(String[] args) {
-		System.out.println(new SQLInputReader("iris",
-				"jdbc:mysql://localhost/spaska?user=spaska&password=spaska")
-				.buildDataset().toString());
 	}
 }

@@ -15,10 +15,19 @@ import spaska.data.Factory;
 import spaska.data.Value;
 import spaska.db.SQLGetter;
 
+/**
+ * 
+ * @author plamen
+ *
+ */
 public class SQLRoutines implements SQLGetter {
 	private Connection connection;
 	private Statement statement;
 
+	/**
+	 * 
+	 * @param jdbcConnString JDBC Connection string
+	 */
 	public SQLRoutines(String jdbcConnString) {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -40,6 +49,14 @@ public class SQLRoutines implements SQLGetter {
 		}
 	}
 
+	/**
+	 * 
+	 * @param tableName
+	 *            The table, from which the information is retrieved.
+	 * @param columnName
+	 *            The attribute, for which the domain is searched.
+	 * @return List of values for an attribute with type "Nominal"
+	 */
 	public ArrayList<Value> getDomain(String tableName, String columnName) {
 		String query = "SELECT DISTINCT " + columnName + " FROM " + tableName;
 		ArrayList<Value> result = new ArrayList<Value>();
@@ -55,6 +72,13 @@ public class SQLRoutines implements SQLGetter {
 		return result;
 	}
 
+	/**
+	 * 
+	 * @param tableName
+	 *            The table, from which the information is retrieved.
+	 * @return List of pairs (Attribute name, SQL Type Code), to get the
+	 *         attribute name and the attribute type.
+	 */
 	public ArrayList<Pair<String, Integer>> getAttributes(String tableName) {
 		ArrayList<Pair<String, Integer>> result = new ArrayList<Pair<String, Integer>>();
 
@@ -75,6 +99,13 @@ public class SQLRoutines implements SQLGetter {
 		return result;
 	}
 
+	/**
+	 * 
+	 * @param tableName
+	 *            The table, from which the information is retrieved.
+	 * @return List of arrays of Strings, each array contains information for
+	 *         one instance.
+	 */
 	public ArrayList<String[]> getData(String tableName) {
 		ArrayList<String[]> result = new ArrayList<String[]>();
 		String query = "SELECT * FROM " + tableName;
