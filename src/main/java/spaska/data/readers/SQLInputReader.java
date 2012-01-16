@@ -1,12 +1,5 @@
 package spaska.data.readers;
 
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -18,7 +11,9 @@ import spaska.data.Attribute.ValueType;
 import spaska.data.Dataset;
 import spaska.data.Factory;
 import spaska.data.Instance;
+import spaska.data.Pair;
 import spaska.data.Value;
+import spaska.db.sql.SQLRoutines;
 
 /**
  * @author psstoev
@@ -26,31 +21,17 @@ import spaska.data.Value;
  */
 public class SQLInputReader extends AbstractInputReader {
 
-	private Connection connection = null;
-	private Statement statement = null;
 	private String tableName = null;
+	private SQLRoutines sqlroutines = null;
 
+	/**
+	 * 
+	 * @param tableName
+	 * @param jdbcConnString
+	 */
 	public SQLInputReader(String tableName, String jdbcConnString) {
 		this.tableName = tableName;
-
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			this.connection = DriverManager.getConnection(jdbcConnString);
-			this.statement = connection.createStatement();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
-	protected void finalize() throws Throwable {
-		try {
-			this.statement.close();
-			this.connection.close();
-		} finally {
-			super.finalize();
-		}
+		this.sqlroutines = new SQLRoutines(jdbcConnString);
 	}
 
 	private ValueType getValueType(int valueCode) {
@@ -65,73 +46,65 @@ public class SQLInputReader extends AbstractInputReader {
 		return ValueType.Unknown;
 	}
 
-	private Set<Value> getDomain(String columnName)
-			throws SQLException {
+	private Set<Value> getDomain(String columnName) {
 		Set<Value> domain = new HashSet<Value>();
-		String query = "SELECT DISTINCT " + columnName + " FROM "
-				+ this.tableName;
-		ResultSet values = this.statement.executeQuery(query);
 
-		while (values.next()) {
-			domain.add(Factory.createValue(values.getString(columnName)));
+		for (Value value : this.sqlroutines.getDomain(this.tableName,
+				columnName)) {
+			domain.add(value);
 		}
 		return domain;
 	}
 
-	private void handleAttributes() throws SQLException {
-		DatabaseMetaData md = this.connection.getMetaData();
-		ResultSet columnsAndTypes = md.getColumns(null, null, this.tableName,
-				null);
+	private void handleAttributes() {
+		ArrayList<Pair<String, Integer>> attributes = this.sqlroutines
+				.getAttributes(this.tableName);
 
-		while (columnsAndTypes.next()) {
-			String name = columnsAndTypes.getString("COLUMN_NAME");
-			ValueType type = this.getValueType(columnsAndTypes
-					.getInt("DATA_TYPE"));
+		for (Pair<String, Integer> attribute : attributes) {
+			String name = attribute.getFirst();
+			ValueType type = this.getValueType(attribute.getSecond());
 			Attribute attr = new Attribute(name, type);
 
-			this.dataset.addAttribute(attr);
+			this.getDataset().addAttribute(attr);
 			if (type.equals(ValueType.Nominal)) {
-				this.dataset.addAttributeDomain(attr, this.getDomain(name));
+				this.getDataset()
+						.addAttributeDomain(attr, this.getDomain(name));
 			}
 		}
 	}
 
-	private void handleData() throws SQLException {
-		String query = "SELECT * FROM " + this.tableName;
-		ResultSet result = this.statement.executeQuery(query);
-		ResultSetMetaData md = result.getMetaData();
-		int columnCount = md.getColumnCount();
+	private void handleData() {
+		ArrayList<String[]> instanceData = this.sqlroutines
+				.getData(this.tableName);
 
-		while (result.next()) {
-			List<String> strValues = new ArrayList<String>();
-			for (int i = 1; i <= columnCount; i++) {
-				strValues.add(result.getObject(i).toString());
-			}
-			List<Value> element = Factory.createElementData(
-					strValues.toArray(new String[0]), dataset);
-			dataset.addElement(new Instance(element));
+		for (String[] data : instanceData) {
+			List<Value> element = Factory.createElementData(data,
+					this.getDataset());
+			this.getDataset().addElement(new Instance(element));
 		}
 
-		for (Validator v : validators) {
+		for (Validator v : getValidators()) {
 			v.validate();
 		}
 	}
 
 	@Override
 	public Dataset buildDataset() {
-		dataset = new Dataset();
-		for (Validator v : validators) {
-			v.setDataset(dataset);
+		setDataset(new Dataset());
+		for (Validator v : getValidators()) {
+			v.setDataset(getDataset());
 		}
 
-		dataset.setName(this.tableName);
-		try {
-			this.handleAttributes();
-			this.handleData();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		dataset.setClassIndex(dataset.getAttributesCount() - 1);
-		return dataset;
+		getDataset().setName(this.tableName);
+		this.handleAttributes();
+		this.handleData();
+		getDataset().setClassIndex(getDataset().getAttributesCount() - 1);
+		return getDataset();
+	}
+
+	public static void main(String[] args) {
+		System.out.println(new SQLInputReader("iris",
+				"jdbc:mysql://localhost/spaska?user=spaska&password=spaska")
+				.buildDataset().toString());
 	}
 }

@@ -128,6 +128,13 @@ public class MainApp extends JFrame implements ActionListener {
         openFileItem.setActionCommand(Utils.FILE_DATASET);
         openFileItem.addActionListener(this);
         fileMenu.add(openFileItem);
+        
+        JMenu dbMenu = new JMenu("Databases");
+//        JMenuItem openFileItem = (JMenuItem) bundle
+//                .getObject("openFileMenuItem");
+//        openFileItem.setActionCommand(Utils.FILE_DATASET);
+//        openFileItem.addActionListener(this);
+//        fileMenu.add(openFileItem);
 
         JMenu viewMenu = new JMenu("View");
         JMenuItem openStatisticsItem = (JMenuItem) bundle
@@ -151,6 +158,7 @@ public class MainApp extends JFrame implements ActionListener {
         helpMenu.add(exitmenuItem);
 
         menuBar.add(fileMenu);
+        menuBar.add(dbMenu);
         menuBar.add(viewMenu);
         menuBar.add(helpMenu);
         setJMenuBar(menuBar);
