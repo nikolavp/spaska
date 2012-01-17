@@ -18,17 +18,18 @@ import spaska.db.SQLGetter;
 /**
  * 
  * @author plamen
- *
+ * 
  */
-public class SQLRoutines implements SQLGetter {
+public class SpaskaSqlConnection implements SQLGetter {
 	private Connection connection;
 	private Statement statement;
 
 	/**
 	 * 
-	 * @param jdbcConnString JDBC Connection string
+	 * @param jdbcConnString
+	 *            JDBC Connection string
 	 */
-	public SQLRoutines(String jdbcConnString) {
+	public SpaskaSqlConnection(String jdbcConnString) {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			this.connection = DriverManager.getConnection(jdbcConnString);
@@ -109,7 +110,7 @@ public class SQLRoutines implements SQLGetter {
 	public ArrayList<String[]> getData(String tableName) {
 		ArrayList<String[]> result = new ArrayList<String[]>();
 		String query = "SELECT * FROM " + tableName;
-		
+
 		try {
 			ResultSet rows = this.statement.executeQuery(query);
 
@@ -122,6 +123,26 @@ public class SQLRoutines implements SQLGetter {
 					strValues.add(rows.getObject(i).toString());
 				}
 				result.add(strValues.toArray(new String[0]));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return result;
+	}
+
+	/**
+	 * 
+	 * @return List of the names of the tables in the database
+	 */
+	public ArrayList<String> getTables() {
+		ArrayList<String> result = new ArrayList<String>();
+
+		try {
+			ResultSet tableNames = this.connection.getMetaData().getTables(
+					null, null, null, null);
+			while (tableNames.next()) {
+				result.add(tableNames.getString("TABLE_NAME"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

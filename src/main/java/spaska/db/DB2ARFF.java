@@ -9,7 +9,7 @@ import java.sql.Types;
 
 import spaska.data.Pair;
 import spaska.data.Value;
-import spaska.db.sql.SQLRoutines;
+import spaska.db.sql.SpaskaSqlConnection;
 
 /**
  * 
@@ -17,7 +17,7 @@ import spaska.db.sql.SQLRoutines;
  * 
  */
 public class DB2ARFF {
-	private SQLRoutines sqlroutines = null;
+	private SpaskaSqlConnection sqlroutines = null;
 	private String name = null;
 	private File file = null;
 
@@ -34,7 +34,7 @@ public class DB2ARFF {
 	public DB2ARFF(String tableName, String fileName,
 			String jdbcConnectionString) {
 		this.name = tableName;
-		this.sqlroutines = new SQLRoutines(jdbcConnectionString);
+		this.sqlroutines = new SpaskaSqlConnection(jdbcConnectionString);
 		if (fileName == null) {
 			this.file = new File(name + ".arff");
 		} else {
