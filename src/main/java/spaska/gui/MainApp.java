@@ -105,12 +105,16 @@ public class MainApp extends JFrame implements ActionListener {
 	}
 
 	public void selectTable() {
+		String tableName = getTableName();
+		System.out.println(tableName);
+	}
+	
+	private String getTableName() {
 		String[] tableNames = this.sqlConnection.getTables().toArray(
 				new String[0]);
-		String tableName = (String) JOptionPane.showInputDialog(this, null,
+		return (String) JOptionPane.showInputDialog(this, null,
 				"Table selection", JOptionPane.PLAIN_MESSAGE, null, tableNames,
 				tableNames[0]);
-		System.out.println(tableName);
 	}
 
 	public void showStatistics(Statistics st) {
