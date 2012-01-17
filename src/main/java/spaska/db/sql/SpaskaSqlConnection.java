@@ -20,7 +20,7 @@ import spaska.db.SQLGetter;
  * @author plamen
  *
  */
-public class SQLRoutines implements SQLGetter {
+public class SpaskaSqlConnection implements SQLGetter {
 	private Connection connection;
 	private Statement statement;
 
@@ -28,7 +28,7 @@ public class SQLRoutines implements SQLGetter {
 	 * 
 	 * @param jdbcConnString JDBC Connection string
 	 */
-	public SQLRoutines(String jdbcConnString) {
+	public SpaskaSqlConnection(String jdbcConnString) {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			this.connection = DriverManager.getConnection(jdbcConnString);

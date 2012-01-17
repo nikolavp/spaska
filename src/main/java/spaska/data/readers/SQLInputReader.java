@@ -13,7 +13,7 @@ import spaska.data.Factory;
 import spaska.data.Instance;
 import spaska.data.Pair;
 import spaska.data.Value;
-import spaska.db.sql.SQLRoutines;
+import spaska.db.sql.SpaskaSqlConnection;
 
 /**
  * @author psstoev
@@ -22,7 +22,7 @@ import spaska.db.sql.SQLRoutines;
 public class SQLInputReader extends AbstractInputReader {
 
 	private String tableName = null;
-	private SQLRoutines sqlroutines = null;
+	private SpaskaSqlConnection sqlroutines = null;
 
 	/**
 	 * 
@@ -33,7 +33,7 @@ public class SQLInputReader extends AbstractInputReader {
 	 */
 	public SQLInputReader(String tableName, String jdbcConnString) {
 		this.tableName = tableName;
-		this.sqlroutines = new SQLRoutines(jdbcConnString);
+		this.sqlroutines = new SpaskaSqlConnection(jdbcConnString);
 	}
 
 	private ValueType getValueType(int valueCode) {
