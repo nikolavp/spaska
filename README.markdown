@@ -1,3 +1,4 @@
+[![Build Status](https://secure.travis-ci.org/[YOUR_GITHUB_USERNAME]/[YOUR_PROJECT_NAME].png)](http://travis-ci.org/nikolavp/spaska)
 A machine learning engineering system from Sofia university students.
 
 ## The problem
