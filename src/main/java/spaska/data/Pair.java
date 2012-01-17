@@ -43,7 +43,7 @@ public class Pair<T1, T2> {
 	}
 
 	/**
-	 * Returns a string of the kind "Pair<Type1, Type2>(Value1, Value2).
+	 * @return Returns a string of the kind "Pair<Type1, Type2>(Value1, Value2).
 	 */
 	public String toString() {
 		return "Pair<" + first.getClass().getName() + ", "

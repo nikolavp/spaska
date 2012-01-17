@@ -46,10 +46,8 @@ public class ConnectDbDialog extends JDialog {
 		String username = this.usernameField.getText();
 		String password = new String(this.passwordField.getPassword());
 
-		if (hostname.isEmpty() || dbname.isEmpty() || username.isEmpty()
-				|| password.isEmpty()) {
-			// TODO: Show message.
-		} else {
+		if (!hostname.isEmpty() && !dbname.isEmpty() && !username.isEmpty()
+				&& !password.isEmpty()) {
 			jdbcConnectionString = "jdbc:mysql://" + hostname + "/" + dbname
 					+ "?" + "user=" + username + "&" + "password=" + password;
 			this.setVisible(false);

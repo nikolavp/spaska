@@ -121,10 +121,10 @@ public class ARFF2DB {
 		return result;
 	}
 
-	private void createTable(String tableName, List<String> attributes)
+	private void createTable(String tableNameArg, List<String> attributes)
 			throws SQLException {
 		StringBuffer query = new StringBuffer();
-		query.append("CREATE TABLE `" + tableName + "` (\n");
+		query.append("CREATE TABLE `" + tableNameArg + "` (\n");
 		for (String attribute : attributes) {
 			query.append(attribute + ",\n");
 		}
@@ -134,10 +134,10 @@ public class ARFF2DB {
 		this.statement.executeUpdate(query.toString());
 	}
 
-	private void insertData(String tableName, List<String> data)
+	private void insertData(String tableNameArg, List<String> data)
 			throws SQLException {
 		StringBuffer query = new StringBuffer();
-		query.append("INSERT INTO `" + tableName + "` VALUES\n");
+		query.append("INSERT INTO `" + tableNameArg + "` VALUES\n");
 		for (String dataLine : data) {
 			query.append(dataLine + ",\n");
 		}
@@ -170,7 +170,7 @@ public class ARFF2DB {
 			createTable(tableName, attrContainer);
 			insertData(tableName, dataContainer);
 		} catch (EOFException e) {
-			// do nothing
+			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -178,6 +178,7 @@ public class ARFF2DB {
 				try {
 					input.close();
 				} catch (IOException e) {
+					e.printStackTrace();
 				}
 			}
 		}
