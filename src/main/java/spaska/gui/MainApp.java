@@ -130,11 +130,26 @@ public class MainApp extends JFrame implements ActionListener {
         fileMenu.add(openFileItem);
         
         JMenu dbMenu = new JMenu("Databases");
-//        JMenuItem openFileItem = (JMenuItem) bundle
-//                .getObject("openFileMenuItem");
-//        openFileItem.setActionCommand(Utils.FILE_DATASET);
-//        openFileItem.addActionListener(this);
-//        fileMenu.add(openFileItem);
+		JMenuItem connectDbMenuItem = (JMenuItem) bundle
+				.getObject("connectDbMenuItem");
+        connectDbMenuItem.setActionCommand(Utils.FILE_DATASET);
+        connectDbMenuItem.addActionListener(this);
+		JMenuItem chooseTableMenuItem = (JMenuItem) bundle
+				.getObject("chooseTableMenuItem");
+        chooseTableMenuItem.setActionCommand(Utils.FILE_DATASET);
+        chooseTableMenuItem.addActionListener(this);
+		JMenuItem importArffMenuItem = (JMenuItem) bundle
+				.getObject("importArffMenuItem");
+        importArffMenuItem.setActionCommand(Utils.FILE_DATASET);
+        importArffMenuItem.addActionListener(this);
+		JMenuItem exportArffMenuItem = (JMenuItem) bundle
+				.getObject("exportArffMenuItem");
+        exportArffMenuItem.setActionCommand(Utils.FILE_DATASET);
+        exportArffMenuItem.addActionListener(this);
+        dbMenu.add(connectDbMenuItem);
+        dbMenu.add(chooseTableMenuItem);
+        dbMenu.add(importArffMenuItem);
+        dbMenu.add(exportArffMenuItem);
 
         JMenu viewMenu = new JMenu("View");
         JMenuItem openStatisticsItem = (JMenuItem) bundle
