@@ -30,7 +30,7 @@
 <a class="jxr_linenumber" name="20" href="#20">20</a>  <em class="jxr_javadoccomment">     *            the times for every fold when running the first classifier</em>
 <a class="jxr_linenumber" name="21" href="#21">21</a>  <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="22" href="#22">22</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setTimes1(<strong class="jxr_keyword">long</strong>[] times1) {
-<a class="jxr_linenumber" name="23" href="#23">23</a>          <strong class="jxr_keyword">this</strong>.times1 = times1;
+<a class="jxr_linenumber" name="23" href="#23">23</a>          <strong class="jxr_keyword">this</strong>.times1 = times1.clone();
 <a class="jxr_linenumber" name="24" href="#24">24</a>      }
 <a class="jxr_linenumber" name="25" href="#25">25</a>  
 <a class="jxr_linenumber" name="26" href="#26">26</a>      <em class="jxr_javadoccomment">/**</em>
@@ -41,7 +41,7 @@
 <a class="jxr_linenumber" name="31" href="#31">31</a>  <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="32" href="#32">32</a>  
 <a class="jxr_linenumber" name="33" href="#33">33</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setTimes2(<strong class="jxr_keyword">long</strong>[] times2) {
-<a class="jxr_linenumber" name="34" href="#34">34</a>          <strong class="jxr_keyword">this</strong>.times2 = times2;
+<a class="jxr_linenumber" name="34" href="#34">34</a>          <strong class="jxr_keyword">this</strong>.times2 = times2.clone();
 <a class="jxr_linenumber" name="35" href="#35">35</a>      }
 <a class="jxr_linenumber" name="36" href="#36">36</a>  
 <a class="jxr_linenumber" name="37" href="#37">37</a>      <strong class="jxr_keyword">private</strong> <a href="../../spaska/analysis/IStatisticalTest.html">IStatisticalTest</a> test; <em class="jxr_comment">// statistical test applied</em>
@@ -75,7 +75,7 @@
 <a class="jxr_linenumber" name="65" href="#65">65</a>  <em class="jxr_javadoccomment">     *            the precision of the first classifier</em>
 <a class="jxr_linenumber" name="66" href="#66">66</a>  <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="67" href="#67">67</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setFirstSamplePopulation(<strong class="jxr_keyword">double</strong>[] firstSamplePopulation) {
-<a class="jxr_linenumber" name="68" href="#68">68</a>          <strong class="jxr_keyword">this</strong>.firstSamplePopulation = firstSamplePopulation;
+<a class="jxr_linenumber" name="68" href="#68">68</a>          <strong class="jxr_keyword">this</strong>.firstSamplePopulation = firstSamplePopulation.clone();
 <a class="jxr_linenumber" name="69" href="#69">69</a>          setModified(<strong class="jxr_keyword">true</strong>);
 <a class="jxr_linenumber" name="70" href="#70">70</a>      }
 <a class="jxr_linenumber" name="71" href="#71">71</a>  
@@ -97,7 +97,7 @@
 <a class="jxr_linenumber" name="87" href="#87">87</a>  <em class="jxr_javadoccomment">     *            the precision of the second classifier</em>
 <a class="jxr_linenumber" name="88" href="#88">88</a>  <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="89" href="#89">89</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setSecondSamplePopulation(<strong class="jxr_keyword">double</strong>[] secondSamplePopulation) {
-<a class="jxr_linenumber" name="90" href="#90">90</a>          <strong class="jxr_keyword">this</strong>.secondSamplePopulation = secondSamplePopulation;
+<a class="jxr_linenumber" name="90" href="#90">90</a>          <strong class="jxr_keyword">this</strong>.secondSamplePopulation = secondSamplePopulation.clone();
 <a class="jxr_linenumber" name="91" href="#91">91</a>          setModified(<strong class="jxr_keyword">true</strong>);
 <a class="jxr_linenumber" name="92" href="#92">92</a>      }
 <a class="jxr_linenumber" name="93" href="#93">93</a>  

@@ -61,7 +61,7 @@
 <a class="jxr_linenumber" name="51" href="#51">51</a>  <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="52" href="#52">52</a>      <strong class="jxr_keyword">public</strong> <a href="../../../spaska/classifiers/util/NominalInfoService.html">NominalInfoService</a>(<a href="../../../spaska/classifiers/util/DatasetService.html">DatasetService</a> datasetService,
 <a class="jxr_linenumber" name="53" href="#53">53</a>              List&lt;Instance&gt; instances, <strong class="jxr_keyword">boolean</strong>[] usedAttributes) {
-<a class="jxr_linenumber" name="54" href="#54">54</a>          <strong class="jxr_keyword">this</strong>.usedAttributes = usedAttributes;
+<a class="jxr_linenumber" name="54" href="#54">54</a>          <strong class="jxr_keyword">this</strong>.usedAttributes = usedAttributes.clone();
 <a class="jxr_linenumber" name="55" href="#55">55</a>          <strong class="jxr_keyword">this</strong>.entropy = <strong class="jxr_keyword">new</strong> <strong class="jxr_keyword">double</strong>[usedAttributes.length];
 <a class="jxr_linenumber" name="56" href="#56">56</a>          <strong class="jxr_keyword">this</strong>.gainRatio = <strong class="jxr_keyword">new</strong> <strong class="jxr_keyword">double</strong>[usedAttributes.length];
 <a class="jxr_linenumber" name="57" href="#57">57</a>          <strong class="jxr_keyword">this</strong>.isCalculatedInfo = false;
@@ -88,12 +88,12 @@
 <a class="jxr_linenumber" name="78" href="#78">78</a>          <strong class="jxr_keyword">for</strong> (Instance instance : instances) {
 <a class="jxr_linenumber" name="79" href="#79">79</a>              <strong class="jxr_keyword">int</strong> i = 0;
 <a class="jxr_linenumber" name="80" href="#80">80</a>              <strong class="jxr_keyword">for</strong> (Value val : instance.getVector()) {
-<a class="jxr_linenumber" name="81" href="#81">81</a>                  <strong class="jxr_keyword">if</strong> (val.getType() == ValueType.Nominal) {
-<a class="jxr_linenumber" name="82" href="#82">82</a>                      <strong class="jxr_keyword">if</strong> (statistics[i].get(val) != <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="83" href="#83">83</a>                          statistics[i].get(val)[datasetService.intValue(
-<a class="jxr_linenumber" name="84" href="#84">84</a>                                  datasetService.classIndex(),
-<a class="jxr_linenumber" name="85" href="#85">85</a>                                  datasetService.getClass(instance))]++;
-<a class="jxr_linenumber" name="86" href="#86">86</a>                      }
+<a class="jxr_linenumber" name="81" href="#81">81</a>                  <strong class="jxr_keyword">if</strong> (val.getType() == ValueType.Nominal
+<a class="jxr_linenumber" name="82" href="#82">82</a>                          &amp;&amp; statistics[i].get(val) != <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="83" href="#83">83</a>                      statistics[i].get(val)[datasetService.intValue(
+<a class="jxr_linenumber" name="84" href="#84">84</a>                              datasetService.classIndex(),
+<a class="jxr_linenumber" name="85" href="#85">85</a>                              datasetService.getClass(instance))]++;
+<a class="jxr_linenumber" name="86" href="#86">86</a>  
 <a class="jxr_linenumber" name="87" href="#87">87</a>                  }
 <a class="jxr_linenumber" name="88" href="#88">88</a>                  i++;
 <a class="jxr_linenumber" name="89" href="#89">89</a>              }

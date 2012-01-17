@@ -186,7 +186,7 @@
 <a class="jxr_linenumber" name="176" href="#176">176</a> <em class="jxr_javadoccomment">     * @return nominal attribute indices</em>
 <a class="jxr_linenumber" name="177" href="#177">177</a> <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="178" href="#178">178</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong>[] getNominalIndices() {
-<a class="jxr_linenumber" name="179" href="#179">179</a>         <strong class="jxr_keyword">return</strong> nominalIndices;
+<a class="jxr_linenumber" name="179" href="#179">179</a>         <strong class="jxr_keyword">return</strong> nominalIndices.clone();
 <a class="jxr_linenumber" name="180" href="#180">180</a>     }
 <a class="jxr_linenumber" name="181" href="#181">181</a> 
 <a class="jxr_linenumber" name="182" href="#182">182</a>     <em class="jxr_javadoccomment">/**</em>
@@ -195,7 +195,7 @@
 <a class="jxr_linenumber" name="185" href="#185">185</a> <em class="jxr_javadoccomment">     * @return numeric attribute indices</em>
 <a class="jxr_linenumber" name="186" href="#186">186</a> <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="187" href="#187">187</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong>[] getNumericIndices() {
-<a class="jxr_linenumber" name="188" href="#188">188</a>         <strong class="jxr_keyword">return</strong> numericIndices;
+<a class="jxr_linenumber" name="188" href="#188">188</a>         <strong class="jxr_keyword">return</strong> numericIndices.clone();
 <a class="jxr_linenumber" name="189" href="#189">189</a>     }
 <a class="jxr_linenumber" name="190" href="#190">190</a> 
 <a class="jxr_linenumber" name="191" href="#191">191</a>     <em class="jxr_javadoccomment">/**</em>

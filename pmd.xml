@@ -1,28 +1,3 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pmd version="4.2.5" timestamp="2012-01-11T23:52:43.236">
-<file name="/home/nikolavp/workspace/fmi_workspace/spaska/src/main/java/spaska/classifiers/DecisionTree.java">
-<violation beginline="51" endline="51" begincolumn="21" endcolumn="29" rule="UnusedPrivateField" ruleset="Unused Code Rules" package="spaska.classifiers" class="DecisionTree" variable="postPrune" externalInfoUrl="http://pmd.sourceforge.net/rules/unusedcode.html#UnusedPrivateField" priority="3">
-Avoid unused private fields such as 'postPrune'.
-</violation>
-</file>
-<file name="/home/nikolavp/workspace/fmi_workspace/spaska/src/main/java/spaska/classifiers/KNN.java">
-<violation beginline="66" endline="66" begincolumn="24" endcolumn="31" rule="UnusedPrivateField" ruleset="Unused Code Rules" package="spaska.classifiers" class="KNN$Pair" variable="distance" externalInfoUrl="http://pmd.sourceforge.net/rules/unusedcode.html#UnusedPrivateField" priority="3">
-Avoid unused private fields such as 'distance'.
-</violation>
-</file>
-<file name="/home/nikolavp/workspace/fmi_workspace/spaska/src/main/java/spaska/classifiers/util/NominalInfoService.java">
-<violation beginline="82" endline="86" begincolumn="21" endcolumn="21" rule="CollapsibleIfStatements" ruleset="Basic Rules" package="spaska.classifiers.util" class="NominalInfoService" method="initStatisticalInfo" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#CollapsibleIfStatements" priority="3">
-These nested if statements could be combined
-</violation>
-</file>
-<file name="/home/nikolavp/workspace/fmi_workspace/spaska/src/main/java/spaska/clusterers/SimpleKMeans.java">
-<violation beginline="271" endline="273" begincolumn="17" endcolumn="17" rule="CollapsibleIfStatements" ruleset="Basic Rules" package="spaska.clusterers" class="SimpleKMeans" method="getDistance" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#CollapsibleIfStatements" priority="3">
-These nested if statements could be combined
-</violation>
-</file>
-<file name="/home/nikolavp/workspace/fmi_workspace/spaska/src/main/java/spaska/data/readers/ARFFInputReader.java">
-<violation beginline="79" endline="89" begincolumn="13" endcolumn="13" rule="CollapsibleIfStatements" ruleset="Basic Rules" package="spaska.data.readers" class="ARFFInputReader" method="handleAttribute" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#CollapsibleIfStatements" priority="3">
-These nested if statements could be combined
-</violation>
-</file>
+<pmd version="4.2.5" timestamp="2012-01-17T22:31:55.716">
 </pmd>
