@@ -38,4 +38,10 @@ public interface SQLGetter {
 	 *         one instance.
 	 */
 	ArrayList<String[]> getData(String tableName);
+
+	/**
+	 * 
+	 * @return List of the names of the tables in the database
+	 */
+	ArrayList<String> getTables();
 }

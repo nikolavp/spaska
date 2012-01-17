@@ -18,6 +18,7 @@ public class Utils {
     public static final String OPEN_STATISTICS = "OPEN_STATISTICS";
     public static final String CONNECT_DB_DIALOG = "CONNECT_DB_DIALOG";
     public static final String IMPORT_ARFF = "IMPORT_ARFF";
+    public static final String CHOOSE_TABLE = "CHOOSE_TABLE";
 
     @SuppressWarnings("unchecked")
     public static <T> Map<String, String> getParamsOfClass(

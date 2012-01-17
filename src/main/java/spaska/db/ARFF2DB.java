@@ -92,7 +92,7 @@ public class ARFF2DB {
 		if (token.length > 1) {
 			type = getValueType(token[2].toLowerCase());
 		}
-		return name + " " + type;
+		return "`" + name + "`" + " " + type;
 	}
 
 	private ArrayList<String> handleData(BufferedReader input)
@@ -124,7 +124,7 @@ public class ARFF2DB {
 	private void createTable(String tableName, List<String> attributes)
 			throws SQLException {
 		StringBuffer query = new StringBuffer();
-		query.append("CREATE TABLE " + tableName + " (\n");
+		query.append("CREATE TABLE `" + tableName + "` (\n");
 		for (String attribute : attributes) {
 			query.append(attribute + ",\n");
 		}
@@ -137,7 +137,7 @@ public class ARFF2DB {
 	private void insertData(String tableName, List<String> data)
 			throws SQLException {
 		StringBuffer query = new StringBuffer();
-		query.append("INSERT INTO " + tableName + " VALUES\n");
+		query.append("INSERT INTO `" + tableName + "` VALUES\n");
 		for (String dataLine : data) {
 			query.append(dataLine + ",\n");
 		}

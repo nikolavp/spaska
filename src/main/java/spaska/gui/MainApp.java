@@ -20,6 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -28,6 +29,7 @@ import javax.swing.JTextArea;
 import edu.umd.cs.findbugs.annotations.SuppressWarnings;
 
 import spaska.db.ARFF2DB;
+import spaska.db.sql.SpaskaSqlConnection;
 import spaska.statistics.Statistics;
 
 /**
@@ -56,6 +58,7 @@ public class MainApp extends JFrame implements ActionListener {
 	private AppResources bundle;
 
 	private String jdbcConnectionString = null;
+	private SpaskaSqlConnection sqlConnection = null;
 
 	public MainApp() {
 		bundle = new AppResources();
@@ -83,6 +86,8 @@ public class MainApp extends JFrame implements ActionListener {
 		if (jdbcConnectionString != null) {
 			System.out.println(jdbcConnectionString);
 			this.jdbcConnectionString = jdbcConnectionString;
+			this.sqlConnection = new SpaskaSqlConnection(
+					this.jdbcConnectionString);
 			this.menuBar.getMenu(1).getMenuComponent(1).setEnabled(true);
 			this.menuBar.getMenu(1).getMenuComponent(2).setEnabled(true);
 			this.menuBar.getMenu(1).getMenuComponent(3).setEnabled(true);
@@ -97,6 +102,15 @@ public class MainApp extends JFrame implements ActionListener {
 			openedFile = fileChooser.getSelectedFile();
 			(new ARFF2DB(openedFile, this.jdbcConnectionString)).read();
 		}
+	}
+
+	public void selectTable() {
+		String[] tableNames = this.sqlConnection.getTables().toArray(
+				new String[0]);
+		String tableName = (String) JOptionPane.showInputDialog(this, null,
+				"Table selection", JOptionPane.PLAIN_MESSAGE, null, tableNames,
+				tableNames[0]);
+		System.out.println(tableName);
 	}
 
 	public void showStatistics(Statistics st) {
@@ -163,7 +177,7 @@ public class MainApp extends JFrame implements ActionListener {
 		connectDbMenuItem.addActionListener(this);
 		JMenuItem chooseTableMenuItem = (JMenuItem) bundle
 				.getObject("chooseTableMenuItem");
-		chooseTableMenuItem.setActionCommand(Utils.FILE_DATASET);
+		chooseTableMenuItem.setActionCommand(Utils.CHOOSE_TABLE);
 		chooseTableMenuItem.addActionListener(this);
 		chooseTableMenuItem.setEnabled(false);
 		JMenuItem importArffMenuItem = (JMenuItem) bundle
@@ -301,6 +315,8 @@ public class MainApp extends JFrame implements ActionListener {
 			showConnectDbDialog();
 		} else if (e.getActionCommand().equals(Utils.IMPORT_ARFF)) {
 			importArff();
+		} else if (e.getActionCommand().equals(Utils.CHOOSE_TABLE)) {
+			selectTable();
 		}
 	}
 
