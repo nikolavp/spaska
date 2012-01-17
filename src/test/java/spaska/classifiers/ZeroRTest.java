@@ -1,19 +1,25 @@
 package spaska.classifiers;
 
-import static org.hamcrest.Matchers.greaterThan;
-import static org.junit.Assert.assertThat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import org.junit.Test;
-
-import spaska.statistics.ClassifierStatistics;
 import spaska.test.ClassifierTestBase;
-import spaska.test.ClassifierTester;
 
 public class ZeroRTest extends ClassifierTestBase {
-	@Test
-	public void shouldGiveGoodResultsOnIrisDataset() throws Exception {
-		ClassifierStatistics statistics = new ClassifierTester(new ZeroR())
-				.onDataset("iris").crossValidate(10);
-		assertThat(statistics.getGeneralPrecision(), greaterThan(0.33));
-	}
+    private static final Logger LOG = LoggerFactory.getLogger(ZeroRTest.class);
+
+    @Override
+    protected Logger getLogger() {
+        return LOG;
+    }
+
+    @Override
+    protected TestDescriptor getDescriptor() {
+        return new TestDescriptor().iris(0.11, 0.33);
+    }
+
+    @Override
+    protected IClassifier getClassifier() {
+        return new ZeroR();
+    }
 }

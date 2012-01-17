@@ -293,11 +293,21 @@ public final class ClassifierStatistics extends Statistics {
      * @return the general precision from the classifier run
      */
     public double getGeneralPrecision() {
-        int correct = 0;
-        for (int i = 0; i < confusionMatrix.length; i++) {
-            correct += confusionMatrix[i][i];
+        double[] precisions = getPrecisions();
+        double result = 0.0;
+        for (int i = 0; i < precisions.length; i++) {
+            result += precisions[i];
         }
-        return correct / (double) getInstances();
+        return result / precisions.length;
+    }
+
+    public double getGeneralRecall() {
+        double[] allRecalls = getRecalls();
+        double result = 0.0;
+        for (int i = 0; i < allRecalls.length; i++) {
+            result += allRecalls[i];
+        }
+        return result / allRecalls.length;
     }
 
     /* generate the output string and assign it to the info field */
@@ -317,7 +327,8 @@ public final class ClassifierStatistics extends Statistics {
             result.append(String.format("Mean squared error: %.6f\n",
                     +this.getNumericError()));
             result.append("- - - - - - - - - - - - - - -\n");
-            result.append("Test time (HH:MM:SS.MS): " + timeToString(getTestTime()));
+            result.append("Test time (HH:MM:SS.MS): "
+                    + timeToString(getTestTime()));
             result.append("\n================================================\n");
             setInfo(result.toString());
             return;
@@ -329,7 +340,8 @@ public final class ClassifierStatistics extends Statistics {
         }
         result.append("Correctly classified: " + correctlyClassified);
         double percent = (getInstances() == 0) ? PERCENT_BASE
-                : (correctlyClassified * PERCENT_BASE) / (double) getInstances();
+                : (correctlyClassified * PERCENT_BASE)
+                        / (double) getInstances();
         result.append(String.format(" (%.2f%%)\n", percent));
         result.append("Incorrectly classified: "
                 + (getInstances() - correctlyClassified));
@@ -369,4 +381,5 @@ public final class ClassifierStatistics extends Statistics {
         setInfo(result.toString());
         setModified(false);
     }
+
 }
