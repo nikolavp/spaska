@@ -20,7 +20,7 @@ public final class CompareStatistics extends Statistics {
      *            the times for every fold when running the first classifier
      */
     public void setTimes1(long[] times1) {
-        this.times1 = times1;
+        this.times1 = times1.clone();
     }
 
     /**
@@ -31,7 +31,7 @@ public final class CompareStatistics extends Statistics {
      */
 
     public void setTimes2(long[] times2) {
-        this.times2 = times2;
+        this.times2 = times2.clone();
     }
 
     private IStatisticalTest test; // statistical test applied
@@ -65,7 +65,7 @@ public final class CompareStatistics extends Statistics {
      *            the precision of the first classifier
      */
     public void setFirstSamplePopulation(double[] firstSamplePopulation) {
-        this.firstSamplePopulation = firstSamplePopulation;
+        this.firstSamplePopulation = firstSamplePopulation.clone();
         setModified(true);
     }
 
@@ -87,7 +87,7 @@ public final class CompareStatistics extends Statistics {
      *            the precision of the second classifier
      */
     public void setSecondSamplePopulation(double[] secondSamplePopulation) {
-        this.secondSamplePopulation = secondSamplePopulation;
+        this.secondSamplePopulation = secondSamplePopulation.clone();
         setModified(true);
     }
 

@@ -9,13 +9,13 @@ import spaska.classifiers.util.ContinuousValueService;
 import spaska.classifiers.util.DatasetService;
 import spaska.classifiers.util.NominalInfoService;
 import spaska.classifiers.util.Sign;
+import spaska.classifiers.util.Trees;
 import spaska.data.Attribute;
+import spaska.data.Attribute.ValueType;
 import spaska.data.Dataset;
 import spaska.data.Instance;
 import spaska.data.NominalValue;
-import spaska.data.NumericValue;
 import spaska.data.Value;
-import spaska.data.Attribute.ValueType;
 
 /**
  * A classifier that builds a one level tree which identifies what's the
@@ -63,58 +63,6 @@ public final class OneR implements IClassifier {
         return match[maxIndex];
     }
 
-    // distribute instances according to the condition they satisfy
-    private List<List<Instance>> distribute(List<Instance> instances,
-            List<Condition> conditions) {
-        List<List<Instance>> result = new ArrayList<List<Instance>>();
-        List<Instance> unknown = new ArrayList<Instance>();
-        for (int i = 0; i < conditions.size(); i++) {
-            result.add(new ArrayList<Instance>());
-        }
-        if (conditions.isEmpty()) {
-            return result;
-        }
-        // all conditions test the same attribute
-        Condition first = conditions.get(0);
-        int attributeIndex = datasetService.getAttributeIndex(first
-                .getAttribute());
-        int totalKnown = 0;
-        // distribute instances to relevant conditions
-        for (Instance instance : instances) {
-            int listCounter = 0;
-            Value current = instance.getVector().get(attributeIndex);
-            for (Condition c : conditions) {
-                if (current.getType() == ValueType.Unknown) {
-                    unknown.add(instance);
-                    break;
-                }
-                if (c.ifTrue(current)) {
-                    result.get(listCounter).add(instance);
-                    totalKnown++;
-                    break;
-                }
-                listCounter++;
-            }
-        }
-        // set portion of instances reaching a condition
-        int listCounter = 0;
-        for (Condition c : conditions) {
-            c.setReach(((double) result.get(listCounter).size()) / totalKnown);
-            listCounter++;
-        }
-        // handle unknown
-        for (Instance instance : unknown) {
-            int counter = 0;
-            for (Condition c : conditions) {
-                Instance copy = (Instance) instance.clone();
-                copy.setWeight(copy.getWeight() * c.getReach());
-                result.get(counter).add(copy);
-                counter++;
-            }
-        }
-        return result;
-    }
-
     // get index of best nominal attribute (according to information theory)
     private int getBestNominal(NominalInfoService service) {
         int[] nominalIndices = datasetService.getNominalIndices();
@@ -130,48 +78,6 @@ public final class OneR implements IClassifier {
         return index;
     }
 
-    // get a service for the best numeric attribute to split on
-    private ContinuousValueService getBestNumeric(List<Instance> list,
-            double classesEntropy) {
-        int[] numericIndices = datasetService.getNumericIndices();
-        ContinuousValueService best = ContinuousValueService
-                .createEmptyService();
-        ContinuousValueService currentService;
-        double max = 0, currentRatio;
-        for (int i = 0; i < numericIndices.length; i++) {
-            currentService = new ContinuousValueService(datasetService, list,
-                    numericIndices[i], classesEntropy);
-            currentRatio = currentService.getGainRatio();
-            if (max < currentRatio) {
-                max = currentRatio;
-                best = currentService;
-            }
-        }
-        return best;
-    }
-
-    // get conditions (nodes in the tree) for a nominal attribute
-    private List<Condition> getNominalConditions(int attributeIndex,
-            Value majorityClass) {
-        List<Condition> children = new ArrayList<Condition>();
-        Attribute a = datasetService.getAttribute(attributeIndex);
-        for (Value val : datasetService.getAttributeDomain(attributeIndex)) {
-            children.add(new Condition(a, val, Sign.EQ, majorityClass));
-        }
-        return children;
-    }
-
-    // get conditions for a numeric attribute (binary split point)
-    private List<Condition> getNumericConditions(int attributeIndex,
-            double splitValue, Value majorityClass) {
-        List<Condition> children = new ArrayList<Condition>();
-        Attribute a = datasetService.getAttribute(attributeIndex);
-        Value doubleValue = new NumericValue(splitValue);
-        children.add(new Condition(a, doubleValue, Sign.LTE, majorityClass));
-        children.add(new Condition(a, doubleValue, Sign.GT, majorityClass));
-        return children;
-    }
-
     // get children of the current node
     private List<Condition> getConditions(List<Instance> list) {
         List<Condition> children = new ArrayList<Condition>();
@@ -179,8 +85,8 @@ public final class OneR implements IClassifier {
         used[datasetService.classIndex()] = true;
         NominalInfoService infoService = new NominalInfoService(datasetService,
                 list, used);
-        ContinuousValueService continuousService = getBestNumeric(list,
-                infoService.getClassesEntropy());
+        ContinuousValueService continuousService = Trees.getBestNumeric(list,
+                infoService.getClassesEntropy(), datasetService);
         if (infoService.isEmpty() && continuousService.isEmpty()) {
             return children;
         }
@@ -192,11 +98,13 @@ public final class OneR implements IClassifier {
         if (continuousService.isEmpty()
                 || infoService.getGainRatio(nominalIndex) >= continuousService
                         .getGainRatio()) {
-            children = getNominalConditions(nominalIndex, majorityClass);
+            children = Trees.getNominalConditions(nominalIndex, majorityClass,
+                    datasetService);
         } else {
-            children = getNumericConditions(
+            children = Trees.getNumericConditions(
                     continuousService.getAttributeIndex(),
-                    continuousService.getSplitValue(), majorityClass);
+                    continuousService.getSplitValue(), majorityClass,
+                    datasetService);
         }
         return children;
     }
@@ -216,8 +124,8 @@ public final class OneR implements IClassifier {
             rules.add(eqCondition);
             rules.add(ineqCondition);
         } else {
-            List<List<Instance>> distribution = distribute(data.getElements(),
-                    list);
+            List<List<Instance>> distribution = Trees.distribute(
+                    data.getElements(), list, datasetService);
             int listCounter = 0;
             for (Condition c : list) {
                 List<Instance> currentList = distribution.get(listCounter);
