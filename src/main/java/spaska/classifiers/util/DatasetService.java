@@ -176,7 +176,7 @@ public final class DatasetService {
      * @return nominal attribute indices
      */
     public int[] getNominalIndices() {
-        return nominalIndices;
+        return nominalIndices.clone();
     }
 
     /**
@@ -185,7 +185,7 @@ public final class DatasetService {
      * @return numeric attribute indices
      */
     public int[] getNumericIndices() {
-        return numericIndices;
+        return numericIndices.clone();
     }
 
     /**

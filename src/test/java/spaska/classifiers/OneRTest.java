@@ -1,19 +1,25 @@
 package spaska.classifiers;
 
-import static org.hamcrest.Matchers.greaterThan;
-import static org.junit.Assert.assertThat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import org.junit.Test;
-
-import spaska.statistics.ClassifierStatistics;
 import spaska.test.ClassifierTestBase;
-import spaska.test.ClassifierTester;
 
 public class OneRTest extends ClassifierTestBase {
-	@Test
-	public void shouldGiveResultsOnIrisDataset() throws Exception {
-		ClassifierStatistics statistics = ClassifierTester
-				.forClassifier(new OneR()).onDataset("iris").crossValidate(10);
-		assertThat(statistics.getGeneralPrecision(), greaterThan(0.65));
-	}
+    private static final Logger LOG = LoggerFactory.getLogger(OneRTest.class);
+
+    @Override
+    protected Logger getLogger() {
+        return LOG;
+    }
+
+    @Override
+    protected TestDescriptor getDescriptor() {
+        return new TestDescriptor().iris(0.62, 0.65);
+    }
+
+    @Override
+    protected IClassifier getClassifier() {
+        return new OneR();
+    }
 }

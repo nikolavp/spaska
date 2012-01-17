@@ -74,6 +74,11 @@ public final class KNN implements IClassifier {
         public Pair() {
             this(Double.MAX_VALUE, null);
         }
+
+        @Override
+        public String toString() {
+            return instance.toString() + ":" + distance;
+        }
     }
 
     /**
@@ -287,8 +292,8 @@ public final class KNN implements IClassifier {
                 double dst = (Double) queryValue.getValue()
                         - (Double) currentValue.getValue();
                 return dst * dst;
-            } else if ((queryValue.getType() == ValueType.Unknown 
-                    && currentValue.getType() == ValueType.Unknown)) {
+            } else if ((queryValue.getType() == ValueType.Unknown && currentValue
+                    .getType() == ValueType.Unknown)) {
                 return 0;
             } else {
                 return 1;
@@ -307,8 +312,7 @@ public final class KNN implements IClassifier {
         Iterator<Instance> it = givenInstances.iterator();
         while (it.hasNext()) { // prune instances with missing class value
             Instance current = it.next();
-            if (current.getVector().get(classIndex).getType() 
-                    != ValueType.Unknown) {
+            if (current.getVector().get(classIndex).getType() != ValueType.Unknown) {
                 trainSet.add(current);
             }
         }
