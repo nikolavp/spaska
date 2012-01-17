@@ -5,10 +5,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.util.Map;
-import java.util.Map.Entry;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import spaska.analysis.IAnalyzer;
 import spaska.classifiers.IClassifier;
@@ -23,8 +19,6 @@ public class ClassifyTab extends SpaskaTab {
 
     private static final long serialVersionUID = 1L;
 
-    private static final Logger LOG = LoggerFactory
-            .getLogger(ClassifyTab.class);
     private ComboList<IClassifier> classifierCombo;
     private ComboList<IAnalyzer> analyzerCombo;
     private ComboList<Validator> validatorCombo;
@@ -111,9 +105,9 @@ public class ClassifyTab extends SpaskaTab {
                 getEngine().reset();
 
                 getEngine().setFile(openedFile);
-                setEngineArgs(validatorCombo.getParameters());
-                setEngineArgs(classifierCombo.getParameters());
-                setEngineArgs(analyzerCombo.getParameters());
+                setEngineArgs(validatorCombo.getParameters(), null);
+                setEngineArgs(classifierCombo.getParameters(), null);
+                setEngineArgs(analyzerCombo.getParameters(), null);
 
                 start();
                 setButtonStop();
@@ -126,33 +120,22 @@ public class ClassifyTab extends SpaskaTab {
         }
     }
 
-    private <T> void setEngineArgs(
-            Map<Class<? extends T>, Map<String, String>> classToParameters)
-            throws Exception {
-        for (Entry<Class<? extends T>, Map<String, String>> entry : classToParameters
-                .entrySet()) {
-            Class<? extends T> cls = entry.getKey();
-            Map<String, String> params = (entry.getValue() != null) ? entry
-                    .getValue() : Utils.getParamsOfClass(cls);
-
-            LOG.info("Set " + cls + " with " + params);
-            if (Validator.class.isAssignableFrom(cls)) {
-                getEngine().addValidator((Validator) cls.newInstance(), params);
-            } else if (IClassifier.class.isAssignableFrom(cls)) {
-                getEngine().setClassifier((IClassifier) cls.newInstance(),
-                        params);
-            } else if (IAnalyzer.class.isAssignableFrom(cls)) {
-                getEngine().setAnalyzer((IAnalyzer) cls.newInstance(), params);
-            }
-        }
-    }
-
     @Override
     protected ClassifyEngine getEngine() {
         if (engine == null) {
             engine = new ClassifyEngine();
         }
         return (ClassifyEngine) engine;
+    }
+
+    @Override
+    protected <T> void setComponent(Class<? extends T> cls,
+            Map<String, String> params, String context) throws Exception {
+        if (IClassifier.class.isAssignableFrom(cls)) {
+            getEngine().setClassifier((IClassifier) cls.newInstance(), params);
+        } else if (IAnalyzer.class.isAssignableFrom(cls)) {
+            getEngine().setAnalyzer((IAnalyzer) cls.newInstance(), params);
+        }
     }
 
 }

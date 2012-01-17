@@ -5,10 +5,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.util.Map;
-import java.util.Map.Entry;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import spaska.clusterers.IClusterer;
 import spaska.data.readers.Validator;
@@ -21,8 +17,6 @@ import spaska.gui.engines.ClusterEngine;
 public class ClustererTab extends SpaskaTab {
 
     private static final long serialVersionUID = 1L;
-    private static final Logger LOG = LoggerFactory
-            .getLogger(ClustererTab.class);
     private ComboList<IClusterer> clusterCombo;
     private ComboList<Validator> validatorCombo;
 
@@ -100,8 +94,8 @@ public class ClustererTab extends SpaskaTab {
                 getEngine().reset();
 
                 getEngine().setFile(openedFile);
-                setEngineArgs(validatorCombo.getParameters());
-                setEngineArgs(clusterCombo.getParameters());
+                setEngineArgs(validatorCombo.getParameters(), null);
+                setEngineArgs(clusterCombo.getParameters(), null);
 
                 setButtonStop();
                 start();
@@ -114,31 +108,20 @@ public class ClustererTab extends SpaskaTab {
         }
     }
 
-    private <T> void setEngineArgs(
-            Map<Class<? extends T>, Map<String, String>> classToParameters)
-            throws Exception {
-        for (Entry<Class<? extends T>, Map<String, String>> entry : classToParameters
-                .entrySet()) {
-            Class<? extends T> cls = entry.getKey();
-            Map<String, String> params = (entry.getValue() != null) ? entry
-                    .getValue() : Utils.getParamsOfClass(cls);
-
-            LOG.info("Set " + cls + " with " + params);
-            if (Validator.class.isAssignableFrom(cls)) {
-                getEngine().addValidator((Validator) cls.newInstance(), params);
-            } else if (IClusterer.class.isAssignableFrom(cls)) {
-                getEngine()
-                        .setClusterer((IClusterer) cls.newInstance(), params);
-            }
-        }
-    }
-
     @Override
     protected ClusterEngine getEngine() {
         if (engine == null) {
             engine = new ClusterEngine();
         }
         return (ClusterEngine) engine;
+    }
+
+    @Override
+    protected <T> void setComponent(Class<? extends T> cls,
+            Map<String, String> params, String context) throws Exception {
+        if (IClusterer.class.isAssignableFrom(cls)) {
+            getEngine().setClusterer((IClusterer) cls.newInstance(), params);
+        }
     }
 
 }

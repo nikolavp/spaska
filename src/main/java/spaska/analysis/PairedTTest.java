@@ -138,10 +138,10 @@ public final class PairedTTest implements ICompareAnalyzer, IStatisticalTest {
         CrossValidation secondValidator = createValidator(folds,
                 secondClassifier, dataset);
 
-        double[] firstSuccessRates = new double[SEEDS.length];
-        double[] secondSuccessRates = new double[SEEDS.length];
-        long[] firstClassifierTimes = new long[SEEDS.length];
-        long[] secondClassifierTimes = new long[SEEDS.length];
+        double[] firstSuccessRates = new double[SEEDS.size()];
+        double[] secondSuccessRates = new double[SEEDS.size()];
+        long[] firstClassifierTimes = new long[SEEDS.size()];
+        long[] secondClassifierTimes = new long[SEEDS.size()];
 
         testAlgorithm(firstValidator, dataset, firstSuccessRates,
                 firstClassifierTimes);
@@ -190,7 +190,7 @@ public final class PairedTTest implements ICompareAnalyzer, IStatisticalTest {
     private void testAlgorithm(CrossValidation cv, Dataset data,
             double[] successRates, long[] times) {
         for (int i = 0; i < successRates.length; i++) {
-            cv.setSeed(SEEDS[i]);
+            cv.setSeed(SEEDS.get(i));
             ClassifierStatistics cs = cv.analyze(data);
             successRates[i] = cs.getGeneralPrecision();
             times[i] = cs.getTestTime();
