@@ -16,6 +16,7 @@ public class Utils {
     public static final String START = "START";
     public static final String STOP = "STOP";
     public static final String OPEN_STATISTICS = "OPEN_STATISTICS";
+    public static final String CONNECT_DB_DIALOG = "CONNECT_DB_DIALOG";
 
     @SuppressWarnings("unchecked")
     public static <T> Map<String, String> getParamsOfClass(

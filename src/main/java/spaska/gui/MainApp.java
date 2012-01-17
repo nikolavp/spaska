@@ -34,243 +34,257 @@ import spaska.statistics.Statistics;
  */
 public class MainApp extends JFrame implements ActionListener {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    private static MainApp instance;
+	private static MainApp instance;
 
-    public static MainApp getInstance() {
-        if (instance == null) {
-            instance = new MainApp();
-        }
-        return instance;
-    }
+	public static MainApp getInstance() {
+		if (instance == null) {
+			instance = new MainApp();
+		}
+		return instance;
+	}
 
-    private JTabbedPane tabs;
-    private JDialog statDialog;
-    private JTextArea area;
-    private JMenuBar menuBar;
-    private JDialog aboutDialog;
-    private AppResources bundle;
+	private JTabbedPane tabs;
+	private JDialog statDialog;
+	private JTextArea area;
+	private JMenuBar menuBar;
+	private JDialog aboutDialog;
+	private AppResources bundle;
+	
+	public MainApp() {
+		bundle = new AppResources();
+		if (System.getProperty("os.name").startsWith("Mac")) {
+			System.setProperty("apple.laf.useScreenMenuBar", "true");
+		}
+		setTitle(bundle.get(AppResources.APP_TITLE));
+		setPreferredSize((Dimension) bundle.getObject(AppResources.APP_SIZE));
 
-    public MainApp() {
-        bundle = new AppResources();
-        if (System.getProperty("os.name").startsWith("Mac")) {
-            System.setProperty("apple.laf.useScreenMenuBar", "true");
-        }
-        setTitle(bundle.get(AppResources.APP_TITLE));
-        setPreferredSize((Dimension) bundle.getObject(AppResources.APP_SIZE));
+		createMenuBar();
+		buildGui();
 
-        createMenuBar();
-        buildGui();
+		pack();
 
-        pack();
+		setLocationRelativeTo(null);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setVisible(true);
+		setIconImage(bundle.getIcon(bundle.get(AppResources.APP_ICON))
+				.getImage());
+	}
 
-        setVisible(true);
-        setIconImage(bundle.getIcon(bundle.get(AppResources.APP_ICON)).getImage());
-    }
+	public void showConnectDbDialog() {
+		String jdbcConnectionString = ConnectDbDialog.getJdbcConnectionString();
+		if (jdbcConnectionString != null) {
+			System.out.println(jdbcConnectionString);
+		}
+	}
 
-    public void showStatistics(Statistics st) {
-        if (st != null) {
-            if (!getStatisticsDialog().isVisible()) {
-                getStatisticsDialog().setVisible(true);
-            }
-            area.setText(st.toString());
-        } else {
-            area.setText("No generated statistics yet.");
-        }
-    }
+	public void showStatistics(Statistics st) {
+		if (st != null) {
+			if (!getStatisticsDialog().isVisible()) {
+				getStatisticsDialog().setVisible(true);
+			}
+			area.setText(st.toString());
+		} else {
+			area.setText("No generated statistics yet.");
+		}
+	}
 
-    private void addTab(JTabbedPane tabPane, SpaskaTab panel) {
-        tabPane.addTab(panel.getTitle(), panel);
-    }
+	private void addTab(JTabbedPane tabPane, SpaskaTab panel) {
+		tabPane.addTab(panel.getTitle(), panel);
+	}
 
-    private void buildGui() {
-        setLayout(new BorderLayout());
+	private void buildGui() {
+		setLayout(new BorderLayout());
 
-        area = new JTextArea();
+		area = new JTextArea();
 
-        tabs = new JTabbedPane();
-        addTab(tabs, new ClustererTab());
-        addTab(tabs, new ClassifyTab());
-        addTab(tabs, new CompareTab());
+		tabs = new JTabbedPane();
+		addTab(tabs, new ClustererTab());
+		addTab(tabs, new ClassifyTab());
+		addTab(tabs, new CompareTab());
 
-        add(tabs);
-    }
+		add(tabs);
+	}
 
-    private JDialog getStatisticsDialog() {
-        if (statDialog == null) {
-            statDialog = new JDialog(this, "Result Statistics");
-            statDialog.setLayout(new BorderLayout(2, 2));
+	private JDialog getStatisticsDialog() {
+		if (statDialog == null) {
+			statDialog = new JDialog(this, "Result Statistics");
+			statDialog.setLayout(new BorderLayout(2, 2));
 
-            area = new JTextArea();
-            area.setEditable(false);
+			area = new JTextArea();
+			area.setEditable(false);
 
-            statDialog.add(new JScrollPane(area));
+			statDialog.add(new JScrollPane(area));
 
-            statDialog.setPreferredSize((Dimension) bundle
-                    .getObject(AppResources.STAT_DIALOG_SIZE));
-            statDialog.pack();
+			statDialog.setPreferredSize((Dimension) bundle
+					.getObject(AppResources.STAT_DIALOG_SIZE));
+			statDialog.pack();
 
-            statDialog.setLocationRelativeTo(null);
-        }
-        return statDialog;
-    }
+			statDialog.setLocationRelativeTo(null);
+		}
+		return statDialog;
+	}
 
-    private void createMenuBar() {
-        menuBar = new JMenuBar();
+	private void createMenuBar() {
+		menuBar = new JMenuBar();
 
-        JMenu fileMenu = new JMenu("File");
-        JMenuItem openFileItem = (JMenuItem) bundle
-                .getObject("openFileMenuItem");
-        openFileItem.setActionCommand(Utils.FILE_DATASET);
-        openFileItem.addActionListener(this);
-        fileMenu.add(openFileItem);
-        
-        JMenu dbMenu = new JMenu("Databases");
+		JMenu fileMenu = new JMenu("File");
+		JMenuItem openFileItem = (JMenuItem) bundle
+				.getObject("openFileMenuItem");
+		openFileItem.setActionCommand(Utils.FILE_DATASET);
+		openFileItem.addActionListener(this);
+		fileMenu.add(openFileItem);
+
+		JMenu dbMenu = new JMenu("Databases");
 		JMenuItem connectDbMenuItem = (JMenuItem) bundle
 				.getObject("connectDbMenuItem");
-        connectDbMenuItem.setActionCommand(Utils.FILE_DATASET);
-        connectDbMenuItem.addActionListener(this);
+		connectDbMenuItem.setActionCommand(Utils.CONNECT_DB_DIALOG);
+		connectDbMenuItem.addActionListener(this);
 		JMenuItem chooseTableMenuItem = (JMenuItem) bundle
 				.getObject("chooseTableMenuItem");
-        chooseTableMenuItem.setActionCommand(Utils.FILE_DATASET);
-        chooseTableMenuItem.addActionListener(this);
+		chooseTableMenuItem.setActionCommand(Utils.FILE_DATASET);
+		chooseTableMenuItem.addActionListener(this);
+		chooseTableMenuItem.setEnabled(false);
 		JMenuItem importArffMenuItem = (JMenuItem) bundle
 				.getObject("importArffMenuItem");
-        importArffMenuItem.setActionCommand(Utils.FILE_DATASET);
-        importArffMenuItem.addActionListener(this);
+		importArffMenuItem.setActionCommand(Utils.FILE_DATASET);
+		importArffMenuItem.addActionListener(this);
+		importArffMenuItem.setEnabled(false);
 		JMenuItem exportArffMenuItem = (JMenuItem) bundle
 				.getObject("exportArffMenuItem");
-        exportArffMenuItem.setActionCommand(Utils.FILE_DATASET);
-        exportArffMenuItem.addActionListener(this);
-        dbMenu.add(connectDbMenuItem);
-        dbMenu.add(chooseTableMenuItem);
-        dbMenu.add(importArffMenuItem);
-        dbMenu.add(exportArffMenuItem);
+		exportArffMenuItem.setActionCommand(Utils.FILE_DATASET);
+		exportArffMenuItem.addActionListener(this);
+		exportArffMenuItem.setEnabled(false);
+		dbMenu.add(connectDbMenuItem);
+		dbMenu.add(chooseTableMenuItem);
+		dbMenu.add(importArffMenuItem);
+		dbMenu.add(exportArffMenuItem);
 
-        JMenu viewMenu = new JMenu("View");
-        JMenuItem openStatisticsItem = (JMenuItem) bundle
-                .getObject("openStatisticsMenuItem");
-        openStatisticsItem.setActionCommand(Utils.OPEN_STATISTICS);
-        openStatisticsItem.addActionListener(this);
-        viewMenu.add(openStatisticsItem);
+		JMenu viewMenu = new JMenu("View");
+		JMenuItem openStatisticsItem = (JMenuItem) bundle
+				.getObject("openStatisticsMenuItem");
+		openStatisticsItem.setActionCommand(Utils.OPEN_STATISTICS);
+		openStatisticsItem.addActionListener(this);
+		viewMenu.add(openStatisticsItem);
 
-        JMenu helpMenu = new JMenu("Help");
-        JMenuItem aboutItem = (JMenuItem) bundle.getObject("aboutMenuItem");
-        aboutItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                getAboutDialog().setVisible(true);
-            }
-        });
-        JMenuItem exitmenuItem = (JMenuItem) bundle.getObject("exitMenuItem");
-        exitmenuItem.setActionCommand(Utils.EXIT);
-        exitmenuItem.addActionListener(this);
-        helpMenu.add(aboutItem);
-        helpMenu.add(exitmenuItem);
+		JMenu helpMenu = new JMenu("Help");
+		JMenuItem aboutItem = (JMenuItem) bundle.getObject("aboutMenuItem");
+		aboutItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				getAboutDialog().setVisible(true);
+			}
+		});
+		JMenuItem exitmenuItem = (JMenuItem) bundle.getObject("exitMenuItem");
+		exitmenuItem.setActionCommand(Utils.EXIT);
+		exitmenuItem.addActionListener(this);
+		helpMenu.add(aboutItem);
+		helpMenu.add(exitmenuItem);
 
-        menuBar.add(fileMenu);
-        menuBar.add(dbMenu);
-        menuBar.add(viewMenu);
-        menuBar.add(helpMenu);
-        setJMenuBar(menuBar);
-    }
+		menuBar.add(fileMenu);
+		menuBar.add(dbMenu);
+		menuBar.add(viewMenu);
+		menuBar.add(helpMenu);
+		setJMenuBar(menuBar);
+	}
 
-    private JDialog getAboutDialog() {
-        if (aboutDialog == null) {
-            aboutDialog = new JDialog(this);
-            aboutDialog.setLayout(new BorderLayout(10, 10));
-            setResizable(false);
+	private JDialog getAboutDialog() {
+		if (aboutDialog == null) {
+			aboutDialog = new JDialog(this);
+			aboutDialog.setLayout(new BorderLayout(10, 10));
+			setResizable(false);
 
-            Font bodyFont = getFont().deriveFont(10f);
+			Font bodyFont = getFont().deriveFont(10f);
 
-            JPanel panel = new JPanel(new GridBagLayout());
-            GridBagConstraints c = new GridBagConstraints();
-            c.insets = new Insets(2, 2, 2, 2);
+			JPanel panel = new JPanel(new GridBagLayout());
+			GridBagConstraints c = new GridBagConstraints();
+			c.insets = new Insets(2, 2, 2, 2);
 
-            List<JLabel> labels = new LinkedList<JLabel>();
-            labels.add(new JLabel(""));
-            labels.add(new JLabel(""));
-            for (String s : bundle.get(AppResources.APP_NAME).split("\n")) {
-                JLabel l = new JLabel(s);
-                l.setFont(bodyFont);
-                labels.add(l);
-            }
-            c.gridx = 0;
-            c.gridy = 0;
-            c.gridheight = labels.size() + 1;
-            c.anchor = GridBagConstraints.NORTHWEST;
-            panel.add(new JLabel(bundle.getIcon(bundle.get(AppResources.APP_ICON))),
-                    c);
-            c.gridx = 1;
-            c.gridy = 0;
-            c.gridheight = 1;
-            c.anchor = GridBagConstraints.NORTHEAST;
-            panel.add(
-                    new JLabel(bundle.get(AppResources.APP_TITLE) + " "
-                            + bundle.get(AppResources.APP_VERSION)), c);
+			List<JLabel> labels = new LinkedList<JLabel>();
+			labels.add(new JLabel(""));
+			labels.add(new JLabel(""));
+			for (String s : bundle.get(AppResources.APP_NAME).split("\n")) {
+				JLabel l = new JLabel(s);
+				l.setFont(bodyFont);
+				labels.add(l);
+			}
+			c.gridx = 0;
+			c.gridy = 0;
+			c.gridheight = labels.size() + 1;
+			c.anchor = GridBagConstraints.NORTHWEST;
+			panel.add(
+					new JLabel(
+							bundle.getIcon(bundle.get(AppResources.APP_ICON))),
+					c);
+			c.gridx = 1;
+			c.gridy = 0;
+			c.gridheight = 1;
+			c.anchor = GridBagConstraints.NORTHEAST;
+			panel.add(new JLabel(bundle.get(AppResources.APP_TITLE) + " "
+					+ bundle.get(AppResources.APP_VERSION)), c);
 
-            for (JLabel l : labels) {
-                c.gridy++;
-                panel.add(l, c);
-            }
-            labels.clear();
-            c.gridx = 0;
-            c.gridy++;
-            c.gridwidth = 2;
-            c.anchor = GridBagConstraints.CENTER;
+			for (JLabel l : labels) {
+				c.gridy++;
+				panel.add(l, c);
+			}
+			labels.clear();
+			c.gridx = 0;
+			c.gridy++;
+			c.gridwidth = 2;
+			c.anchor = GridBagConstraints.CENTER;
 
-            labels.add(new JLabel(""));
-            labels.add(new JLabel(""));
-            labels.add(new JLabel("Credits:"));
+			labels.add(new JLabel(""));
+			labels.add(new JLabel(""));
+			labels.add(new JLabel("Credits:"));
 
-            for (String s : bundle.get(AppResources.APP_CERDITS).split("\n")) {
-                JLabel l = new JLabel(s);
-                l.setFont(bodyFont);
-                labels.add(l);
-            }
-            labels.add(new JLabel(""));
-            labels.add(new JLabel(""));
-            JLabel copyRight = new JLabel(
-                    bundle.get(AppResources.APP_COPYRIGHT));
-            labels.add(copyRight);
-            labels.add(new JLabel(""));
-            labels.add(new JLabel(""));
+			for (String s : bundle.get(AppResources.APP_CERDITS).split("\n")) {
+				JLabel l = new JLabel(s);
+				l.setFont(bodyFont);
+				labels.add(l);
+			}
+			labels.add(new JLabel(""));
+			labels.add(new JLabel(""));
+			JLabel copyRight = new JLabel(
+					bundle.get(AppResources.APP_COPYRIGHT));
+			labels.add(copyRight);
+			labels.add(new JLabel(""));
+			labels.add(new JLabel(""));
 
-            for (JLabel l : labels) {
-                panel.add(l, c);
-                c.gridy++;
-            }
-            aboutDialog.add(new JScrollPane(panel));
-            aboutDialog.setResizable(false);
-            aboutDialog.setPreferredSize(new Dimension(320, 290));
-            aboutDialog.pack();
-            aboutDialog.setLocationRelativeTo(null);
-        }
-        return aboutDialog;
-    }
+			for (JLabel l : labels) {
+				panel.add(l, c);
+				c.gridy++;
+			}
+			aboutDialog.add(new JScrollPane(panel));
+			aboutDialog.setResizable(false);
+			aboutDialog.setPreferredSize(new Dimension(320, 290));
+			aboutDialog.pack();
+			aboutDialog.setLocationRelativeTo(null);
+		}
+		return aboutDialog;
+	}
 
-    public SpaskaTab getSelectedTab() {
-        return (SpaskaTab) tabs.getSelectedComponent();
-    }
+	public SpaskaTab getSelectedTab() {
+		return (SpaskaTab) tabs.getSelectedComponent();
+	}
 
-    @SuppressWarnings(justification = "This is a proper action when exit is called", value = "DM_EXIT")
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getActionCommand().equals(Utils.EXIT)) {
-            System.exit(0);
-        } else if (e.getActionCommand().equals(Utils.OPEN_STATISTICS)) {
-            showStatistics(getSelectedTab().getStatistics());
-        } else if (e.getActionCommand().equals(Utils.FILE_DATASET)) {
-            getSelectedTab().openFile();
-        }
-    }
+	@SuppressWarnings(justification = "This is a proper action when exit is called", value = "DM_EXIT")
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getActionCommand().equals(Utils.EXIT)) {
+			System.exit(0);
+		} else if (e.getActionCommand().equals(Utils.OPEN_STATISTICS)) {
+			showStatistics(getSelectedTab().getStatistics());
+		} else if (e.getActionCommand().equals(Utils.FILE_DATASET)) {
+			getSelectedTab().openFile();
+		} else if (e.getActionCommand().equals(Utils.CONNECT_DB_DIALOG)) {
+			showConnectDbDialog();
+		}
+	}
 
-    public static void main(String[] args) throws IOException {
-        getInstance();
-    }
+	public static void main(String[] args) throws IOException {
+		getInstance();
+	}
 
 }
