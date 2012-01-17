@@ -51,7 +51,7 @@ public final class NominalInfoService {
      */
     public NominalInfoService(DatasetService datasetService,
             List<Instance> instances, boolean[] usedAttributes) {
-        this.usedAttributes = usedAttributes;
+        this.usedAttributes = usedAttributes.clone();
         this.entropy = new double[usedAttributes.length];
         this.gainRatio = new double[usedAttributes.length];
         this.isCalculatedInfo = false;
@@ -78,12 +78,12 @@ public final class NominalInfoService {
         for (Instance instance : instances) {
             int i = 0;
             for (Value val : instance.getVector()) {
-                if (val.getType() == ValueType.Nominal) {
-                    if (statistics[i].get(val) != null) {
-                        statistics[i].get(val)[datasetService.intValue(
-                                datasetService.classIndex(),
-                                datasetService.getClass(instance))]++;
-                    }
+                if (val.getType() == ValueType.Nominal
+                        && statistics[i].get(val) != null) {
+                    statistics[i].get(val)[datasetService.intValue(
+                            datasetService.classIndex(),
+                            datasetService.getClass(instance))]++;
+
                 }
                 i++;
             }

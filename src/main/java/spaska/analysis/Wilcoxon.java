@@ -66,15 +66,15 @@ public final class Wilcoxon implements ICompareAnalyzer, IStatisticalTest {
         statistic.setTest(this);
         statistic.setFirstClassifierName(classifier1.getName());
         statistic.setSecondClassifierName(classifier2.getName());
-        double[] fstSample = new double[SEEDS.length];
-        long[] fstTime = new long[SEEDS.length];
-        double[] sndSample = new double[SEEDS.length];
-        long[] sndTime = new long[SEEDS.length];
+        double[] fstSample = new double[SEEDS.size()];
+        long[] fstTime = new long[SEEDS.size()];
+        double[] sndSample = new double[SEEDS.size()];
+        long[] sndTime = new long[SEEDS.size()];
 
-        for (int i = 0; i < SEEDS.length; i++) {
+        for (int i = 0; i < SEEDS.size(); i++) {
             CrossValidation cv1 = new CrossValidation();
             cv1.setFolds(folds);
-            cv1.setSeed(SEEDS[i]);
+            cv1.setSeed(SEEDS.get(i));
             cv1.setClassifier(classifier1);
             cv1.setData(dataSet);
 
@@ -84,7 +84,7 @@ public final class Wilcoxon implements ICompareAnalyzer, IStatisticalTest {
 
             CrossValidation cv2 = new CrossValidation();
             cv2.setFolds(folds);
-            cv2.setSeed(SEEDS[i]);
+            cv2.setSeed(SEEDS.get(i));
             cv2.setClassifier(classifier2);
             cv2.setData(dataSet);
 
