@@ -23,6 +23,7 @@ import spaska.db.SQLGetter;
 public class SpaskaSqlConnection implements SQLGetter {
 	private Connection connection;
 	private Statement statement;
+	private String status = null;
 
 	/**
 	 * 
@@ -34,6 +35,7 @@ public class SpaskaSqlConnection implements SQLGetter {
 			Class.forName("com.mysql.jdbc.Driver");
 			this.connection = DriverManager.getConnection(jdbcConnString);
 			this.statement = this.connection.createStatement();
+			this.status = "OK";
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
@@ -48,6 +50,15 @@ public class SpaskaSqlConnection implements SQLGetter {
 		} finally {
 			super.finalize();
 		}
+	}
+
+	/**
+	 * 
+	 * @return The status of the connection - "OK" if the connection is OK, else
+	 *         - null.
+	 */
+	public String getStatus() {
+		return this.status;
 	}
 
 	/**

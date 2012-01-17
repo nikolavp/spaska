@@ -88,9 +88,11 @@ public class MainApp extends JFrame implements ActionListener {
 			this.jdbcConnectionString = jdbcConnectionString;
 			this.sqlConnection = new SpaskaSqlConnection(
 					this.jdbcConnectionString);
-			this.menuBar.getMenu(1).getMenuComponent(1).setEnabled(true);
-			this.menuBar.getMenu(1).getMenuComponent(2).setEnabled(true);
-			this.menuBar.getMenu(1).getMenuComponent(3).setEnabled(true);
+			if ("OK".endsWith(this.sqlConnection.getStatus())) {
+				this.menuBar.getMenu(1).getMenuComponent(1).setEnabled(true);
+				this.menuBar.getMenu(1).getMenuComponent(2).setEnabled(true);
+				this.menuBar.getMenu(1).getMenuComponent(3).setEnabled(true);
+			}
 		}
 	}
 
@@ -101,6 +103,8 @@ public class MainApp extends JFrame implements ActionListener {
 		if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
 			openedFile = fileChooser.getSelectedFile();
 			(new ARFF2DB(openedFile, this.jdbcConnectionString)).read();
+			JOptionPane.showMessageDialog(this,
+					"ARFF file imported successfully");
 		}
 	}
 
@@ -108,7 +112,7 @@ public class MainApp extends JFrame implements ActionListener {
 		String tableName = getTableName();
 		System.out.println(tableName);
 	}
-	
+
 	private String getTableName() {
 		String[] tableNames = this.sqlConnection.getTables().toArray(
 				new String[0]);
