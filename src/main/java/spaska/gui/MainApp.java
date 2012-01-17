@@ -8,11 +8,13 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -25,6 +27,7 @@ import javax.swing.JTextArea;
 
 import edu.umd.cs.findbugs.annotations.SuppressWarnings;
 
+import spaska.db.ARFF2DB;
 import spaska.statistics.Statistics;
 
 /**
@@ -51,7 +54,9 @@ public class MainApp extends JFrame implements ActionListener {
 	private JMenuBar menuBar;
 	private JDialog aboutDialog;
 	private AppResources bundle;
-	
+
+	private String jdbcConnectionString = null;
+
 	public MainApp() {
 		bundle = new AppResources();
 		if (System.getProperty("os.name").startsWith("Mac")) {
@@ -77,6 +82,20 @@ public class MainApp extends JFrame implements ActionListener {
 		String jdbcConnectionString = ConnectDbDialog.getJdbcConnectionString();
 		if (jdbcConnectionString != null) {
 			System.out.println(jdbcConnectionString);
+			this.jdbcConnectionString = jdbcConnectionString;
+			this.menuBar.getMenu(1).getMenuComponent(1).setEnabled(true);
+			this.menuBar.getMenu(1).getMenuComponent(2).setEnabled(true);
+			this.menuBar.getMenu(1).getMenuComponent(3).setEnabled(true);
+		}
+	}
+
+	public void importArff() {
+		JFileChooser fileChooser = new JFileChooser();
+		File openedFile = null;
+		fileChooser.setCurrentDirectory(new File("."));
+		if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+			openedFile = fileChooser.getSelectedFile();
+			(new ARFF2DB(openedFile, this.jdbcConnectionString)).read();
 		}
 	}
 
@@ -149,7 +168,7 @@ public class MainApp extends JFrame implements ActionListener {
 		chooseTableMenuItem.setEnabled(false);
 		JMenuItem importArffMenuItem = (JMenuItem) bundle
 				.getObject("importArffMenuItem");
-		importArffMenuItem.setActionCommand(Utils.FILE_DATASET);
+		importArffMenuItem.setActionCommand(Utils.IMPORT_ARFF);
 		importArffMenuItem.addActionListener(this);
 		importArffMenuItem.setEnabled(false);
 		JMenuItem exportArffMenuItem = (JMenuItem) bundle
@@ -280,6 +299,8 @@ public class MainApp extends JFrame implements ActionListener {
 			getSelectedTab().openFile();
 		} else if (e.getActionCommand().equals(Utils.CONNECT_DB_DIALOG)) {
 			showConnectDbDialog();
+		} else if (e.getActionCommand().equals(Utils.IMPORT_ARFF)) {
+			importArff();
 		}
 	}
 
