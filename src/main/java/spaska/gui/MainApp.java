@@ -108,6 +108,10 @@ public class MainApp extends JFrame implements ActionListener {
 		}
 	}
 
+	public void exportArff() {
+
+	}
+
 	public void selectTable() {
 		String tableName = getTableName();
 		System.out.println(tableName);
@@ -195,7 +199,7 @@ public class MainApp extends JFrame implements ActionListener {
 		importArffMenuItem.setEnabled(false);
 		JMenuItem exportArffMenuItem = (JMenuItem) bundle
 				.getObject("exportArffMenuItem");
-		exportArffMenuItem.setActionCommand(Utils.FILE_DATASET);
+		exportArffMenuItem.setActionCommand(Utils.EXPORT_ARFF);
 		exportArffMenuItem.addActionListener(this);
 		exportArffMenuItem.setEnabled(false);
 		dbMenu.add(connectDbMenuItem);
@@ -323,6 +327,8 @@ public class MainApp extends JFrame implements ActionListener {
 			showConnectDbDialog();
 		} else if (e.getActionCommand().equals(Utils.IMPORT_ARFF)) {
 			importArff();
+		} else if (e.getActionCommand().equals(Utils.EXPORT_ARFF)) {
+			exportArff();
 		} else if (e.getActionCommand().equals(Utils.CHOOSE_TABLE)) {
 			selectTable();
 		}
