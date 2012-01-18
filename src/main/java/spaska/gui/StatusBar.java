@@ -2,6 +2,11 @@ package spaska.gui;
 
 import javax.swing.JLabel;
 
+/**
+ * 
+ * @author plamen
+ *
+ */
 public class StatusBar extends JLabel {
 
 	private static final long serialVersionUID = 1L;
