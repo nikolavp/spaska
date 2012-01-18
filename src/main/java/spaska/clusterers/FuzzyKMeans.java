@@ -22,11 +22,13 @@ public class FuzzyKMeans implements IClusterer {
 
     private static final String NUMBER_OF_CLUSTERS_PARAMETER = "Number of clusters";
     private static final String MAX_ITERATIONS_ALGORITHM_PARAMETER = "Max number of iterations";
+    private static final String EPSILON_PARAMETER = "Epsilon";
     private static final String FUZZIFIER_PARAMETER = "Fuzzifier";
     private static final int DEFAULT_MAX_ITERATIONS = 100;
     private static final int DEFAULT_NUMBER_OF_CLUSTERS = 3;
+    private static final double DEFAULT_EPSILON = 0.1;
     private static final int NUMBER_OF_CLUSTERS_INDEX_PARAMETER = 3;
-    private static final double EPSILON = 0.1;
+    
 
     private ClustererStatistics algorithmResults;
     private List<Instance> instances;
@@ -35,6 +37,7 @@ public class FuzzyKMeans implements IClusterer {
     private int fuzzifier = 2;
     private int numberOfInstances;
     private int numberOfAttributes;
+    private double epsilon = 0.1;
     private int maxIterations = DEFAULT_MAX_ITERATIONS;
     private double[][] membershipFunction;
     private double[][] newMembershipFunction;
@@ -78,6 +81,15 @@ public class FuzzyKMeans implements IClusterer {
                             + " must be an integer.");
                 }
             }
+            
+            if (key.equalsIgnoreCase(EPSILON_PARAMETER)) {
+                try {
+                    epsilon = Double.parseDouble(entry.getValue());
+                } catch (NumberFormatException e) {
+                    throw new RuntimeException(EPSILON_PARAMETER
+                            + " must be a double.");
+                }
+            }
         }
     }
 
@@ -93,6 +105,7 @@ public class FuzzyKMeans implements IClusterer {
         parameters.put(MAX_ITERATIONS_ALGORITHM_PARAMETER,
                 String.valueOf(DEFAULT_MAX_ITERATIONS));
         parameters.put(FUZZIFIER_PARAMETER, String.valueOf(2));
+        parameters.put(EPSILON_PARAMETER, String.valueOf(DEFAULT_EPSILON));
         return parameters;
     }
 
@@ -169,7 +182,7 @@ public class FuzzyKMeans implements IClusterer {
                 }
             }
         }
-        if (max < EPSILON) {
+        if (max < epsilon) {
             return true;
         }
         return false;
@@ -293,14 +306,6 @@ public class FuzzyKMeans implements IClusterer {
                 instanceIndex = 0;
             }
         }
-        /*
-        Random rand = new Random();
-        
-        for (int clusterIndex = 0; clusterIndex < numberOfClusters; clusterIndex++) {
-        	for (int instanceIndex = 0; instanceIndex < numberOfInstances; instanceIndex++) {
-        		membershipFunction[clusterIndex][instanceIndex] = rand.nextDouble();
-        	}
-        }*/
     }
 
     @Override
