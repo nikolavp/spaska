@@ -183,6 +183,9 @@ public abstract class SpaskaTab extends JPanel implements ActionListener {
     public void propertyChange(String prop, Object value) {
         if (prop.equals(Utils.FILE_DATASET)) {
             textField.setText(value.toString());
+            status.setMessage("Using " + value.toString());
+        } else if (prop.equals(Utils.CHOOSE_TABLE)) {
+        	status.setMessage("Using table \"" + value.toString() + "\"");
         }
     }
 
