@@ -1,10 +1,8 @@
 package spaska.clusterers;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
 import spaska.classifiers.util.DatasetService;
 import spaska.data.Dataset;
 import spaska.data.Instance;
@@ -28,7 +26,7 @@ public class FuzzyKMeans implements IClusterer {
     private static final int DEFAULT_MAX_ITERATIONS = 100;
     private static final int DEFAULT_NUMBER_OF_CLUSTERS = 3;
     private static final int NUMBER_OF_CLUSTERS_INDEX_PARAMETER = 3;
-    private static final double EPSILON = 0.01;
+    private static final double EPSILON = 0.1;
 
     private ClustererStatistics algorithmResults;
     private List<Instance> instances;
@@ -171,7 +169,7 @@ public class FuzzyKMeans implements IClusterer {
                 }
             }
         }
-        if (0 < max && max < EPSILON) {
+        if (max < EPSILON) {
             return true;
         }
         return false;
@@ -220,10 +218,12 @@ public class FuzzyKMeans implements IClusterer {
             double attributeValue = 0;
             if (attribute instanceof NumericValue) {
                 attributeValue = ((NumericValue) attribute).getValue();
+            } else if (attribute instanceof NominalValue) {
+                attributeValue = service.intValue(attributeIndex, attribute);
             } else {
-                attributeValue = ((NominalValue) attribute).getValue()
-                        .hashCode();
+            	continue;
             }
+            
             sum += Math.pow(attributeValue - center[attributeIndex], 2);
         }
 
@@ -249,10 +249,12 @@ public class FuzzyKMeans implements IClusterer {
                     double attributeValue = 0;
                     if (attribute instanceof NumericValue) {
                         attributeValue = ((NumericValue) attribute).getValue();
+                    } else if (attribute instanceof NominalValue) {
+                        attributeValue = service.intValue(attributeIndex, attribute);
                     } else {
-                        attributeValue = ((NominalValue) attribute).getValue()
-                                .hashCode();
+                    	continue;
                     }
+                    
                     sum += Math.pow(
                             membershipFunction[clusterIndex][instanceIndex],
                             fuzzifier)
@@ -291,6 +293,14 @@ public class FuzzyKMeans implements IClusterer {
                 instanceIndex = 0;
             }
         }
+        /*
+        Random rand = new Random();
+        
+        for (int clusterIndex = 0; clusterIndex < numberOfClusters; clusterIndex++) {
+        	for (int instanceIndex = 0; instanceIndex < numberOfInstances; instanceIndex++) {
+        		membershipFunction[clusterIndex][instanceIndex] = rand.nextDouble();
+        	}
+        }*/
     }
 
     @Override
