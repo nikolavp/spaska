@@ -15,7 +15,8 @@ public class KNNTest extends ClassifierTestBase {
 
     @Override
     protected TestDescriptor getDescriptor() {
-        return new TestDescriptor().iris(0.966, 0.966);
+        return new TestDescriptor().iris(0.966, 0.966).vote(0.907, 0.918)
+                .soybean(0.9605, 0.933);
     }
 
     @Override

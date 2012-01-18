@@ -15,7 +15,9 @@ public class ZeroRTest extends ClassifierTestBase {
 
     @Override
     protected TestDescriptor getDescriptor() {
-        return new TestDescriptor().iris(0.11, 0.33);
+        return new TestDescriptor().iris(0.11, 0.33)
+                .soybean(0.007D, 0.05263D)
+                .vote(0.306D, 0.5D);
     }
 
     @Override

@@ -28,7 +28,7 @@ public class FuzzyKMeans implements IClusterer {
     private static final int DEFAULT_MAX_ITERATIONS = 100;
     private static final int DEFAULT_NUMBER_OF_CLUSTERS = 3;
     private static final int NUMBER_OF_CLUSTERS_INDEX_PARAMETER = 3;
-    private static final double EPSILON = 0.01;
+    private static final double EPSILON = 0.2;
 
     private ClustererStatistics algorithmResults;
     private List<Instance> instances;
@@ -220,9 +220,10 @@ public class FuzzyKMeans implements IClusterer {
             double attributeValue = 0;
             if (attribute instanceof NumericValue) {
                 attributeValue = ((NumericValue) attribute).getValue();
+            } else if (attribute instanceof NominalValue) {
+                 attributeValue = service.intValue(attributeIndex, attribute) + 1;
             } else {
-                attributeValue = ((NominalValue) attribute).getValue()
-                        .hashCode();
+                continue;
             }
             sum += Math.pow(attributeValue - center[attributeIndex], 2);
         }
@@ -249,9 +250,12 @@ public class FuzzyKMeans implements IClusterer {
                     double attributeValue = 0;
                     if (attribute instanceof NumericValue) {
                         attributeValue = ((NumericValue) attribute).getValue();
+                    } else if (attribute instanceof NominalValue) {
+                         attributeValue = service.intValue(attributeIndex,
+                         attribute) + 1;
+//                        attributeValue = attribute.getValue().hashCode();
                     } else {
-                        attributeValue = ((NominalValue) attribute).getValue()
-                                .hashCode();
+                        continue;
                     }
                     sum += Math.pow(
                             membershipFunction[clusterIndex][instanceIndex],
