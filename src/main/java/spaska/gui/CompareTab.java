@@ -46,22 +46,6 @@ public class CompareTab extends SpaskaTab {
         c.insets = new Insets(2, 2, 2, 2);
 
         // 1 row
-        c.gridy = 0;
-        c.weighty = 0;
-
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.anchor = GridBagConstraints.NORTH;
-
-        c.gridx = 0;
-        c.weightx = 0;
-        add(browse, c);
-
-        c.gridwidth = 7;
-        c.gridx = 1;
-        c.weightx = 1;
-        add(textField, c);
-
-        // 2 row
         c.gridy = 1;
         c.weighty = 1;
 
@@ -85,7 +69,7 @@ public class CompareTab extends SpaskaTab {
         c.weightx = 1;
         add(classifierCombo2, c);
 
-        // 3 row
+        // 2 row
         c.gridy = 2;
         c.weighty = 0;
 
@@ -97,7 +81,7 @@ public class CompareTab extends SpaskaTab {
 
         add(run, c);
         
-        // 4 row
+        // 3 row
         c.gridy = 3;
         c.weighty = 0;
         c.fill = GridBagConstraints.HORIZONTAL;

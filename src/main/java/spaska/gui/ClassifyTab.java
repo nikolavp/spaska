@@ -41,22 +41,6 @@ public class ClassifyTab extends SpaskaTab {
         c.insets = new Insets(2, 2, 2, 2);
 
         // 1 row
-        c.gridy = 0;
-        c.weighty = 0;
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.anchor = GridBagConstraints.NORTH;
-
-        c.gridx = 0;
-        c.gridwidth = 1;
-        c.weightx = 0;
-        add(browse, c);
-
-        c.gridx = 1;
-        c.gridwidth = 5;
-        c.weightx = 1;
-        add(textField, c);
-
-        // 2 row
         c.gridy = 1;
         c.weighty = 1;
         c.anchor = GridBagConstraints.CENTER;
@@ -77,7 +61,7 @@ public class ClassifyTab extends SpaskaTab {
         c.weightx = 1;
         add(classifierCombo, c);
 
-        // 3 row
+        // 1 row
         c.gridy = 2;
         c.weighty = 0;
 
@@ -89,7 +73,7 @@ public class ClassifyTab extends SpaskaTab {
 
         add(run, c);
         
-        // 4 row
+        // 3 row
         c.gridy = 3;
         c.weighty = 0;
         c.fill = GridBagConstraints.HORIZONTAL;

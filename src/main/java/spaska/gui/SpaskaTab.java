@@ -10,7 +10,6 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,8 +36,6 @@ public abstract class SpaskaTab extends JPanel implements ActionListener {
     protected File openedFile;
     protected DataInputResource resource;
 
-    protected JButton browse;
-    protected JTextField textField;
     protected JFileChooser fileChooser;
     protected StatusBar status;
 
@@ -48,11 +45,6 @@ public abstract class SpaskaTab extends JPanel implements ActionListener {
     protected Statistics statistics;
 
     protected SpaskaTab() {
-        browse = new JButton("Browse");
-        browse.setActionCommand(Utils.FILE_DATASET);
-        browse.addActionListener(this);
-
-        textField = new JTextField();
 
         run = new JButton("Start");
         run.setActionCommand(Utils.START);
@@ -182,7 +174,6 @@ public abstract class SpaskaTab extends JPanel implements ActionListener {
 
     public void propertyChange(String prop, Object value) {
         if (prop.equals(Utils.FILE_DATASET)) {
-            textField.setText(value.toString());
             status.setMessage("Using " + value.toString());
         } else if (prop.equals(Utils.CHOOSE_TABLE)) {
         	status.setMessage("Using table \"" + value.toString() + "\"");

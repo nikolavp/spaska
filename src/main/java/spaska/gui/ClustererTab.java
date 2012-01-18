@@ -38,19 +38,6 @@ public class ClustererTab extends SpaskaTab {
         c.insets = new Insets(2, 2, 2, 2);
 
         // 1 row
-        c.gridy = 0;
-        c.weighty = 0;
-
-        c.gridx = 0;
-        c.weightx = 0;
-        add(browse, c);
-
-        c.gridwidth = 3;
-        c.gridx = 1;
-        c.weightx = 1;
-        add(textField, c);
-
-        // 2 row
         c.gridy = 1;
         c.weighty = 1;
         c.anchor = GridBagConstraints.CENTER;
@@ -66,7 +53,7 @@ public class ClustererTab extends SpaskaTab {
         c.weightx = 1;
         add(clusterCombo, c);
 
-        // 3 row
+        // 2 row
         c.gridy = 2;
         c.weighty = 0;
 
@@ -78,7 +65,7 @@ public class ClustererTab extends SpaskaTab {
 
         add(run, c);
         
-        // 4 row
+        // 3 row
         c.gridy = 3;
         c.weighty = 0;
         c.fill = GridBagConstraints.HORIZONTAL;
