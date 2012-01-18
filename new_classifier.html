@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>Spaska - Project Summary</title>
+    <title>Spaska - </title>
     <link rel="stylesheet" href="./css/apache-maven-fluido.min.css" />
     <link rel="stylesheet" href="./css/site.css" />
     <link rel="stylesheet" href="./css/print.css" media="print" />
@@ -90,7 +90,16 @@
       <div id="bodyColumn" class="content">
         <div id="contentBox">
                               
-          <div class="section"><h2>Project Summary<a name="Project_Summary"></a></h2><a name="Project_Summary"></a><div class="section"><h3>Project Information<a name="Project_Information"></a></h3><a name="Project_Information"></a><table border="0" class="zebra-striped"><tr class="a"><th>Field</th><th>Value</th></tr><tr class="b"><td>Name</td><td>spaska</td></tr><tr class="a"><td>Description</td><td>Machine learning engineering system built from Sofia university students</td></tr><tr class="b"><td>Homepage</td><td><a class="externalLink" href="http://maven.apache.org">http://maven.apache.org</a></td></tr></table></div><div class="section"><h3>Project Organization<a name="Project_Organization"></a></h3><a name="Project_Organization"></a><p>This project does not belong to an organization.</p></div><div class="section"><h3>Build Information<a name="Build_Information"></a></h3><a name="Build_Information"></a><table border="0" class="zebra-striped"><tr class="a"><th>Field</th><th>Value</th></tr><tr class="b"><td>GroupId</td><td>org.spaska</td></tr><tr class="a"><td>ArtifactId</td><td>spaska</td></tr><tr class="b"><td>Version</td><td>1.0-SNAPSHOT</td></tr><tr class="a"><td>Type</td><td>jar</td></tr></table></div></div>
+          <p>We are following the convention from weka, so if you want to register a new classifier in the system, you should put that classifier in the <i>spaska.classifiers</i> package. That's all you have to do so spaska can find your classifier when running the GUI.
+</p><p>When you implement our IClassifier interface which marks your class as a classifier, you will have to implement 3 methods:
+</p><p>* **buildClassifier**<br/>
+Here you have to build the model for the classifier and store it somewhere. The model constructions will depend from the algorithm you are trying to implement.
+* **classifyInstance** <br/>
+After you have built the model in buildClassifier you should be able to classify instances depending on their attributes based on the model.
+* **getName** <br/>
+This should return a meaningful name of your classifier algorithm.
+</p><p>Consider writing tests for you classifier! Tests for the classifiers are really easy to write in our framework. Look at our <a href="classifiers_tests.html">Testing</a> page for more information.
+</p>
                   </div>
       </div>
     </div>
