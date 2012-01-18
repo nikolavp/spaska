@@ -16,7 +16,9 @@ public class TwoLayerPerceptronTest extends ClassifierTestBase {
 
     @Override
     protected TestDescriptor getDescriptor() {
-        return new TestDescriptor().iris(0.946, 0.946);
+        return new TestDescriptor().iris(0.946, 0.946)
+                .vote(0.947, 0.945)
+                .soybean(0.909, 0.899);
     }
 
     @Override

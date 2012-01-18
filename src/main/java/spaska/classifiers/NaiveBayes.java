@@ -9,6 +9,12 @@ import java.util.List;
 import java.util.Map;
 
 import jsc.descriptive.MeanVar;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import DistLib.logistic;
+
 import spaska.classifiers.util.DatasetService;
 import spaska.data.Attribute;
 import spaska.data.Attribute.ValueType;
@@ -31,144 +37,150 @@ import spaska.data.Value;
  * 
  */
 public class NaiveBayes implements IClassifier {
-	/**
-	 * Get the default parameters for this classifier(empty hashmap).
-	 * 
-	 * @return the default parameters for this classifier(empty hashmap)
-	 */
-	public static Map<String, String> getParameters() {
-		return new HashMap<String, String>();
-	}
+    private static final Logger LOG = LoggerFactory.getLogger(NaiveBayes.class);
 
-	/**
-	 * A decorator for the {@link MeanVar} class from jsc. Used with purpose to
-	 * override toString() method in order to ease the debugging process.
-	 * 
-	 * @author Gergana Dzhumerkova
-	 * 
-	 */
-	private static class MeanVariance {
-		private MeanVar meanVar;
+    /**
+     * Get the default parameters for this classifier(empty hashmap).
+     * 
+     * @return the default parameters for this classifier(empty hashmap)
+     */
+    public static Map<String, String> getParameters() {
+        return new HashMap<String, String>();
+    }
 
-		public MeanVariance() {
-			this.meanVar = new MeanVar(0.0D);
-		}
+    /**
+     * A decorator for the {@link MeanVar} class from jsc. Used with purpose to
+     * override toString() method in order to ease the debugging process.
+     * 
+     * @author Gergana Dzhumerkova
+     * 
+     */
+    private static class MeanVariance {
+        private MeanVar meanVar;
 
-		double getMean() {
-			return meanVar.getMean();
-		}
+        public MeanVariance() {
+            this.meanVar = new MeanVar(0.0D);
+        }
 
-		double getVariance() {
-			return meanVar.getVariance();
-		}
+        double getMean() {
+            return meanVar.getMean();
+        }
 
-		@Override
-		public String toString() {
-			return meanVar.getMean() + " : " + meanVar.getVariance();
-		}
+        double getVariance() {
+            return meanVar.getVariance();
+        }
 
-		public void addValue(double attributeValue) {
-			meanVar.addValue(attributeValue);
-		}
-	}
+        @Override
+        public String toString() {
+            return meanVar.getMean() + " : " + meanVar.getVariance();
+        }
 
-	private MeanVariance[][] values;
-	private DatasetService dataService;
+        public void addValue(double attributeValue) {
+            meanVar.addValue(attributeValue);
+        }
+    }
 
-	@Override
-	public void setParameters(Map<String, String> parameters) {
-	}
+    private MeanVariance[][] values;
+    private DatasetService dataService;
 
-	@Override
-	public void buildClassifier(Dataset instances) {
-		dataService = new DatasetService(instances);
-		int numberOfClasses = dataService.numberOfClasses();
-		values = new MeanVariance[numberOfClasses][dataService
-				.numberOfAttributes() - 1];
+    @Override
+    public void setParameters(Map<String, String> parameters) {
+    }
 
-		for (Attribute a : instances.getAttributes()) {
-			int attributeIndex = dataService.getAttributeIndex(a);
-			if (attributeIndex == dataService.classIndex()) {
-				continue;
-			}
-			for (Instance instance : instances.getElements()) {
-				int classAttributeIndex = dataService.classIndex();
-				Value clazz = dataService.getClass(instance);
-				int classIndex = dataService.intValue(classAttributeIndex,
-						clazz);
-				MeanVariance meanVar = getMeanVar(classIndex, attributeIndex);
+    @Override
+    public void buildClassifier(Dataset instances) {
+        dataService = new DatasetService(instances);
+        int numberOfClasses = dataService.numberOfClasses();
+        values = new MeanVariance[numberOfClasses][dataService
+                .numberOfAttributes() - 1];
 
-				Value value = instance.getVector().get(attributeIndex);
-				double attributeValue = getDoubleValue(attributeIndex, value);
-				meanVar.addValue(attributeValue);
-			}
-		}
-	}
+        for (Attribute a : instances.getAttributes()) {
+            int attributeIndex = dataService.getAttributeIndex(a);
+            if (attributeIndex == dataService.classIndex()) {
+                continue;
+            }
+            for (Instance instance : instances.getElements()) {
+                int classAttributeIndex = dataService.classIndex();
+                Value clazz = dataService.getClass(instance);
+                int classIndex = dataService.intValue(classAttributeIndex,
+                        clazz);
+                MeanVariance meanVar = getMeanVar(classIndex, attributeIndex);
 
-	private MeanVariance getMeanVar(int classIndex, int attributeIndex) {
-		MeanVariance meanVar = values[classIndex][attributeIndex];
-		if (meanVar == null) {
-			values[classIndex][attributeIndex] = new MeanVariance();
-		}
-		return values[classIndex][attributeIndex];
-	}
+                Value value = instance.getVector().get(attributeIndex);
+                double attributeValue = getDoubleValue(attributeIndex, value);
+                meanVar.addValue(attributeValue);
+            }
+        }
+    }
 
-	private double getDoubleValue(int attributeIndex, Value value) {
-		if (ValueType.Numeric.equals(value.getType())) {
-			return ((NumericValue) value).getValue();
-		} else if (ValueType.Nominal.equals(value.getType())) {
-			return dataService.intValue(attributeIndex, value);
-		} else if (ValueType.Unknown.equals(value.getType())) {
-			return 0.0D;
-		} else {
-			throw new UnsupportedOperationException("Invalid value type!");
-		}
-	}
+    private MeanVariance getMeanVar(int classIndex, int attributeIndex) {
+        MeanVariance meanVar = values[classIndex][attributeIndex];
+        if (meanVar == null) {
+            values[classIndex][attributeIndex] = new MeanVariance();
+        }
+        return values[classIndex][attributeIndex];
+    }
 
-	static double normalDensityF(double mean, double variance, double x) {
-		double exp = exp((-(x - mean) * (x - mean)) / (2 * variance));
-		double d = 1 / (sqrt(2 * PI * variance));
-		return d * exp;
-	}
+    private double getDoubleValue(int attributeIndex, Value value) {
+        if (ValueType.Numeric.equals(value.getType())) {
+            return ((NumericValue) value).getValue();
+        } else if (ValueType.Nominal.equals(value.getType())) {
+            return dataService.intValue(attributeIndex, value) + 1;
+        } else if (ValueType.Unknown.equals(value.getType())) {
+            return 0.0D;
+        } else {
+            throw new UnsupportedOperationException("Invalid value type!");
+        }
+    }
 
-	@Override
-	public Value classifyInstance(Instance instance) {
+    static double normalDensityF(double mean, double variance, double x) {
+        if (variance == 0.0D) {
+            return 0.0D;
+        }
+        double exp = exp((-(x - mean) * (x - mean)) / (2 * variance));
+        double d = 1 / (sqrt(2 * PI * variance));
+        return d * exp;
+    }
 
-		double classProbability = 1.0D / values.length;
-		int maxClassIndex = -1;
-		double maxPosteriorNumerator = -Double.MAX_VALUE;
+    @Override
+    public Value classifyInstance(Instance instance) {
 
-		List<Value> vector = instance.getVector();
-		for (int classIndex = 0; classIndex < values.length; classIndex++) {
-			double posteriorNumerator = classProbability;
-			if (values[classIndex][0] == null) {
-				continue;
-			}
-			for (int attributeIndex = 0; attributeIndex < values[0].length; attributeIndex++) {
-				double mean = values[classIndex][attributeIndex].getMean();
-				double variance = values[classIndex][attributeIndex]
-						.getVariance();
-				double value = getDoubleValue(attributeIndex,
-						vector.get(attributeIndex));
-				double density = normalDensityF(mean, variance, value);
-				posteriorNumerator *= density;
-			}
-			if (!Double.isNaN(posteriorNumerator)
-					&& !Double.isInfinite(posteriorNumerator)
-					&& posteriorNumerator > maxPosteriorNumerator) {
-				maxPosteriorNumerator = posteriorNumerator;
-				maxClassIndex = classIndex;
+        double classProbability = 1.0D / values.length;
+        int maxClassIndex = -1;
+        double maxPosteriorNumerator = -Double.MAX_VALUE;
 
-			}
-		}
-		Value value = dataService.getValueFromInt(dataService.classIndex(),
-				maxClassIndex);
-		return value;
-	}
+        List<Value> vector = instance.getVector();
+        for (int classIndex = 0; classIndex < values.length; classIndex++) {
+            double posteriorNumerator = classProbability;
+            if (values[classIndex][0] == null) {
+                continue;
+            }
+            for (int attributeIndex = 0; attributeIndex < values[0].length; attributeIndex++) {
+                double mean = values[classIndex][attributeIndex].getMean();
+                double variance = values[classIndex][attributeIndex]
+                        .getVariance();
+                double value = getDoubleValue(attributeIndex,
+                        vector.get(attributeIndex));
+                double density = normalDensityF(mean, variance, value);
+                posteriorNumerator *= density;
+            }
+            if(Double.isNaN(posteriorNumerator)
+                    || Double.isInfinite(posteriorNumerator)){
+                LOG.warn("Ignoring class value as posterior probability is non a valid double value!");
+            }
+            if (posteriorNumerator > maxPosteriorNumerator) {
+                maxPosteriorNumerator = posteriorNumerator;
+                maxClassIndex = classIndex;
+            }
+        }
+        Value value = dataService.getValueFromInt(dataService.classIndex(),
+                maxClassIndex);
+        return value;
+    }
 
-	@Override
-	public String getName() {
-		return null;
-	}
+    @Override
+    public String getName() {
+        return null;
+    }
 
 }
