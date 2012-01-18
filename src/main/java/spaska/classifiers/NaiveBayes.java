@@ -94,13 +94,13 @@ public class NaiveBayes implements IClassifier {
         values = new MeanVariance[numberOfClasses][dataService
                 .numberOfAttributes() - 1];
 
+        int classAttributeIndex = dataService.classIndex();
         for (Attribute a : instances.getAttributes()) {
             int attributeIndex = dataService.getAttributeIndex(a);
             if (attributeIndex == dataService.classIndex()) {
                 continue;
             }
             for (Instance instance : instances.getElements()) {
-                int classAttributeIndex = dataService.classIndex();
                 Value clazz = dataService.getClass(instance);
                 int classIndex = dataService.intValue(classAttributeIndex,
                         clazz);
@@ -127,7 +127,7 @@ public class NaiveBayes implements IClassifier {
         } else if (ValueType.Nominal.equals(value.getType())) {
             return dataService.intValue(attributeIndex, value) + 1;
         } else if (ValueType.Unknown.equals(value.getType())) {
-            return 0.0D;
+            return 1.0D;
         } else {
             throw new UnsupportedOperationException("Invalid value type!");
         }
@@ -135,7 +135,7 @@ public class NaiveBayes implements IClassifier {
 
     static double normalDensityF(double mean, double variance, double x) {
         if (variance == 0.0D) {
-            return 0.0D;
+            return 1.0D;
         }
         double exp = exp((-(x - mean) * (x - mean)) / (2 * variance));
         double d = 1 / (sqrt(2 * PI * variance));
@@ -164,6 +164,7 @@ public class NaiveBayes implements IClassifier {
                 double density = normalDensityF(mean, variance, value);
                 posteriorNumerator *= density;
             }
+
             if(Double.isNaN(posteriorNumerator)
                     || Double.isInfinite(posteriorNumerator)){
                 LOG.warn("Ignoring class value as posterior probability is non a valid double value!");
@@ -180,7 +181,7 @@ public class NaiveBayes implements IClassifier {
 
     @Override
     public String getName() {
-        return null;
+        return "Naive Bayes";
     }
 
 }

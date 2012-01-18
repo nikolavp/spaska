@@ -22,7 +22,7 @@ public class NaiveBayesTest extends ClassifierTestBase {
     @Override
     protected TestDescriptor getDescriptor() {
         return new TestDescriptor().iris(0.95, 0.95).vote(0.907, 0.918)
-                .soybean(0.67, 0.703);
+                .soybean(0.954, 0.921).glass(0.225, 0.250);
     }
 
     @Override

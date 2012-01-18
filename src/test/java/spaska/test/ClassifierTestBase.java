@@ -70,6 +70,10 @@ public abstract class ClassifierTestBase {
         public TestDescriptor soybean(double precision, double recall) {
             return addDataset("soybean", precision, recall);
         }
+        
+        public TestDescriptor glass(double precision, double recall) {
+        	return addDataset("glass", precision, recall);
+        }
     }
 
     protected abstract Logger getLogger();
@@ -91,6 +95,11 @@ public abstract class ClassifierTestBase {
     @Test
     public void shouldGiveGoodResultsOnVoteDataSet() throws Exception {
         shouldGiveGoodResultsOnDataSet("vote");
+    }
+    
+    @Test
+    public void shouldGiveGoodResultsOnGlassDataSet() throws Exception {
+        shouldGiveGoodResultsOnDataSet("glass");
     }
 
     /**
