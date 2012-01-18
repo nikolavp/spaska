@@ -57,16 +57,6 @@ public abstract class Engine {
 		}
 	}
 
-	public void setFile(File file) throws Exception {
-		if (file == null) {
-			throw new InputException("Please choose a file");
-		} else {
-			if (file.getName().endsWith(ARFF)) {
-				reader = new ARFFInputReader(file);
-			}
-		}
-	}
-
 	public void setResource(DataInputResource resource) throws Exception {
 		if (resource.getType() == DataInputResource.TABLE) {
 			String tableName = (String) resource.getResource();
