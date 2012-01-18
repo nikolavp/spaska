@@ -35,6 +35,7 @@ public abstract class SpaskaTab extends JPanel implements ActionListener {
 
     protected Engine engine;
     protected File openedFile;
+    protected DataInputResource resource;
 
     protected JButton browse;
     protected JTextField textField;
@@ -101,6 +102,13 @@ public abstract class SpaskaTab extends JPanel implements ActionListener {
             openedFile = fileChooser.getSelectedFile();
             propertyChange(Utils.FILE_DATASET, openedFile);
         }
+        if (openedFile != null) {
+        	this.resource = new DataInputResource(openedFile);
+        }
+    }
+    
+    public void setResource(DataInputResource resource) {
+    	this.resource = resource;
     }
 
     protected void setButtonStart() {

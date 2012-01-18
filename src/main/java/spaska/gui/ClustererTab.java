@@ -93,7 +93,8 @@ public class ClustererTab extends SpaskaTab {
             try {
                 getEngine().reset();
 
-                getEngine().setFile(openedFile);
+                //getEngine().setFile(openedFile);
+                getEngine().setResource(this.resource);
                 setEngineArgs(validatorCombo.getParameters(), null);
                 setEngineArgs(clusterCombo.getParameters(), null);
 

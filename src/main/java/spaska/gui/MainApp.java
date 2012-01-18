@@ -114,7 +114,7 @@ public class MainApp extends JFrame implements ActionListener {
 
 	public void selectTable() {
 		String tableName = getTableName();
-		System.out.println(tableName);
+		getSelectedTab().setResource(new DataInputResource(tableName, this.jdbcConnectionString));
 	}
 
 	private String getTableName() {
