@@ -85,7 +85,6 @@ public class MainApp extends JFrame implements ActionListener {
 	public void showConnectDbDialog() {
 		String jdbcConnectionString = ConnectDbDialog.getJdbcConnectionString();
 		if (jdbcConnectionString != null) {
-			System.out.println(jdbcConnectionString);
 			this.jdbcConnectionString = jdbcConnectionString;
 			this.sqlConnection = new SpaskaSqlConnection(
 					this.jdbcConnectionString);
