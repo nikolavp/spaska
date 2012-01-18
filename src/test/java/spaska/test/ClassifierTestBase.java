@@ -11,8 +11,6 @@ import org.junit.Assume;
 import org.junit.Test;
 import org.slf4j.Logger;
 
-import DistLib.logistic;
-
 import spaska.classifiers.IClassifier;
 import spaska.statistics.ClassifierStatistics;
 import spaska.test.ClassifierTestBase.TestDescriptor.DatasetRule;

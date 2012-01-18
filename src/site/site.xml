@@ -24,6 +24,11 @@
 
         <menu ref="reports"/>
 
+        <menu name="Classifiers">
+            <item name="New classifier" href="new_classifier.html" />
+            <item name="Results" href="classifiers_results.html" />
+            <item name="Testing" href="classifiers_tests.html" />
+        </menu>
         <menu name="Development">
             <item name="Static analysis" href="static_analysis.html"/>
         </menu>

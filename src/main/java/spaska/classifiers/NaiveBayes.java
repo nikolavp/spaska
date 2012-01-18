@@ -13,8 +13,6 @@ import jsc.descriptive.MeanVar;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import DistLib.logistic;
-
 import spaska.classifiers.util.DatasetService;
 import spaska.data.Attribute;
 import spaska.data.Attribute.ValueType;
@@ -164,9 +162,8 @@ public class NaiveBayes implements IClassifier {
                 double density = normalDensityF(mean, variance, value);
                 posteriorNumerator *= density;
             }
-
-            if(Double.isNaN(posteriorNumerator)
-                    || Double.isInfinite(posteriorNumerator)){
+            if (Double.isNaN(posteriorNumerator)
+                    || Double.isInfinite(posteriorNumerator)) {
                 LOG.warn("Ignoring class value as posterior probability is non a valid double value!");
             }
             if (posteriorNumerator > maxPosteriorNumerator) {
