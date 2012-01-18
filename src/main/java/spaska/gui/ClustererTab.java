@@ -77,6 +77,17 @@ public class ClustererTab extends SpaskaTab {
         c.weightx = 1;
 
         add(run, c);
+        
+        // 4 row
+        c.gridy = 3;
+        c.weighty = 0;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.anchor = GridBagConstraints.SOUTH;
+
+        c.gridx = 0;
+        c.gridwidth = 1;
+        c.weightx = 0;
+        add(status, c);
     }
 
     @Override

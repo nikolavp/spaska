@@ -40,6 +40,7 @@ public abstract class SpaskaTab extends JPanel implements ActionListener {
     protected JButton browse;
     protected JTextField textField;
     protected JFileChooser fileChooser;
+    protected StatusBar status;
 
     protected Thread thread;
     protected JButton run;
@@ -56,6 +57,8 @@ public abstract class SpaskaTab extends JPanel implements ActionListener {
         run = new JButton("Start");
         run.setActionCommand(Utils.START);
         run.addActionListener(this);
+        
+        status = new StatusBar("Ready");
     }
 
     protected <T> void setEngineArgs(
