@@ -112,14 +112,15 @@ public class MainApp extends JFrame implements ActionListener {
 
 	public void exportArff() {
 		String tableName = getTableName();
-		
+
 		JFileChooser fileChooser = new JFileChooser();
 		File openedFile = null;
 		fileChooser.setCurrentDirectory(new File("."));
-		
+
 		if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
 			openedFile = fileChooser.getSelectedFile();
-			(new DB2ARFF(tableName, openedFile.getAbsolutePath(), this.jdbcConnectionString)).write();
+			(new DB2ARFF(tableName, openedFile.getAbsolutePath(),
+					this.jdbcConnectionString)).write();
 			JOptionPane.showMessageDialog(this,
 					"ARFF file created successfully");
 		}
@@ -127,8 +128,13 @@ public class MainApp extends JFrame implements ActionListener {
 
 	public void selectTable() {
 		String tableName = getTableName();
-		getSelectedTab().setResource(new DataInputResource(tableName, this.jdbcConnectionString));
-		getSelectedTab().propertyChange(Utils.CHOOSE_TABLE, tableName);
+		if (tableName != null) {
+			getSelectedTab()
+					.setResource(
+							new DataInputResource(tableName,
+									this.jdbcConnectionString));
+			getSelectedTab().propertyChange(Utils.CHOOSE_TABLE, tableName);
+		}
 	}
 
 	private String getTableName() {
