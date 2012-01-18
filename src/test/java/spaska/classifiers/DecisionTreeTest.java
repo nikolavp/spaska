@@ -16,7 +16,9 @@ public class DecisionTreeTest extends ClassifierTestBase {
 
     @Override
     protected TestDescriptor getDescriptor() {
-        return new TestDescriptor().iris(0.94, 0.94);
+        return new TestDescriptor().iris(0.94, 0.94)
+                .vote(0.89D, 0.915D)
+                .soybean(0.703, 0.683D);
     }
 
     @Override

@@ -15,7 +15,10 @@ public class OneRTest extends ClassifierTestBase {
 
     @Override
     protected TestDescriptor getDescriptor() {
-        return new TestDescriptor().iris(0.62, 0.65);
+        return new TestDescriptor().iris(0.62, 0.65)
+                .soybean(0.0139D, 0.0516D)
+                .vote(0.9507D, 0.958D);
+        
     }
 
     @Override
