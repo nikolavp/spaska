@@ -28,7 +28,6 @@ public class FuzzyKMeans implements IClusterer {
     private static final int DEFAULT_NUMBER_OF_CLUSTERS = 3;
     private static final double DEFAULT_EPSILON = 0.1;
     private static final int NUMBER_OF_CLUSTERS_INDEX_PARAMETER = 3;
-    private static final double EPSILON = 0.2;
 
     private ClustererStatistics algorithmResults;
     private List<Instance> instances;
