@@ -48,7 +48,8 @@ public class DB2ARFF {
 			return "NUMERIC";
 		case Types.VARCHAR:
 			StringBuffer result = new StringBuffer("{");
-			for (Value value : this.sqlroutines.getDomain(this.name, attributeName)) {
+			for (Value value : this.sqlroutines.getDomain(this.name,
+					attributeName)) {
 				result.append(value.toString() + " ");
 			}
 			// Remove the trailing space:
@@ -76,7 +77,7 @@ public class DB2ARFF {
 					.getAttributes(this.name)) {
 				String attributeName = attribute.getFirst();
 				String type = this.getAttributeTypeName(attribute.getSecond(),
-						name);
+						attributeName);
 				output.write("@ATTRIBUTE " + attributeName + " " + type + "\n");
 			}
 			output.write("\n");
@@ -100,10 +101,4 @@ public class DB2ARFF {
 			e.printStackTrace();
 		}
 	}
-
-//	public static void main(String[] args) {
-//		(new DB2ARFF("iris", null,
-//				"jdbc:mysql://localhost/spaska?user=spaska&password=spaska"))
-//				.write();
-//	}
 }

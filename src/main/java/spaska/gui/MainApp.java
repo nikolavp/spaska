@@ -29,6 +29,7 @@ import javax.swing.JTextArea;
 import edu.umd.cs.findbugs.annotations.SuppressWarnings;
 
 import spaska.db.ARFF2DB;
+import spaska.db.DB2ARFF;
 import spaska.db.sql.SpaskaSqlConnection;
 import spaska.statistics.Statistics;
 
@@ -89,6 +90,8 @@ public class MainApp extends JFrame implements ActionListener {
 			this.sqlConnection = new SpaskaSqlConnection(
 					this.jdbcConnectionString);
 			if ("OK".endsWith(this.sqlConnection.getStatus())) {
+				JOptionPane.showMessageDialog(this,
+						"Successfully connected to the database.");
 				this.menuBar.getMenu(1).getMenuComponent(1).setEnabled(true);
 				this.menuBar.getMenu(1).getMenuComponent(2).setEnabled(true);
 				this.menuBar.getMenu(1).getMenuComponent(3).setEnabled(true);
@@ -109,7 +112,18 @@ public class MainApp extends JFrame implements ActionListener {
 	}
 
 	public void exportArff() {
-
+		String tableName = getTableName();
+		
+		JFileChooser fileChooser = new JFileChooser();
+		File openedFile = null;
+		fileChooser.setCurrentDirectory(new File("."));
+		
+		if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+			openedFile = fileChooser.getSelectedFile();
+			(new DB2ARFF(tableName, openedFile.getAbsolutePath(), this.jdbcConnectionString)).write();
+			JOptionPane.showMessageDialog(this,
+					"ARFF file created successfully");
+		}
 	}
 
 	public void selectTable() {

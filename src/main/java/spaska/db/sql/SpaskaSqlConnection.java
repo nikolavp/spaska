@@ -70,7 +70,7 @@ public class SpaskaSqlConnection implements SQLGetter {
 	 * @return List of values for an attribute with type "Nominal"
 	 */
 	public ArrayList<Value> getDomain(String tableName, String columnName) {
-		String query = "SELECT DISTINCT " + columnName + " FROM " + tableName;
+		String query = "SELECT DISTINCT `" + columnName + "` FROM `" + tableName + "`";
 		ArrayList<Value> result = new ArrayList<Value>();
 
 		try {
@@ -120,7 +120,7 @@ public class SpaskaSqlConnection implements SQLGetter {
 	 */
 	public ArrayList<String[]> getData(String tableName) {
 		ArrayList<String[]> result = new ArrayList<String[]>();
-		String query = "SELECT * FROM " + tableName;
+		String query = "SELECT * FROM `" + tableName + "`";
 
 		try {
 			ResultSet rows = this.statement.executeQuery(query);
