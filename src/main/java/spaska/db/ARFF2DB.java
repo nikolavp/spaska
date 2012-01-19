@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import spaska.db.sql.SpaskaSqlConnection;
+
 /**
  * 
  * @author iva
@@ -28,10 +30,11 @@ public class ARFF2DB {
 	private File file;
 	private Connection connection = null;
 	private Statement statement = null;
+	private SpaskaSqlConnection spaskaConnection = null;
 
-	private ArrayList<String> attrContainer;
-	private ArrayList<String> dataContainer;
-	private String tableName;
+	private ArrayList<String> attrContainer = null;
+	private ArrayList<String> dataContainer = null;
+	private String tableName = null;
 
 	/**
 	 * 
@@ -57,6 +60,7 @@ public class ARFF2DB {
 			Class.forName("com.mysql.jdbc.Driver");
 			this.connection = DriverManager.getConnection(jdbcConnString);
 			this.statement = connection.createStatement();
+			this.spaskaConnection = new SpaskaSqlConnection(jdbcConnString);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
@@ -144,14 +148,36 @@ public class ARFF2DB {
 		query.deleteCharAt(query.length() - 2);
 		this.statement.executeUpdate(query.toString());
 	}
+	
+	public void write() {
+		try {
+			createTable(this.tableName, this.attrContainer);
+			insertData(this.tableName, this.dataContainer);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void replace() {
+		try {
+			this.statement.execute("DROP TABLE `" + this.tableName + "`");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		this.write();
+	}
+	
+	public boolean sameTableNameExists() {
+		return this.spaskaConnection.tableExists(this.tableName);
+	}
 
 	/**
-	 * Reads the file and writes it into the database.
+	 * Parses the file.
 	 */
-	public void read() {
-		attrContainer = new ArrayList<String>();
-		dataContainer = new ArrayList<String>();
-		tableName = "";
+	public void parse() {
+		this.attrContainer = new ArrayList<String>();
+		this.dataContainer = new ArrayList<String>();
+		this.tableName = "";
 		BufferedReader input = null;
 		try {
 			input = new BufferedReader(new InputStreamReader(
@@ -160,15 +186,13 @@ public class ARFF2DB {
 			String line = null;
 			while ((line = input.readLine()) != null) {
 				if (line.toLowerCase().startsWith(TAG_RELATION)) {
-					tableName = line.split("\\s")[1];
+					this.tableName = line.split("\\s")[1];
 				} else if (line.toLowerCase().startsWith(TAG_ATTRIBUT)) {
-					attrContainer.add(handleAttribute(line));
+					this.attrContainer.add(handleAttribute(line));
 				} else if (line.toLowerCase().startsWith(TAG_DATA)) {
-					dataContainer = handleData(input);
+					this.dataContainer = handleData(input);
 				}
 			}
-			createTable(tableName, attrContainer);
-			insertData(tableName, dataContainer);
 		} catch (EOFException e) {
 			e.printStackTrace();
 		} catch (Exception e) {

@@ -104,7 +104,18 @@ public class MainApp extends JFrame implements ActionListener {
 		fileChooser.setCurrentDirectory(new File("."));
 		if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
 			openedFile = fileChooser.getSelectedFile();
-			(new ARFF2DB(openedFile, this.jdbcConnectionString)).read();
+			ARFF2DB arff2db = new ARFF2DB(openedFile, this.jdbcConnectionString);
+			arff2db.parse();
+			if (arff2db.sameTableNameExists()) {
+				int userAnswer = JOptionPane.showConfirmDialog(this, "A table with the same name already exists, replace it?", "Confirm", JOptionPane.YES_NO_OPTION);
+				if (userAnswer == 0) {
+					arff2db.replace();
+				} else {
+					return;
+				}
+			} else {
+				arff2db.write();
+			}
 			JOptionPane.showMessageDialog(this,
 					"ARFF file imported successfully");
 		}
