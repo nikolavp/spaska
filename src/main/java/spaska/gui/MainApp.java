@@ -107,7 +107,11 @@ public class MainApp extends JFrame implements ActionListener {
 			ARFF2DB arff2db = new ARFF2DB(openedFile, this.jdbcConnectionString);
 			arff2db.parse();
 			if (arff2db.sameTableNameExists()) {
-				int userAnswer = JOptionPane.showConfirmDialog(this, "A table with the same name already exists, replace it?", "Confirm", JOptionPane.YES_NO_OPTION);
+				int userAnswer = JOptionPane
+						.showConfirmDialog(
+								this,
+								"A table with the same name already exists, replace it?",
+								"Confirm", JOptionPane.YES_NO_OPTION);
 				if (userAnswer == 0) {
 					arff2db.replace();
 				} else {
@@ -151,9 +155,16 @@ public class MainApp extends JFrame implements ActionListener {
 	private String getTableName() {
 		String[] tableNames = this.sqlConnection.getTables().toArray(
 				new String[0]);
-		return (String) JOptionPane.showInputDialog(this, null,
-				"Table selection", JOptionPane.PLAIN_MESSAGE, null, tableNames,
-				tableNames[0]);
+		if (tableNames.length > 0) {
+			return (String) JOptionPane.showInputDialog(this, null,
+					"Table selection", JOptionPane.PLAIN_MESSAGE, null,
+					tableNames, tableNames[0]);
+		} else {
+			JOptionPane.showMessageDialog(this,
+					"The database is empty.\nPlease import some data into it",
+					"Error", JOptionPane.ERROR_MESSAGE);
+		}
+		return null;
 	}
 
 	public void showStatistics(Statistics st) {
