@@ -1,4 +1,5 @@
 package spaska.clusterers;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +37,7 @@ public class FuzzyKMeans implements IClusterer {
     private int fuzzifier = 2;
     private int numberOfInstances;
     private int numberOfAttributes;
-    private double epsilon = 0.1;
+    private double epsilon = DEFAULT_EPSILON;
     private int maxIterations = DEFAULT_MAX_ITERATIONS;
     private double[][] membershipFunction;
     private double[][] newMembershipFunction;
@@ -80,7 +81,7 @@ public class FuzzyKMeans implements IClusterer {
                             + " must be an integer.");
                 }
             }
-            
+
             if (key.equalsIgnoreCase(EPSILON_PARAMETER)) {
                 try {
                     epsilon = Double.parseDouble(entry.getValue());
@@ -232,9 +233,9 @@ public class FuzzyKMeans implements IClusterer {
                 attributeValue = ((NumericValue) attribute).getValue();
             } else if (attribute instanceof NominalValue) {
                 attributeValue = service.intValue(attributeIndex, attribute);
-            	continue;
+                continue;
             }
-            
+
             sum += Math.pow(attributeValue - center[attributeIndex], 2);
         }
 
@@ -261,11 +262,12 @@ public class FuzzyKMeans implements IClusterer {
                     if (attribute instanceof NumericValue) {
                         attributeValue = ((NumericValue) attribute).getValue();
                     } else if (attribute instanceof NominalValue) {
-                        attributeValue = service.intValue(attributeIndex, attribute);
+                        attributeValue = service.intValue(attributeIndex,
+                                attribute);
                     } else {
-                    	continue;
+                        continue;
                     }
-                    
+
                     sum += Math.pow(
                             membershipFunction[clusterIndex][instanceIndex],
                             fuzzifier)

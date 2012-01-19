@@ -7,6 +7,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +31,8 @@ public final class PackageClassesDiscovery {
 
     private String packageName;
 
+    private String packagePath;
+
     /**
      * Constructs a package discovery object that can be used to discover
      * classes in the given package name.
@@ -38,6 +42,7 @@ public final class PackageClassesDiscovery {
      */
     public PackageClassesDiscovery(String packageName) {
         this.packageName = packageName;
+        this.packagePath = packageName.replace('.', '/');
     }
 
     /**
@@ -54,25 +59,27 @@ public final class PackageClassesDiscovery {
         ClassLoader classLoader = Thread.currentThread()
                 .getContextClassLoader();
         assert classLoader != null;
-        String path = packageName.replace('.', '/');
+
         Enumeration<URL> resources;
-        ArrayList<Class<? extends T>> classes = new ArrayList<Class<? extends T>>();
+        List<Class<? extends T>> classes = new ArrayList<Class<? extends T>>();
         try {
-            resources = classLoader.getResources(path);
-            List<File> dirs = new ArrayList<File>();
+            resources = classLoader.getResources(packagePath);
             while (resources.hasMoreElements()) {
                 URL resource = resources.nextElement();
                 try {
-                    dirs.add(new File(resource.toURI()));
+                    String dirPath = resource.toURI().toASCIIString()
+                            .replaceFirst("file:", "");
+                    if (dirPath.startsWith("jar:")) {
+                        findClassesInJar(dirPath, classes, baseClass);
+                    } else {
+                        classes.addAll(PackageClassesDiscovery.findClasses(
+                                new File(dirPath), packageName, baseClass));
+                    }
                 } catch (URISyntaxException e) {
                     LOG.error(
                             "Error while converting the classpath directory to uri!",
                             e);
                 }
-            }
-            for (File directory : dirs) {
-                classes.addAll(PackageClassesDiscovery.findClasses(directory,
-                        packageName, baseClass));
             }
         } catch (IOException e) {
             LOG.error("Error while getting classpath resources", e);
@@ -81,9 +88,41 @@ public final class PackageClassesDiscovery {
         return classes;
     }
 
-    private static String getClassNameFromFile(File file) {
-        return file.getName().substring(0,
-                file.getName().length() - CLASS_SUFFIX_LENGTH);
+    /**
+     * Finds classes in a jar file.
+     * 
+     * @param dirPath
+     *            the dir path
+     * @param classes
+     *            the output classes that is expected
+     * @param baseClass
+     *            the base class that we want to get the subclasses of
+     * @throws IOException
+     *             if any exception occurs while reading the file in the zip
+     * @throws ZipException
+     *             if any exception occurs while reading the zip file
+     */
+    private <T> void findClassesInJar(String dirPath,
+            List<Class<? extends T>> classes, Class<? extends T> baseClass)
+            throws IOException {
+        dirPath = dirPath.replaceFirst("jar:", "").replaceFirst("file:", "")
+                .replaceAll("!.*$", "");
+        ZipFile file = new ZipFile(new File(dirPath));
+        Enumeration<? extends ZipEntry> entries = file.entries();
+        while (entries.hasMoreElements()) {
+            ZipEntry entry = entries.nextElement();
+            String entryName = entry.getName();
+            if (entryName.startsWith(packagePath)
+                    && entryName.endsWith(".class")) {
+                String classNameFromFile = getClassNameFromFile(entryName);
+                addClass(classNameFromFile.replaceAll("/", "."), baseClass,
+                        classes);
+            }
+        }
+    }
+
+    private static String getClassNameFromFile(String fileName) {
+        return fileName.substring(0, fileName.length() - CLASS_SUFFIX_LENGTH);
     }
 
     /**
@@ -110,26 +149,40 @@ public final class PackageClassesDiscovery {
                 classes.addAll(findClasses(file,
                         packageName + "." + file.getName(), filteredClasses));
             } else if (file.getName().endsWith(".class")) {
-                Class<?> clazz;
                 String className = packageName + '.'
-                        + getClassNameFromFile(file);
-                try {
-                    clazz = Class.forName(className);
-                } catch (ClassNotFoundException e) {
-                    LOG.error("Couldn't find the class with name {}",
-                            className, e);
-                    continue;
-                }
-                if (clazz == filteredClasses) {
-                    continue;
-                }
-                if (filteredClasses.isAssignableFrom(clazz)) {
-                    @SuppressWarnings("unchecked")
-                    Class<? extends T> result = (Class<? extends T>) clazz;
-                    classes.add(result);
-                }
+                        + getClassNameFromFile(file.getName());
+                addClass(className, filteredClasses, classes);
             }
         }
         return classes;
+    }
+
+    /**
+     * Add a single class to the list of found classes.
+     * 
+     * @param className
+     *            the class name to be considered for adding
+     * @param filteredClasses
+     *            the base class we are searching the subclasses of.
+     * @param classes
+     *            the list that needs to be populated with the class if needed
+     */
+    private static <T> void addClass(String className,
+            Class<?> filteredClasses, List<Class<? extends T>> classes) {
+        Class<?> clazz = null;
+        try {
+            clazz = Class.forName(className);
+        } catch (ClassNotFoundException e) {
+            LOG.error("Couldn't find the class with name {}", className, e);
+            return;
+        }
+        if (clazz == filteredClasses) {
+            return;
+        }
+        if (filteredClasses.isAssignableFrom(clazz)) {
+            @SuppressWarnings("unchecked")
+            Class<? extends T> result = (Class<? extends T>) clazz;
+            classes.add(result);
+        }
     }
 }
