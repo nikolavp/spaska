@@ -161,10 +161,10 @@ public class ARFF2DB {
 	public void replace() {
 		try {
 			this.statement.execute("DROP TABLE `" + this.tableName + "`");
+			this.write();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		this.write();
 	}
 	
 	public boolean sameTableNameExists() {
