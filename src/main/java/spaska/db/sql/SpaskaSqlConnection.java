@@ -70,7 +70,8 @@ public class SpaskaSqlConnection implements SQLGetter {
 	 * @return List of values for an attribute with type "Nominal"
 	 */
 	public ArrayList<Value> getDomain(String tableName, String columnName) {
-		String query = "SELECT DISTINCT `" + columnName + "` FROM `" + tableName + "`";
+		String query = "SELECT DISTINCT `" + columnName + "` FROM `"
+				+ tableName + "`";
 		ArrayList<Value> result = new ArrayList<Value>();
 
 		try {
@@ -161,7 +162,11 @@ public class SpaskaSqlConnection implements SQLGetter {
 
 		return result;
 	}
-	
+
+	/**
+	 * @return Returns true, if there is a table with the same name if the
+	 *         database, otherwise returns false.
+	 */
 	public boolean tableExists(String tableName) {
 		return this.getTables().contains(tableName);
 	}

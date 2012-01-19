@@ -148,7 +148,10 @@ public class ARFF2DB {
 		query.deleteCharAt(query.length() - 2);
 		this.statement.executeUpdate(query.toString());
 	}
-	
+
+	/**
+	 * Writes the data in the database.
+	 */
 	public void write() {
 		try {
 			createTable(this.tableName, this.attrContainer);
@@ -157,7 +160,10 @@ public class ARFF2DB {
 			e.printStackTrace();
 		}
 	}
-	
+
+	/**
+	 * Replaces an existing table.
+	 */
 	public void replace() {
 		try {
 			this.statement.execute("DROP TABLE `" + this.tableName + "`");
@@ -166,7 +172,12 @@ public class ARFF2DB {
 			e.printStackTrace();
 		}
 	}
-	
+
+	/**
+	 * Check if the table exists.
+	 * 
+	 * @return true, if the table exists, false otherwise.
+	 */
 	public boolean sameTableNameExists() {
 		return this.spaskaConnection.tableExists(this.tableName);
 	}
