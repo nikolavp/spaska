@@ -10,6 +10,7 @@ only faster but also with better performance(accuracy). The system also tries to
 ### Clustering algorithms
 * ZeroR
 * K-Means
+* [Fuzzy K-Means](http://home.dei.polimi.it/matteucc/Clustering/tutorial_html/cmeans.html)
 
 ### Classification algorithms
 * K Nearest Neghbor
@@ -17,6 +18,7 @@ only faster but also with better performance(accuracy). The system also tries to
 * ZeroR
 * OneR
 * Decision Tree
+* [Naive Bayes](http://en.wikipedia.org/wiki/Naive_Bayes_classifier)
 
 ### Classifiers result analyzer
 * Cross-Validation

@@ -301,6 +301,11 @@ public final class ClassifierStatistics extends Statistics {
         return result / precisions.length;
     }
 
+    /**
+     * Get the general precision from this classifier statistics.
+     * 
+     * @return the general precision from this classifier statistics
+     */
     public double getGeneralRecall() {
         double[] allRecalls = getRecalls();
         double result = 0.0;

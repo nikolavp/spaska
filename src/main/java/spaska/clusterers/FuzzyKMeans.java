@@ -1,10 +1,8 @@
 package spaska.clusterers;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
 import spaska.classifiers.util.DatasetService;
 import spaska.data.Dataset;
 import spaska.data.Instance;
@@ -24,11 +22,12 @@ public class FuzzyKMeans implements IClusterer {
 
     private static final String NUMBER_OF_CLUSTERS_PARAMETER = "Number of clusters";
     private static final String MAX_ITERATIONS_ALGORITHM_PARAMETER = "Max number of iterations";
+    private static final String EPSILON_PARAMETER = "Epsilon";
     private static final String FUZZIFIER_PARAMETER = "Fuzzifier";
     private static final int DEFAULT_MAX_ITERATIONS = 100;
     private static final int DEFAULT_NUMBER_OF_CLUSTERS = 3;
+    private static final double DEFAULT_EPSILON = 0.1;
     private static final int NUMBER_OF_CLUSTERS_INDEX_PARAMETER = 3;
-    private static final double EPSILON = 0.01;
 
     private ClustererStatistics algorithmResults;
     private List<Instance> instances;
@@ -37,6 +36,7 @@ public class FuzzyKMeans implements IClusterer {
     private int fuzzifier = 2;
     private int numberOfInstances;
     private int numberOfAttributes;
+    private double epsilon = 0.1;
     private int maxIterations = DEFAULT_MAX_ITERATIONS;
     private double[][] membershipFunction;
     private double[][] newMembershipFunction;
@@ -80,6 +80,15 @@ public class FuzzyKMeans implements IClusterer {
                             + " must be an integer.");
                 }
             }
+            
+            if (key.equalsIgnoreCase(EPSILON_PARAMETER)) {
+                try {
+                    epsilon = Double.parseDouble(entry.getValue());
+                } catch (NumberFormatException e) {
+                    throw new RuntimeException(EPSILON_PARAMETER
+                            + " must be a double.");
+                }
+            }
         }
     }
 
@@ -95,6 +104,7 @@ public class FuzzyKMeans implements IClusterer {
         parameters.put(MAX_ITERATIONS_ALGORITHM_PARAMETER,
                 String.valueOf(DEFAULT_MAX_ITERATIONS));
         parameters.put(FUZZIFIER_PARAMETER, String.valueOf(2));
+        parameters.put(EPSILON_PARAMETER, String.valueOf(DEFAULT_EPSILON));
         return parameters;
     }
 
@@ -171,7 +181,7 @@ public class FuzzyKMeans implements IClusterer {
                 }
             }
         }
-        if (0 < max && max < EPSILON) {
+        if (max < epsilon) {
             return true;
         }
         return false;
@@ -220,10 +230,11 @@ public class FuzzyKMeans implements IClusterer {
             double attributeValue = 0;
             if (attribute instanceof NumericValue) {
                 attributeValue = ((NumericValue) attribute).getValue();
-            } else {
-                attributeValue = ((NominalValue) attribute).getValue()
-                        .hashCode();
+            } else if (attribute instanceof NominalValue) {
+                attributeValue = service.intValue(attributeIndex, attribute);
+            	continue;
             }
+            
             sum += Math.pow(attributeValue - center[attributeIndex], 2);
         }
 
@@ -249,10 +260,12 @@ public class FuzzyKMeans implements IClusterer {
                     double attributeValue = 0;
                     if (attribute instanceof NumericValue) {
                         attributeValue = ((NumericValue) attribute).getValue();
+                    } else if (attribute instanceof NominalValue) {
+                        attributeValue = service.intValue(attributeIndex, attribute);
                     } else {
-                        attributeValue = ((NominalValue) attribute).getValue()
-                                .hashCode();
+                    	continue;
                     }
+                    
                     sum += Math.pow(
                             membershipFunction[clusterIndex][instanceIndex],
                             fuzzifier)
