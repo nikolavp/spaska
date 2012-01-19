@@ -5,8 +5,6 @@ import java.io.File;
 import java.util.Map;
 import java.util.Vector;
 
-import javax.xml.crypto.Data;
-
 import spaska.data.Dataset;
 import spaska.data.readers.ARFFInputReader;
 import spaska.data.readers.InputReader;
