@@ -161,4 +161,8 @@ public class SpaskaSqlConnection implements SQLGetter {
 
 		return result;
 	}
+	
+	public boolean tableExists(String tableName) {
+		return this.getTables().contains(tableName);
+	}
 }

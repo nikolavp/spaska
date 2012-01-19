@@ -44,4 +44,12 @@ public interface SQLGetter {
 	 * @return List of the names of the tables in the database
 	 */
 	ArrayList<String> getTables();
+
+	/**
+	 * 
+	 * @param tableName
+	 *            The name of the searched table
+	 * @return true, if the table exists, false otherwise
+	 */
+	boolean tableExists(String tableName);
 }
