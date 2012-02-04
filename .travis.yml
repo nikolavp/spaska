@@ -1,2 +1,2 @@
 before_script: lib/install.sh
-script: "mvn clean compile"
+script: "mvn clean compile verify"
