@@ -11,9 +11,11 @@ Tests for the classifiers are really easy to write if you are using some of the 
 * vote
 
 You just have to subclass our base test class for every classifier - ClassifierTestBase. After extending that class you will have to define
+
 * A logger that will help you throughout the testing
 * A classifier object which is just a simple default configuration of your classifier that you want to test
 * A test descriptor that will describe what you want to test.
+
 The last one is really interesting by itself - we define a contract by a descriptor that we want the base class to verify. Let's consider a simple example:
 
 We are writing a new classifier for [MaxEnt](http://en.wikipedia.org/wiki/Maximum_entropy_classifier)(consider that this is not yet implemented), so we want to test our classifier on the iris dataset. Here is the code we have to

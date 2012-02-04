@@ -30,7 +30,8 @@
             <item name="Testing" href="classifiers_tests.html" />
         </menu>
         <menu name="Development">
-            <item name="Static analysis" href="static_analysis.html"/>
+            <item name="Static analysis" href="static_analysis.html" />
+            <item name="Site generation" href="site_generation.html" />
         </menu>
 
     </body>
