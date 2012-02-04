@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>Spaska - Continuous Integration</title>
+    <title>Spaska - </title>
     <link rel="stylesheet" href="./css/apache-maven-fluido.min.css" />
     <link rel="stylesheet" href="./css/site.css" />
     <link rel="stylesheet" href="./css/print.css" media="print" />
@@ -92,7 +92,34 @@
       <div id="bodyColumn" class="content">
         <div id="contentBox">
                               
-          <div class="section"><h2>Continuous Integration<a name="Continuous_Integration"></a></h2><a name="Continuous_Integration"></a><p>No continuous integration management system is defined. Please check back at a later date.</p></div>
+          <div class="section"><h2> Site generation tools
+<a name="Site_generation_tools"></a></h2><p>To generate this site we are using the <a class="externalLink" href="http://maven.apache.org/plugins/maven-site-plugin/maven-3.html">maven site plugin</a> with the help of some plugins for reporting. This currently include:
+</p><ul><li><a class="externalLink" href="http://maven.apache.org/plugins/maven-project-info-reports-plugin/">maven project info</a>
+</li><li><a class="externalLink" href="http://maven.apache.org/plugins/maven-javadoc-plugin/">maven javadoc plugin</a>
+</li><li><a class="externalLink" href="http://maven.apache.org/plugins/maven-checkstyle-plugin/">maven checkstyle plugin</a>
+</li><li><a class="externalLink" href="http://maven.apache.org/plugins/maven-pmd-plugin/">maven pmd plugin</a>
+</li><li><a class="externalLink" href="http://mojo.codehaus.org/findbugs-maven-plugin/">maven findbugs plugin</a>
+</li></ul><p>the last three are also used when developing to verify for code style compliance(see more <a href="/spaska/static_analysis.html">here</a>)
+</p></div><div class="section"><h2> Syntax for the pages 
+<a name="Syntax_for_the_pages"></a></h2><p>For the pages we are not using raw HTML, but rather take advantage of the <a class="externalLink" href="http://markdown.tautua.org/doxia-module.html">markdown maven plugin</a>. The syntax of markdown is pretty straightforward and shouldn't take you more than 10 minutes to get you going if you are not familiar with it. More information on markdown can be found <a class="externalLink" href="http://daringfireball.net/projects/markdown/">here</a>
+</p></div><div class="section"><h2> Site generation
+<a name="Site_generation"></a></h2><p>To generate a new version of the website locally you should run mvn site from the base directory of the project. If you also want to upload the website to the current url(http://nikolavp.github.com), you have to uncomment the executions section of the defined github maven site plugin in the pom.xml file. You will also have to provide credentials(username and password) as they are required by github. The credentials can be provided by your settings.xml with a section like this
+</p><div class="source"><pre class="prettyprint">&lt;profiles&gt;
+  &lt;profile&gt;
+    &lt;id&gt;github&lt;/id&gt;
+    &lt;properties&gt;
+      &lt;github.global.userName&gt;user&lt;/github.global.userName&gt;
+      &lt;github.global.password&gt;password&lt;/github.global.password&gt;
+    &lt;/properties&gt;
+  &lt;/profile&gt;
+&lt;/profiles&gt;
+
+&lt;activeProfiles&gt;
+  &lt;activeProfile&gt;github&lt;/activeProfile&gt;
+&lt;/activeProfiles&gt;
+
+</pre></div><p>More information can be found <a class="externalLink" href="https://github.com/github/maven-plugins">here</a>
+</p></div>
                   </div>
       </div>
     </div>
