@@ -164,6 +164,8 @@ public class SpaskaSqlConnection implements SQLGetter {
 	}
 
 	/**
+	 * @param tableName
+	 *            The name of the table, which existence we check.
 	 * @return Returns true, if there is a table with the same name if the
 	 *         database, otherwise returns false.
 	 */
